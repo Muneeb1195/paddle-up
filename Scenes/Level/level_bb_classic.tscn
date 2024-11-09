@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://7qawcu6gphik"]
+
+[ext_resource type="PackedScene" uid="uid://b316kmqqqwgoq" path="res://Scenes/Level/level_bb.tscn" id="1_57vre"]
+[ext_resource type="PackedScene" uid="uid://bcotyoobp0au1" path="res://Scenes/Entities/Player/player.tscn" id="2_3rdmb"]
+[ext_resource type="Script" path="res://Scripts/level_bb_classic.gd" id="2_np4ig"]
+[ext_resource type="PackedScene" uid="uid://dpugv1gv5ha0f" path="res://Scenes/Trajectory_Line/trajectory.tscn" id="4_4h04s"]
+[ext_resource type="PackedScene" uid="uid://c8jxb637o74m2" path="res://Scenes/Entities/Ball/ball.tscn" id="5_hx50c"]
+[ext_resource type="PackedScene" uid="uid://bpdg61wh3o2j5" path="res://Scenes/In_Game_UI/bb_classic_in_game_ui.tscn" id="6_1p0qu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ufqhb"]
+size = Vector2(1100, 80)
+
+[node name="LevelBBClassic" groups=["LevelBBClassic"] instance=ExtResource("1_57vre")]
+script = ExtResource("2_np4ig")
+
+[node name="Ball" parent="." index="2" instance=ExtResource("5_hx50c")]
+position = Vector2(500, 1829)
+collision_mask = 275
+Game_Mode = "Brick Breaker Classic"
+
+[node name="Player" parent="." index="3" instance=ExtResource("2_3rdmb")]
+position = Vector2(500, 1850)
+wall_position = Vector2(80, 920)
+
+[node name="Trajectory" parent="Player" index="2" instance=ExtResource("4_4h04s")]
+position = Vector2(0, -21)
+
+[node name="Floor" type="Area2D" parent="." index="4"]
+position = Vector2(500, 1850)
+collision_layer = 256
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" index="0"]
+position = Vector2(0, 100)
+shape = SubResource("RectangleShape2D_ufqhb")
+
+[node name="BBClassicInGameUI" parent="." index="5" instance=ExtResource("6_1p0qu")]
+layer = 2
+
+[connection signal="bb_classic_next_level" from="Ball" to="." method="_on_ball_bb_classic_next_level"]
+[connection signal="body_entered" from="Floor" to="." method="_on_floor_body_entered"]

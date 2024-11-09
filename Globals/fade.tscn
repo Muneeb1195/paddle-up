@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://bowy7o3vm1tn3"]
+
+[ext_resource type="Script" path="res://Globals/fade.gd" id="1_85nay"]
+[ext_resource type="PackedScene" uid="uid://brvdqhlkt1pgr" path="res://Scenes/Level/level_pong.tscn" id="2_kwdt0"]
+[ext_resource type="PackedScene" uid="uid://7qawcu6gphik" path="res://Scenes/Level/level_bb_classic.tscn" id="3_t7jb6"]
+[ext_resource type="PackedScene" uid="uid://bneyylhoirrgj" path="res://Scenes/Level/level_bb_modern.tscn" id="4_tjruq"]
+[ext_resource type="PackedScene" uid="uid://b11a8c65psyr4" path="res://Scenes/Main_Menu_UI/main_menu_ui.tscn" id="5_yfyq4"]
+
+[node name="Fade" type="CanvasLayer"]
+process_mode = 3
+layer = 2
+script = ExtResource("1_85nay")
+pong = ExtResource("2_kwdt0")
+bb_classic = ExtResource("3_t7jb6")
+bb_modern = ExtResource("4_tjruq")
+main_menu = ExtResource("5_yfyq4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

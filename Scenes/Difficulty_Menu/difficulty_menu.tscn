@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://v7q3eg3uxo6y"]
+
+[ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="2_fqt77"]
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_hh611"]
+[ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="2_jespa"]
+[ext_resource type="Script" path="res://Scripts/difficulty_menu.gd" id="2_vh32r"]
+[ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="3_kqi5g"]
+[ext_resource type="StyleBox" uid="uid://cq6uwucrpshjw" path="res://Themes/hover_button.tres" id="4_kmsrn"]
+[ext_resource type="StyleBox" uid="uid://bbxpk3ml1lhkj" path="res://Themes/disabled_button.tres" id="4_rw483"]
+[ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="7_eliej"]
+
+[node name="DifficultyMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_vh32r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -200.0
+offset_right = 100.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_hh611")
+
+[node name="Easy" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_styles/focus = ExtResource("2_jespa")
+theme_override_styles/disabled = ExtResource("4_rw483")
+theme_override_styles/hover = ExtResource("4_kmsrn")
+theme_override_styles/pressed = ExtResource("2_fqt77")
+theme_override_styles/normal = ExtResource("3_kqi5g")
+action_mode = 0
+text = "Easy"
+
+[node name="Medium" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_styles/focus = ExtResource("2_jespa")
+theme_override_styles/disabled = ExtResource("4_rw483")
+theme_override_styles/hover = ExtResource("4_kmsrn")
+theme_override_styles/pressed = ExtResource("2_fqt77")
+theme_override_styles/normal = ExtResource("3_kqi5g")
+text = "Medium"
+
+[node name="Hard" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_styles/focus = ExtResource("2_jespa")
+theme_override_styles/disabled = ExtResource("4_rw483")
+theme_override_styles/hover = ExtResource("4_kmsrn")
+theme_override_styles/pressed = ExtResource("2_fqt77")
+theme_override_styles/normal = ExtResource("3_kqi5g")
+text = "Hard"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "First To 11 Wins!"
+label_settings = ExtResource("7_eliej")

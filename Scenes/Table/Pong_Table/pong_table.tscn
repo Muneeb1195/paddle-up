@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=4 uid="uid://dm4n3fsx15hu3"]
+
+[ext_resource type="PackedScene" uid="uid://d0tt37bda1b71" path="res://Scenes/Table/table.tscn" id="1_aj168"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nq11r"]
+size = Vector2(1100, 100)
+
+[node name="PongTable" instance=ExtResource("1_aj168")]
+
+[node name="Wall" parent="." index="0"]
+tile_map_data = PackedByteArray("AAAMAPv/AgAAAAAAAAAMAPz/AgAAAAAAAAAMAP3/AgAAAAAAAAAMAP7/AgAAAAAAAAAMAP//AgAAAAAAAAAMAPb/AgAAAAAAAAAMAPf/AgAAAAAAAAAMAPj/AgAAAAAAAAAMAPn/AgAAAAAAAAAMAPr/AgAAAAAAAAAMAPH/AgAAAAAAAAAMAPL/AgAAAAAAAAAMAPP/AgAAAAAAAAAMAPT/AgAAAAAAAAAMAPX/AgAAAAAAAAAMAOr/AQAAAAAAAAAMAOv/AgAAAAAAAAAMAOz/AgAAAAAAAAAMAO3/AgAAAAAAAAAMAO7/AgAAAAAAAAAMAO//AgAAAAAAAAAMAPD/AgAAAAAAAAAMAAAAAgAAAAAAAAAMAAEAAgAAAAAAAAAMAAIAAgAAAAAAAAAMAAMAAgAAAAAAAAAMAAQAAgAAAAAAAAAMAAUAAgAAAAAAAAAMAAYAAgAAAAAAAAAMAAcAAgAAAAAAAAAMAAgAAgAAAAAAAAAMAAkAAgAAAAAAAAAMAAoAAgAAAAAAAAAMAAsAAgAAAAAAAAAMAAwAAgAAAAAAAAAMAA0AAgAAAAAAAAAMAA4AAgAAAAAAAAAMAA8AAgAAAAAAAAAMABAAAgAAAAAAAAAMABEAAgAAAAAAAAAMABIAAgAAAAAAAAAMABMAAgAAAAAAAAAMABQAAgAAAAAAAAAMABUAAQAAAAAAADDz/xQAAgAAAAAAAADz/xUAAQAAAAAAADDz/w8AAgAAAAAAAADz/xAAAgAAAAAAAADz/xEAAgAAAAAAAADz/xIAAgAAAAAAAADz/xMAAgAAAAAAAADz/woAAgAAAAAAAADz/wsAAgAAAAAAAADz/wwAAgAAAAAAAADz/w0AAgAAAAAAAADz/w4AAgAAAAAAAADz/wUAAgAAAAAAAADz/wYAAgAAAAAAAADz/wcAAgAAAAAAAADz/wgAAgAAAAAAAADz/wkAAgAAAAAAAADz/wAAAgAAAAAAAADz/wEAAgAAAAAAAADz/wIAAgAAAAAAAADz/wMAAgAAAAAAAADz/wQAAgAAAAAAAADz//v/AgAAAAAAAADz//z/AgAAAAAAAADz//3/AgAAAAAAAADz//7/AgAAAAAAAADz////AgAAAAAAAADz//b/AgAAAAAAAADz//f/AgAAAAAAAADz//j/AgAAAAAAAADz//n/AgAAAAAAAADz//r/AgAAAAAAAADz//H/AgAAAAAAAADz//L/AgAAAAAAAADz//P/AgAAAAAAAADz//T/AgAAAAAAAADz//X/AgAAAAAAAADz/+z/AgAAAAAAAADz/+3/AgAAAAAAAADz/+7/AgAAAAAAAADz/+//AgAAAAAAAADz//D/AgAAAAAAAADz/+r/AQAAAAAAAADz/+v/AgAAAAAAAAA=")
+
+[node name="PlayerPoint" type="Area2D" parent="." index="1"]
+position = Vector2(0, -950)
+collision_layer = 8
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPoint" index="0"]
+shape = SubResource("RectangleShape2D_nq11r")
+
+[node name="EnemyPoint" type="Area2D" parent="." index="2"]
+position = Vector2(0, 1075)
+collision_layer = 8
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyPoint" index="0"]
+position = Vector2(0, -125)
+shape = SubResource("RectangleShape2D_nq11r")
+
+[connection signal="body_entered" from="PlayerPoint" to="." method="_on_player_point_body_entered"]
+[connection signal="body_entered" from="EnemyPoint" to="." method="_on_enemy_point_body_entered"]

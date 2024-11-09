@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bneyylhoirrgj"]
+
+[ext_resource type="PackedScene" uid="uid://b316kmqqqwgoq" path="res://Scenes/Level/level_bb.tscn" id="1_1011c"]
+[ext_resource type="Script" path="res://Scripts/level_bb_modern.gd" id="2_ke1lk"]
+[ext_resource type="PackedScene" uid="uid://dciq7yq10up3e" path="res://Scenes/Entities/Ball/balls_bb.tscn" id="3_kf3lf"]
+[ext_resource type="PackedScene" uid="uid://bqn7ahhjvjuwt" path="res://Scenes/Entities/Player/bb_mod_player.tscn" id="4_ybl8k"]
+[ext_resource type="PackedScene" uid="uid://bksf1kg3mmq48" path="res://Scenes/In_Game_UI/bb_modern_in_game_ui.tscn" id="5_g58g5"]
+
+[node name="LevelBBModern" groups=["LevelBBModern"] instance=ExtResource("1_1011c")]
+script = ExtResource("2_ke1lk")
+
+[node name="Blocks" parent="." index="1"]
+y_sort_enabled = true
+
+[node name="BallsBB" parent="." index="2" instance=ExtResource("3_kf3lf")]
+
+[node name="BBModPlayer" parent="." index="3" instance=ExtResource("4_ybl8k")]
+position = Vector2(500, 1950)
+
+[node name="BBModernInGameUI" parent="." index="4" instance=ExtResource("5_g58g5")]
+layer = 2
+
+[node name="BallSpawnTimer" type="Timer" parent="." index="5"]
+wait_time = 0.05
+one_shot = true
+
+[node name="LevelTimer" type="Timer" parent="." index="6"]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]

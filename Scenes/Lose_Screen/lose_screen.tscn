@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://ivmvqhrc0soo"]
+
+[ext_resource type="PackedScene" uid="uid://ddoae0mori3pk" path="res://Scenes/Options_Menu/options_menu.tscn" id="1_l85ex"]
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_dnf84"]
+[ext_resource type="Script" path="res://Scripts/lose_screen.gd" id="3_6ooe2"]
+[ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="3_nscil"]
+[ext_resource type="Texture2D" uid="uid://feo58urc7xfy" path="res://Assets/Button/home.png" id="4_py23q"]
+[ext_resource type="Texture2D" uid="uid://ck6j8ivir73b" path="res://Assets/Button/restart.png" id="5_s8i3y"]
+
+[node name="LoseScreen" instance=ExtResource("1_l85ex")]
+theme = ExtResource("2_dnf84")
+script = ExtResource("3_6ooe2")
+
+[node name="GameOver" type="Label" parent="Panel/MarginContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Game Over"
+label_settings = ExtResource("3_nscil")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoseText" type="Label" parent="Panel/MarginContainer" index="1"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "You Lost, Better Luck Next Time."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" parent="Panel/MarginContainer" index="2"]
+size_flags_horizontal = 4
+theme_override_constants/separation = 180
+
+[node name="HomeButton" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="0"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+texture_normal = ExtResource("4_py23q")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="BackButton" parent="Panel/MarginContainer/HBoxContainer" index="1"]
+size_flags_horizontal = 6
+texture_normal = ExtResource("5_s8i3y")
+
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_button_up"]
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_up"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcotyoobp0au1"]
+
+[ext_resource type="PackedScene" uid="uid://cio00rwrgj2ic" path="res://Scenes/Entities/entity.tscn" id="1_k2idf"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="2_qf2ds"]
+[ext_resource type="Texture2D" uid="uid://be6tp6vttdtx3" path="res://Assets/Paddle/paddle.png" id="3_ygw3s"]
+
+[node name="Player" groups=["Player"] instance=ExtResource("1_k2idf")]
+collision_layer = 2
+collision_mask = 65
+script = ExtResource("2_qf2ds")
+wall_position = Vector2(100, 900)
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_ygw3s")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+rotation = 3.14159
+polygon = PackedVector2Array(68, -10, 80, -4, 80, 0, 79, 4, 76, 7, 72, 9, 30, 11, -30, 11, -72, 9, -76, 7, -79, 4, -80, 0, -80, -4, -66, -10)

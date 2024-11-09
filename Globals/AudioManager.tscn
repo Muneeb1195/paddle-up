@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1w2a42d5fd1d"]
+
+[ext_resource type="Script" path="res://Globals/audio_manager.gd" id="1_fxs2k"]
+[ext_resource type="AudioStream" uid="uid://cbothfhopytyl" path="res://Assets/Audio/bullet-swishswosh.ogg" id="3_8t6di"]
+[ext_resource type="AudioStream" uid="uid://cjel0vhusrl4i" path="res://Assets/Audio/click_001.ogg" id="4_33v3x"]
+
+[node name="AudioManager" type="Node"]
+process_mode = 1
+script = ExtResource("1_fxs2k")
+
+[node name="BallSpawn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8t6di")
+bus = &"SFX"
+
+[node name="ButtonPress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_33v3x")
+bus = &"SFX"

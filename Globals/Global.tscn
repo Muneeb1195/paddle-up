@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://58dybarx0evo"]
+
+[ext_resource type="Script" path="res://Globals/global.gd" id="1_bcj3i"]
+
+[node name="Global" type="Node"]
+script = ExtResource("1_bcj3i")
+color_a = Color(0.380392, 0.898039, 0.784314, 1)
+color_b = Color(0.996078, 0.843137, 0.0392157, 1)
+color_c = Color(0.690196, 0.482353, 0.67451, 1)
+color_d = Color(0.160784, 0.45098, 0.45098, 1)
+color_e = Color(1, 0.521569, 0.321569, 1)

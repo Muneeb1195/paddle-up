@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8jxb637o74m2"]
+
+[ext_resource type="PackedScene" uid="uid://cio00rwrgj2ic" path="res://Scenes/Entities/entity.tscn" id="1_0ver6"]
+[ext_resource type="Script" path="res://Scripts/ball.gd" id="2_exdi4"]
+[ext_resource type="Texture2D" uid="uid://bjlutv6ocnr74" path="res://Assets/Ball/ball.png" id="3_4qaqw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w4m6x"]
+
+[node name="Ball" groups=["Ball"] instance=ExtResource("1_0ver6")]
+collision_layer = 64
+collision_mask = 145
+script = ExtResource("2_exdi4")
+Game_Mode = "Brick Breaker Modern"
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_4qaqw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+shape = SubResource("CircleShape2D_w4m6x")

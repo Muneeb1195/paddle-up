@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxd1rriihlld3"]
+
+[ext_resource type="PackedScene" uid="uid://ddoae0mori3pk" path="res://Scenes/Options_Menu/options_menu.tscn" id="1_1v0qu"]
+[ext_resource type="Texture2D" uid="uid://ck6j8ivir73b" path="res://Assets/Button/restart.png" id="2_5pmbk"]
+[ext_resource type="Texture2D" uid="uid://feo58urc7xfy" path="res://Assets/Button/home.png" id="2_t54pe"]
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_tjusy"]
+[ext_resource type="Script" path="res://Scripts/win_screen.gd" id="3_4nwex"]
+[ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="3_82mqd"]
+[ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="3_wo6nr"]
+[ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="4_vkoiw"]
+[ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="5_mxxx7"]
+
+[node name="WinScreen" instance=ExtResource("1_1v0qu")]
+theme = ExtResource("2_tjusy")
+script = ExtResource("3_4nwex")
+
+[node name="Label" type="Label" parent="Panel/MarginContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "You Won!"
+label_settings = ExtResource("3_82mqd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer" index="1"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/focus = ExtResource("3_wo6nr")
+theme_override_styles/read_only = ExtResource("4_vkoiw")
+theme_override_styles/normal = ExtResource("5_mxxx7")
+placeholder_text = "Enter Name to Submit Score!"
+alignment = 1
+expand_to_text_length = true
+
+[node name="HBoxContainer" parent="Panel/MarginContainer" index="2"]
+size_flags_horizontal = 4
+theme_override_constants/separation = 200
+
+[node name="HomeButton" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="0"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_t54pe")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BackButton" parent="Panel/MarginContainer/HBoxContainer" index="1"]
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_5pmbk")
+
+[connection signal="text_submitted" from="Panel/MarginContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_button_up"]
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_up"]

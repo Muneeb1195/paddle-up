@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cf6v2c67q6y5n"]
+
+[ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="1_4ckvl"]
+
+[resource]
+resource_local_to_scene = true
+default_font = ExtResource("1_4ckvl")
+default_font_size = 32

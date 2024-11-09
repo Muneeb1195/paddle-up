@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bky1vrgiypi5y"]
+
+[ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="1_vm187"]
+
+[resource]
+font = ExtResource("1_vm187")
+font_size = 126
+outline_size = 12
+outline_color = Color(0.9, 0.9, 0.9, 1)

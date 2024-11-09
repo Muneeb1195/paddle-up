@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://duergr0m6f85v"]
+
+[ext_resource type="PackedScene" uid="uid://src4htxqtfrv" path="res://Scenes/Brick/brick.tscn" id="1_fw2cu"]
+[ext_resource type="Texture2D" uid="uid://cocb8wdi1y0sc" path="res://Assets/Block/squircle.png" id="2_cm1pi"]
+
+[node name="SquareBrick" instance=ExtResource("1_fw2cu")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_cm1pi")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
+polygon = PackedVector2Array(-44.7917, 44.7917, -36.4583, 48.9583, 36.4583, 48.9583, 44.7917, 44.7917, 48.9583, 36.4583, 48.9583, -36.4583, 44.7917, -44.7917, 36.4583, -48.9583, -36.4583, -48.9583, -44.7917, -44.7917, -48.9583, -36.4583, -48.9583, 36.4583)

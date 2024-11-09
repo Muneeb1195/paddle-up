@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7s6ylqt5qfre"]
+
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="1_1n5tv"]
+[ext_resource type="Script" path="res://Scripts/games.gd" id="1_6hn7j"]
+[ext_resource type="StyleBox" uid="uid://dt1n3kmbenfy0" path="res://Themes/Panel.tres" id="2_4uq4l"]
+[ext_resource type="Texture2D" uid="uid://bihpxnj8p84pe" path="res://Assets/Button/return.png" id="3_wayne"]
+[ext_resource type="Texture2D" uid="uid://dpeengpkfyh8i" path="res://Assets/Pong.svg" id="4_5eg3w"]
+[ext_resource type="Texture2D" uid="uid://b1w385e6kht6k" path="res://Assets/BrickBreaker.svg" id="5_2i1rm"]
+[ext_resource type="Texture2D" uid="uid://biym36mo7lro5" path="res://Assets/BallBreaker.svg" id="6_le8ig"]
+
+[node name="Games" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_1n5tv")
+script = ExtResource("1_6hn7j")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(750, 750)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_4uq4l")
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="Pong" type="TextureButton" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("4_5eg3w")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="Panel/GridContainer/Pong"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -186.5
+offset_top = -124.0
+offset_right = 186.5
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BBClassic" type="TextureButton" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("5_2i1rm")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="Panel/GridContainer/BBClassic"]
+layout_mode = 2
+offset_left = -840.0
+offset_top = -24.0
+offset_right = -467.0
+offset_bottom = 224.0
+
+[node name="BBModern" type="TextureButton" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("6_le8ig")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="Panel/GridContainer/BBModern"]
+layout_mode = 2
+offset_left = -463.0
+offset_top = -401.0
+offset_right = -90.0
+offset_bottom = -153.0
+
+[node name="Back" type="TextureButton" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("3_wayne")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="button_down" from="Panel/GridContainer/Pong" to="." method="_on_pong_button_down"]
+[connection signal="button_up" from="Panel/GridContainer/Pong" to="." method="_on_pong_button_up"]
+[connection signal="button_down" from="Panel/GridContainer/BBClassic" to="." method="_on_bb_classic_button_down"]
+[connection signal="button_up" from="Panel/GridContainer/BBClassic" to="." method="_on_bb_classic_button_up"]
+[connection signal="button_down" from="Panel/GridContainer/BBModern" to="." method="_on_bb_modern_button_down"]
+[connection signal="button_up" from="Panel/GridContainer/BBModern" to="." method="_on_bb_modern_button_up"]
+[connection signal="button_down" from="Panel/GridContainer/Back" to="." method="_on_back_button_down"]
+[connection signal="button_up" from="Panel/GridContainer/Back" to="." method="_on_back_button_up"]

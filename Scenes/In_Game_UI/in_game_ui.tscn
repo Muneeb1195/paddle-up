@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://h4lhs12hvb3t"]
+
+[ext_resource type="Script" path="res://Scripts/in_game_ui.gd" id="1_tp3oi"]
+[ext_resource type="PackedScene" uid="uid://cpfwqb027evqr" path="res://Scenes/Pause_Menu/pause_menu.tscn" id="2_6mm8y"]
+[ext_resource type="Texture2D" uid="uid://c6wxdtlqbpiqc" path="res://Assets/Button/pause.png" id="2_gadqh"]
+[ext_resource type="PackedScene" uid="uid://ivmvqhrc0soo" path="res://Scenes/Lose_Screen/lose_screen.tscn" id="3_27irb"]
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_q73nh"]
+[ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
+
+[node name="InGameUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_tp3oi")
+pause_menu_scene = ExtResource("2_6mm8y")
+lose_screen_scene = ExtResource("3_27irb")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(1000, 145)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -490.0
+offset_right = 490.0
+offset_bottom = 130.0
+grow_horizontal = 2
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("4_sel0c")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_q73nh")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Pause" type="TextureButton" parent="MarginContainer/VBox"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture_normal = ExtResource("2_gadqh")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="button_down" from="MarginContainer/VBox/Pause" to="." method="_on_pause_button_down"]
+[connection signal="button_up" from="MarginContainer/VBox/Pause" to="." method="_on_pause_button_up"]
+[connection signal="pressed" from="MarginContainer/VBox/Pause" to="." method="_on_pause_pressed"]

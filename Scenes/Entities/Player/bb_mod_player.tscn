@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bqn7ahhjvjuwt"]
+
+[ext_resource type="Texture2D" uid="uid://bmwh104yy8fpj" path="res://Assets/Trace/Thin@2x.png" id="1_qak7h"]
+[ext_resource type="Script" path="res://Scripts/bb_mod_player.gd" id="1_wd2lk"]
+[ext_resource type="Texture2D" uid="uid://be6tp6vttdtx3" path="res://Assets/Paddle/paddle.png" id="2_apv6p"]
+[ext_resource type="Texture2D" uid="uid://0w1gwcr302rh" path="res://Assets/Ball/B@2x.png" id="3_cikkb"]
+[ext_resource type="PackedScene" uid="uid://dpugv1gv5ha0f" path="res://Scenes/Trajectory_Line/trajectory.tscn" id="4_vogkt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0rry"]
+size = Vector2(1000, 20)
+
+[node name="BBModPlayer" type="StaticBody2D" groups=["BBModPlayer"]]
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("1_wd2lk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a0rry")
+
+[node name="Paddle" type="Sprite2D" parent="."]
+skew = -1.74046e-05
+texture = ExtResource("2_apv6p")
+
+[node name="BallSpawner" type="Sprite2D" parent="Paddle"]
+position = Vector2(-6.96183e-05, -26)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_cikkb")
+
+[node name="Trajectory" parent="Paddle" instance=ExtResource("4_vogkt")]
+position = Vector2(0.000452519, -26)
+skew = -1.74046e-05
+
+[node name="Rail" type="Sprite2D" parent="."]
+scale = Vector2(5, 1)
+texture = ExtResource("1_qak7h")

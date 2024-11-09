@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://cl3u16x08u54o"]
+
+[ext_resource type="PackedScene" uid="uid://h4lhs12hvb3t" path="res://Scenes/In_Game_UI/in_game_ui.tscn" id="1_oojuc"]
+[ext_resource type="Script" path="res://Scripts/pong_in_game_ui.gd" id="2_qqujx"]
+[ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="3_fm3iu"]
+[ext_resource type="PackedScene" uid="uid://v7q3eg3uxo6y" path="res://Scenes/Difficulty_Menu/difficulty_menu.tscn" id="4_hb3ih"]
+[ext_resource type="PackedScene" uid="uid://bxd1rriihlld3" path="res://Scenes/Win_Screen/win_screen.tscn" id="4_lqmjk"]
+
+[sub_resource type="Theme" id="Theme_l0pw7"]
+resource_local_to_scene = true
+default_font = ExtResource("3_fm3iu")
+default_font_size = 40
+
+[node name="PongInGameUI" instance=ExtResource("1_oojuc")]
+layer = 2
+script = ExtResource("2_qqujx")
+win_screen_scene = ExtResource("4_lqmjk")
+
+[node name="DifficultyMenu" parent="." index="1" instance=ExtResource("4_hb3ih")]
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="MarginContainer" parent="." index="2"]
+visible = false
+theme = SubResource("Theme_l0pw7")
+
+[node name="Pause" parent="MarginContainer/VBox" index="0"]
+size_flags_horizontal = 2
+
+[node name="CpuPoints" type="Label" parent="MarginContainer/VBox" index="1"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Cpu Points: 0"
+
+[node name="PlayerPoints" type="Label" parent="MarginContainer/VBox" index="2"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Player Points: 0"
+
+[connection signal="mouse_entered" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_exited"]

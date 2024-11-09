@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpfwqb027evqr"]
+
+[ext_resource type="PackedScene" uid="uid://ddoae0mori3pk" path="res://Scenes/Options_Menu/options_menu.tscn" id="1_3c7w4"]
+[ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="2_1qmkm"]
+[ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_bu8so"]
+[ext_resource type="Texture2D" uid="uid://feo58urc7xfy" path="res://Assets/Button/home.png" id="4_b7odi"]
+[ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="4_ojx6p"]
+[ext_resource type="Texture2D" uid="uid://ck6j8ivir73b" path="res://Assets/Button/restart.png" id="5_np7qa"]
+
+[node name="PauseMenu" instance=ExtResource("1_3c7w4")]
+process_mode = 3
+theme = ExtResource("2_bu8so")
+script = ExtResource("2_1qmkm")
+
+[node name="MarginContainer" parent="Panel" index="0"]
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Label" type="Label" parent="Panel/MarginContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 96
+text = "Paused"
+label_settings = ExtResource("4_ojx6p")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Home" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="0"]
+process_mode = 3
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("4_b7odi")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Restart" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="1"]
+process_mode = 3
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+texture_normal = ExtResource("5_np7qa")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BackButton" parent="Panel/MarginContainer/HBoxContainer" index="2"]
+size_flags_horizontal = 10
+stretch_mode = 5
+
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_button_up"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_pressed"]
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/Restart" to="." method="_on_restart_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/Restart" to="." method="_on_restart_button_up"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_down"]
+[connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_button_up"]

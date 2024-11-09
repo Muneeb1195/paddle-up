@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpugv1gv5ha0f"]
+
+[ext_resource type="Texture2D" uid="uid://bjlutv6ocnr74" path="res://Assets/Ball/ball.png" id="2_81bcb"]
+[ext_resource type="Script" path="res://Scripts/trajectory.gd" id="2_svn5u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o4smd"]
+
+[node name="Trajectory" type="Node2D"]
+script = ExtResource("2_svn5u")
+
+[node name="FakeBall" type="CharacterBody2D" parent="."]
+rotation = 1.5708
+collision_layer = 64
+collision_mask = 145
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FakeBall"]
+shape = SubResource("CircleShape2D_o4smd")
+
+[node name="Sprite2D" type="Sprite2D" parent="FakeBall"]
+texture = ExtResource("2_81bcb")

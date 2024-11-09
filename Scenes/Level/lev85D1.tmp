@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://brvdqhlkt1pgr"]
+
+[ext_resource type="Script" path="res://Scripts/level_pong.gd" id="1_k0s1a"]
+[ext_resource type="PackedScene" uid="uid://dm4n3fsx15hu3" path="res://Scenes/Table/Pong_Table/pong_table.tscn" id="1_rqe0a"]
+[ext_resource type="PackedScene" uid="uid://da3odklnlx07o" path="res://Scenes/Entities/Enemy/enemy.tscn" id="2_utpvu"]
+[ext_resource type="PackedScene" uid="uid://bcotyoobp0au1" path="res://Scenes/Entities/Player/player.tscn" id="3_5pb7h"]
+[ext_resource type="PackedScene" uid="uid://c8jxb637o74m2" path="res://Scenes/Entities/Ball/ball.tscn" id="4_vgrue"]
+
+[node name="LevelPong" type="Node2D" groups=["LevelPong"]]
+script = ExtResource("1_k0s1a")
+
+[node name="PongTable" parent="." instance=ExtResource("1_rqe0a")]
+
+[node name="Enemy" parent="." instance=ExtResource("2_utpvu")]
+position = Vector2(0, -850)
+acceleration = 2.0
+deceleration = 20.0
+
+[node name="Player" parent="." instance=ExtResource("3_5pb7h")]
+position = Vector2(0, 850)
+
+[node name="Ball" parent="." instance=ExtResource("4_vgrue")]
+collision_mask = 271
+Game_Mode = "Pong"
+
+[node name="Camera2D" type="Camera2D" parent="."]
