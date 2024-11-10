@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1ijswxhol7ff"]
+[gd_scene load_steps=6 format=3 uid="uid://c1ijswxhol7ff"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_ljqv0"]
-[ext_resource type="Texture2D" uid="uid://dtcg8j47dhf7f" path="res://Assets/name.png" id="2_i7fyp"]
 [ext_resource type="Texture2D" uid="uid://qe0p2hetwppn" path="res://Assets/Button/play.png" id="2_mcu0r"]
 [ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="2_q2ml1"]
 [ext_resource type="Texture2D" uid="uid://s3u2yeejxxpa" path="res://Assets/Button/highscore.png" id="3_7ol4b"]
@@ -21,29 +20,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ljqv0")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(0, 164)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.086
-anchor_right = 0.5
-anchor_bottom = 0.086
-offset_left = -233.0
-offset_right = 233.0
-offset_bottom = 93.0
-grow_horizontal = 2
-texture = ExtResource("2_i7fyp")
-expand_mode = 3
-
 [node name="Label" type="Label" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.04
+anchor_top = 0.048
 anchor_right = 0.5
-anchor_bottom = 0.04
+anchor_bottom = 0.048
 offset_left = -397.0
 offset_right = 397.0
 offset_bottom = 262.0

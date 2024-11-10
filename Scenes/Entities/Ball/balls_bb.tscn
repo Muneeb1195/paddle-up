@@ -3,6 +3,6 @@
 [ext_resource type="Script" path="res://Scripts/balls_bb.gd" id="1_o360r"]
 [ext_resource type="PackedScene" uid="uid://868lbhchb1os" path="res://Scenes/Entities/Ball/ball_bb.tscn" id="2_nlycu"]
 
-[node name="BallsBB" type="Node2D" groups=["BallsBB"]]
+[node name="BallsBB" type="Node2D"]
 script = ExtResource("1_o360r")
 ball_bb_scene = ExtResource("2_nlycu")

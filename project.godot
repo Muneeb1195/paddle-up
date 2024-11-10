@@ -16,9 +16,8 @@ config/quit_on_go_back=false
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/max_fps=60
 run/low_processor_mode=true
-boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://Assets/cog-dark-mobile.png"
-boot_splash/fullsize=false
+boot_splash/bg_color=Color(0.9, 0.9, 0.9, 1)
+boot_splash/image="res://Assets/g1.png"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=10
 
@@ -41,7 +40,6 @@ gdscript/warnings/unsafe_method_access=1
 window/size/viewport_width=1000
 window/size/viewport_height=2100
 window/stretch/mode="viewport"
-window/stretch/aspect="keep_width"
 window/handheld/orientation=1
 
 [input]
@@ -76,7 +74,8 @@ common/physics_ticks_per_second=120
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
+driver/threads/thread_model=2
 textures/vram_compression/import_etc2_astc=true
+textures/default_filters/anisotropic_filtering_level=4
 anti_aliasing/quality/screen_space_aa=1
