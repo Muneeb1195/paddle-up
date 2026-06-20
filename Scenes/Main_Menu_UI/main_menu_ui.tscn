@@ -1,23 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://b11a8c65psyr4"]
+[gd_scene format=3 uid="uid://b11a8c65psyr4"]
 
-[ext_resource type="Script" path="res://Scripts/main_menu_ui.gd" id="1_mhghv"]
+[ext_resource type="Script" uid="uid://brtr3xanh1bh" path="res://Scripts/main_menu_ui.gd" id="1_mhghv"]
 [ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="5_7eswp"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="5_886pb"]
 [ext_resource type="PackedScene" uid="uid://c1ijswxhol7ff" path="res://Scenes/Main_Menu/main_menu.tscn" id="5_hfn1t"]
 [ext_resource type="PackedScene" uid="uid://b7s6ylqt5qfre" path="res://Scenes/Games_Menu/games.tscn" id="6_x60uq"]
 [ext_resource type="PackedScene" uid="uid://dbbso5uwwuxgj" path="res://Scenes/High_Scores/high_score.tscn" id="7_s0mgg"]
 
-[sub_resource type="Theme" id="Theme_mnkkp"]
+[sub_resource type="Theme" id="Theme_houhf"]
 resource_local_to_scene = true
 default_font = ExtResource("5_7eswp")
 default_font_size = 40
 
-[node name="MainMenuUI" type="CanvasLayer" groups=["MainMenuUI"]]
+[node name="MainMenuUI" type="CanvasLayer" unique_id=480161871 groups=["MainMenuUI"]]
 process_mode = 3
 layer = 2
 script = ExtResource("1_mhghv")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=54456453]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("5_886pb")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1979353261]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,14 +40,14 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="MainMenu" parent="Control/MarginContainer" instance=ExtResource("5_hfn1t")]
+[node name="MainMenu" parent="Control/MarginContainer" unique_id=899263399 instance=ExtResource("5_hfn1t")]
 layout_mode = 2
 
-[node name="Games" parent="Control/MarginContainer" instance=ExtResource("6_x60uq")]
+[node name="Games" parent="Control/MarginContainer" unique_id=844127450 instance=ExtResource("6_x60uq")]
 visible = false
 layout_mode = 2
-theme = SubResource("Theme_mnkkp")
+theme = SubResource("Theme_houhf")
 
-[node name="HighScore" parent="Control/MarginContainer" instance=ExtResource("7_s0mgg")]
+[node name="HighScore" parent="Control/MarginContainer" unique_id=463368249 instance=ExtResource("7_s0mgg")]
 visible = false
 layout_mode = 2

@@ -19,4 +19,3 @@ func _move_paddle(pos_x: float) -> void:
 	var clamped_position : float = clampf(pos_x,80,max_pos)
 	var tween: Tween = create_tween()
 	tween.tween_property(paddle, "global_position:x",clamped_position,0.25)
-	tween.connect("finished",tween.kill)

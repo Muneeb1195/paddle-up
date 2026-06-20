@@ -8,12 +8,16 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Pong It"
 run/main_scene="res://Scenes/Main_Menu_UI/main_menu_ui.tscn"
 config/quit_on_go_back=false
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0.9, 0.9, 0.9, 1)

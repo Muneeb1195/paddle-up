@@ -19,16 +19,16 @@ var bb_clas_sav_path : String = "/PaddleUp/BB Classic/bb_clas.save"
 var bb_clas_hs_path : String = "/PaddleUp/BB Classic/bb_clas_hs.save"
 var pong_hs_path : String = "/PaddleUp/Pong/pong_hs.save"
 
-var bb_mod_dict : Dictionary
-var bb_mod_hs : Array
-var bb_mod_high_scores : Dictionary
+var bb_mod_dict : Dictionary = {}
+var bb_mod_hs : Array = []
+var bb_mod_high_scores : Dictionary = {}
 
-var bb_clas_dict : Dictionary
-var bb_clas_hs : Array
-var bb_clas_high_scores : Dictionary
+var bb_clas_dict : Dictionary = {}
+var bb_clas_hs : Array = []
+var bb_clas_high_scores : Dictionary = {}
 
-var pong_hs : Array
-var pong_high_scores : Dictionary
+var pong_hs : Array = []
+var pong_high_scores : Dictionary = {}
 
 func _ready() -> void:
 	OS.request_permissions()
@@ -70,25 +70,30 @@ func _choose_color() -> Color:
 
 func _save_game(path : String, dict : Dictionary) -> void:
 	var save_file : FileAccess = FileAccess.open(save_path + path, FileAccess.WRITE)
-	var save_dict : Dictionary
+	if save_file == null:
+		push_error("Failed to open save file: " + save_path + path)
+		return
 	if dict:
-		save_dict = dict
-		var json_string : String = JSON.stringify(save_dict)
+		var json_string : String = JSON.stringify(dict)
 		save_file.store_line(json_string)
+	save_file.close()
 
 func _load_game(path : String) -> Dictionary:
 	if not FileAccess.file_exists(save_path + path):
 		return {}
-	
 	var save_file : FileAccess = FileAccess.open(save_path + path, FileAccess.READ)
+	if save_file == null:
+		push_error("Failed to open save file: " + save_path + path)
+		return {}
 	var json_string : String = save_file.get_line()
-	# Creates the helper class to interact with JSON.
+	save_file.close()
 	var json : JSON = JSON.new()
-		# Check if there is any error while parsing the JSON string, skip in case of failure.
 	var parse_result : Error = json.parse(json_string)
 	if parse_result == OK:
-		var dict : Dictionary = json.get_data()
-		return dict
+		var data : Variant = json.get_data()
+		if data is Dictionary:
+			return data as Dictionary
+		return {}
 	else:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+		push_error("JSON Parse Error: " + json.get_error_message())
 		return {}

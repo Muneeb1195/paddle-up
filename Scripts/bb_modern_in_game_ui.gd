@@ -42,10 +42,13 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	line_edit.hide()
 	_display_lose_screen()
 
-
 func _on_retrive_balls_pressed() -> void:
 	retrive_balls.disabled = true
-	var speed : int = 1000
-	for ball : RigidBody2D in balls.get_children():
-		var dir : Vector2 = ball.position.direction_to(level_bb_modern.bb_mod_player.position)
-		ball.linear_velocity = dir * speed
+	level_bb_modern.balls.retrieve_all_balls()
+
+#func _on_retrive_balls_pressed() -> void:
+	#retrive_balls.disabled = true
+	#var speed : int = 1000
+	#for ball : RigidBody2D in balls.get_children():
+		#var dir : Vector2 = ball.position.direction_to(level_bb_modern.bb_mod_player.position)
+		#ball.linear_velocity = dir * speed

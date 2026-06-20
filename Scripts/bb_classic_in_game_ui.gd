@@ -32,7 +32,7 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	global.bb_clas_hs.append([new_text,level_bb_classic.level])
 	global.bb_clas_hs.sort()
 	if global.bb_clas_hs.size() > 5:
-		global.bb_mod_hs.resize(5)
+		global.bb_clas_hs.resize(5)
 	global.bb_clas_high_scores = {"HighScores" : global.bb_clas_hs}
 	global._save_game(global.bb_clas_hs_path, global.bb_clas_high_scores)
 	line_edit.text = new_text

@@ -55,4 +55,3 @@ func _tween_menu(s_node : Control) -> void:
 	var tween : Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_callback(s_node.show)
 	tween.tween_property(s_node,"modulate:a", 1.0,0.5).from(0.0)
-	tween.connect("finished",tween.kill)

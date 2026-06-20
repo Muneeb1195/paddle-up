@@ -41,7 +41,6 @@ func _unpause_game() -> void:
 func _change_scene(scene : PackedScene) -> void:
 	_fade_to_black()
 	await get_tree().create_timer(0.5).timeout
-	get_tree().call_deferred(&"change_scene_to_packed",scene)
+	get_tree().change_scene_to_packed(scene)
 	await get_tree().create_timer(0.5).timeout
 	_fade_to_normal()
-	_unpause_game()

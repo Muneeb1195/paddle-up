@@ -35,14 +35,12 @@ func _tween_button_press(node : TextureButton) -> void:
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(node,"custom_minimum_size",scale_to,0.1)
 	tween.tween_property(node,"modulate:a", 0.8,0.1)
-	tween.connect("finished",tween.kill)
 
 func _tween_button_release(node : TextureButton) -> void:
 	var scale_to : Vector2 = Vector2(128,128)
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(node,"custom_minimum_size",scale_to,0.1)
 	tween.tween_property(node,"modulate:a", 1.0,0.1)
-	tween.connect("finished",tween.kill)
 
 
 func _on_home_button_button_down() -> void:

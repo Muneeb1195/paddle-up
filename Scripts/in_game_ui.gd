@@ -48,14 +48,12 @@ func _tween_menu(s_node : Control, h_node : Control) -> void:
 	tween.tween_property(s_node,"modulate:a", 1.0,0.5).from(0.0)
 	if h_node != null:
 		tween.tween_property(h_node,"modulate:a", 0.0,0.5).from(1.0)
-	tween.connect("finished",tween.kill)
 
 func _on_pause_button_down() -> void:
 	var scale_to : Vector2 = pause.custom_minimum_size * 0.9
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(pause,"custom_minimum_size",scale_to,0.1)
 	tween.tween_property(pause,"modulate:a", 0.8,0.1)
-	tween.connect("finished",tween.kill)
 
 
 func _on_pause_button_up() -> void:
@@ -63,4 +61,3 @@ func _on_pause_button_up() -> void:
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(pause,"custom_minimum_size",scale_to,0.1)
 	tween.tween_property(pause,"modulate:a", 1.0,0.1)
-	tween.connect("finished",tween.kill)

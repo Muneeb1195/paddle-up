@@ -4,77 +4,62 @@ class_name Trajectory
 
 @export var FORCE : float = 1000
 
-@onready var fake_ball: CharacterBody2D = $FakeBall
 var img : CompressedTexture2D = preload("res://Assets/Ball/ball_outline.png")
+
+var _cached_points : PackedVector2Array = PackedVector2Array()
+var _needs_update : bool = false
 
 func _ready() -> void:
 	hide()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenDrag and visible:
+		_needs_update = true
+
+func _physics_process(_delta: float) -> void:
+	if _needs_update:
+		_needs_update = false
+		_calculate_trajectory()
 		queue_redraw()
 
 func _draw() -> void:
-	update_trajectory()
+	for point : Vector2 in _cached_points:
+		draw_texture(img, point)
 
 func get_forward_direction() -> Vector2:
 	return global_position.direction_to(get_global_mouse_position())
 
-
-#draw_circle(position: Vector2, radius: float, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false)
-
-func update_trajectory() -> void:
+func _calculate_trajectory() -> void:
+	_cached_points.clear()
 	var velocity : Vector2 = FORCE * get_forward_direction()
-	var line_start : Vector2 = global_position
-	var line_end : Vector2
+	var pos : Vector2 = global_position
 	var timestep : float = 0.05
-	var ball_collision : int = 0
-	#var colors : PackedColorArray = [Color.DIM_GRAY,Color.LIGHT_GRAY]
-	
-	fake_ball.global_position = line_start
-	
-	for i : int in 35:
-		line_end = line_start + (velocity * timestep)
-		
-		var collision : KinematicCollision2D = fake_ball.move_and_collide(velocity * timestep)
-		if collision:
-			velocity = velocity.bounce(collision.get_normal())
-			#var pointA : Vector2 = line_start - global_position
-			#var pointB : Vector2 = line_end - global_position
-			#draw_dashed_line(pointA, pointB,Color.LIGHT_YELLOW)
-			#draw_circle(pointA,10,Color.AQUAMARINE,false,2.0,true)
-			#draw_circle((pointA + pointB)/2,6,Color.AQUAMARINE,false,1.0,true)
-			line_start = fake_ball.global_position
-			ball_collision += 1
-			if ball_collision >= 2:
-				break
-			continue
-		
-		#var ray : Dictionary = raycast_query2d(line_start,line_end)
-		
-		#if not ray.is_empty():
-			#velocity = velocity.bounce(ray.normal)
-			#var pointA : Vector2 = line_start - global_position
-			#var pointB : Vector2 = line_end - global_position
-			#draw_line(pointA, pointB,Color.YELLOW,5)
-			#line_start = ray.position
-			#ray_collision += 1
-			#if ray_collision >= 2:
-				#break
-			#continue
-		
-		var pointA : Vector2 = line_start - global_position + Vector2(-8,-8)
-		var pointB : Vector2 = line_end - global_position + Vector2(-8,-8)
-		draw_texture(img,pointA)
-		draw_texture(img,pointB)
-		line_start = line_end
+	var bounce_count : int = 0
+	var space_state : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var exclude_rids : Array[RID] = []
 
-#func raycast_query2d(pointA : Vector2, pointB : Vector2) -> Dictionary:
-	#var space_state : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-	#var query : PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(pointA,pointB)
-	#var result : Dictionary = space_state.intersect_ray(query)
-	#
-	#if result:
-		#return result
-	 #
-	#return {}
+	var parent : Node = get_parent()
+	while parent:
+		if parent is CollisionObject2D:
+			exclude_rids.append((parent as CollisionObject2D).get_rid())
+		parent = parent.get_parent()
+
+	for i : int in 35:
+		var next_pos : Vector2 = pos + (velocity * timestep)
+		var query : PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(pos, next_pos, 145)
+		query.exclude = exclude_rids
+		var result : Dictionary = space_state.intersect_ray(query)
+
+		if result:
+			_cached_points.append(result["position"] - global_position)
+			velocity = velocity.bounce(result["normal"])
+			pos = result["position"]
+			bounce_count += 1
+			if bounce_count >= 2:
+				break
+		else:
+			var mid_a : Vector2 = pos + Vector2(-8, -8) - global_position
+			var mid_b : Vector2 = next_pos + Vector2(-8, -8) - global_position
+			_cached_points.append(mid_a)
+			_cached_points.append(mid_b)
+			pos = next_pos

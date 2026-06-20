@@ -6,7 +6,7 @@ signal bb_classic_next_level
 
 @export_enum("Pong","Brick Breaker Classic") var Game_Mode : String
 
-var orignal_position : Vector2
+var original_position : Vector2 = Vector2.ZERO
 var audio_manager : Audio = AudioManager
 var player : Player
 var level : LEVELBBCLASSIC
@@ -16,10 +16,10 @@ func _ready() -> void:
 	randomize()
 	match Game_Mode:
 		"Pong":
-			orignal_position = global_position
+			original_position = global_position
 		"Brick Breaker Classic":
 			player = get_tree().get_first_node_in_group("Player")
-			orignal_position.y = global_position.y
+			original_position.y = global_position.y
 
 func _process(_delta: float) -> void:
 	match Game_Mode:
@@ -41,10 +41,13 @@ func _move() -> void:
 
 # BB Classic Code
 
-var num_of_coll_player : int = 0:
+var _num_of_coll_player : int = 0
+var num_of_coll_player : int :
+	get :
+		return _num_of_coll_player
 	set(value):
-		num_of_coll_player = value
-		if num_of_coll_player % 10 == 0:
+		_num_of_coll_player = value
+		if _num_of_coll_player % 10 == 0:
 			bb_classic_next_level.emit()
 
 func  _set_direction_move() -> void:
@@ -52,7 +55,7 @@ func  _set_direction_move() -> void:
 	velocity = direction * speed
 
 func _bb_classic_mode() -> void:
-	orignal_position.x = player.position.x
+	original_position.x = player.position.x
 	if collision_info:
 		_move()
 		_reduce_brick_hp()
@@ -95,7 +98,9 @@ func _pong_mode() -> void:
 			speed += speed_mod
 
 func _predict_ball_pos() -> void:
-	var predicted_x : float = global_position.x - BALL_DIAMETER/2.0 + (CPU_PADDLE_Y_POS - global_position.y) / direction.y * direction.x
+	if abs(direction.y) < 0.0001:
+		return
+	var predicted_x : float = global_position.x + (CPU_PADDLE_Y_POS - global_position.y) / direction.y * direction.x # global_position.x - BALL_DIAMETER/2.0
 	#var bounces : int = floor(predicted_x / TABLE_WIDTH)
 	predicted_x = pingpong(predicted_x, TABLE_WIDTH)
 	#if int(bounces) & 1 == 1:

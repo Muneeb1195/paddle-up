@@ -16,19 +16,26 @@ const  INCREAMENT : int = 1
 const Min_Angle : float = 15
 const Max_Angle : float = 165
 
-var level : int = 1:
+var _level : int = 1
+var level : int :
+	get :
+		return _level
 	set(value):
-		level = value
-		bb_modern_in_game_ui.level.text = "%2d" % [level]
+		_level = value
+		bb_modern_in_game_ui.level.text = "%2d" % [_level]
 var num_of_balls : int = 1
-var level_started : bool = false:
+var _level_started : bool = false
+var level_started : bool :
+	get:
+		return _level_started
 	set(value):
-		level_started = value
+		_level_started = value
 		if value == false:
 			_next_level()
 		else:
 			_shoot()
 var time : float = 0.0
+var _last_displayed_second : int = -1
 
 func _ready() -> void:
 	if global.bb_mod_dict.has("bb_mod_stats") and global.bb_mod_dict.has("bb_mod_bricks"):
@@ -51,10 +58,12 @@ func _process(delta: float) -> void:
 
 func _time(delta : float) -> void:
 	time += delta
-	var seconds : float = fmod(time, 60)
-	var minutes : float = fmod(time, 3600) / 60
-	var str_elapsed : String = "%02d : %02d" % [minutes, seconds]
-	bb_modern_in_game_ui.time.text = str_elapsed
+	var current_second : int = int(time) % 60
+	if current_second != _last_displayed_second:
+		_last_displayed_second = current_second
+		var seconds : float = fmod(time, 60)
+		var minutes : float = fmod(time, 3600) / 60
+		bb_modern_in_game_ui.time.text = "%02d : %02d" % [minutes, seconds]
 
 func _shoot() -> void:
 	trajectory_line.hide()

@@ -7,22 +7,31 @@ class_name LEVELBBCLASSIC
 @onready var ball: Ball = $Ball
 @onready var bb_classic_in_game_ui: BBClassicInGameUi = $BBClassicInGameUI
 
-var level : int = 1:
+var _level : int = 1
+var level : int :
+	get :
+		return _level
 	set(value):
-		level = value
-		bb_classic_in_game_ui.score.text = "%2d" % [level]
-var level_started : bool = false:
+		_level = value
+		bb_classic_in_game_ui.score.text = "%2d" % [_level]
+var _level_started : bool = false
+var level_started : bool :
+	get :
+		return _level_started
 	set(value):
-		level_started = value
+		_level_started = value
 		if value == false:
 			set_process(true)
 		else:
 			set_process(false)
-var lives : int = 3:
+var _lives : int = 3
+var lives : int :
+	get :
+		return _lives
 	set(value):
-		lives = value
-		bb_classic_in_game_ui.lives.text = "%2d" % [lives]
-		if lives <= 0:
+		_lives = value
+		bb_classic_in_game_ui.lives.text = "%2d" % [_lives]
+		if _lives <= 0:
 			bb_classic_in_game_ui._on_lose()
 			ball.queue_free()
 
@@ -84,10 +93,10 @@ func _load() -> void:
 func _save_stats() -> Dictionary:
 	var stats_dict : Dictionary
 	stats_dict = {
-		"level" = level,
-		"lives" = lives,
-		"brick_hp" = block_hp,
-		"paddle_pos_x" = player.position.x
+		"level" : level,
+		"lives" : lives,
+		"brick_hp" : block_hp,
+		"paddle_pos_x" : player.position.x
 	}
 	return stats_dict
 
@@ -115,5 +124,5 @@ func _on_floor_body_entered(body: Node2D) -> void:
 		ball.hide()
 		ball.set_process(false)
 		ball.velocity = Vector2.ZERO
-		ball.global_position = ball.orignal_position
+		ball.global_position = ball.original_position
 		_reset()

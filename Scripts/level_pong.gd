@@ -13,17 +13,23 @@ enum DIFFICULTY {Easy,Medium,Hard}
 @onready var pong_in_game_ui: PongUI = $PongInGameUI
 
 const max_points : int = 11
-var cpu_points : int = 0:
+var _cpu_points : int = 0
+var cpu_points : int:
+	get :
+		return _cpu_points
 	set(value):
-		cpu_points = value
-		pong_in_game_ui.cpu_points.text = "Cpu Points: " + "%2d" % [cpu_points]
-		if cpu_points >= max_points:
+		_cpu_points = value
+		pong_in_game_ui.cpu_points.text = "Cpu Points: " + "%2d" % [_cpu_points]
+		if _cpu_points >= max_points:
 			pong_in_game_ui._display_lose_screen()
-var player_points : int = 0:
+var _player_points : int = 0
+var player_points : int :
+	get :
+		return _player_points
 	set(value):
-		player_points = value
-		pong_in_game_ui.player_points.text = "Player Points: " + "%2d" % [player_points]
-		if player_points >= max_points:
+		_player_points = value
+		pong_in_game_ui.player_points.text = "Player Points: " + "%2d" % [_player_points]
+		if _player_points >= max_points:
 			pong_in_game_ui._display_win_screen()
 var ball_starting_speed : int
 
@@ -80,7 +86,7 @@ func _move_ball_back() -> void:
 	ball.hide()
 	ball.set_process(false)
 	ball.velocity = Vector2.ZERO
-	ball.global_position = ball.orignal_position
+	ball.global_position = ball.original_position
 	_start_pong()
 
 func _increase_player_point() -> void:
