@@ -35,6 +35,7 @@ var level_started : bool :
 			_next_level()
 		else:
 			_shoot()
+var _level_transitioning : bool = false
 var time : float = 0.0
 var _last_displayed_second : int = -1
 
@@ -79,6 +80,9 @@ func _limit_shooting_angle() -> void:
 		trajectory_line.hide()
 
 func _next_level() -> void:
+	if _level_transitioning:
+		return
+	_level_transitioning = true
 	balls.clean_up()
 	if Engine.get_time_scale() > 1.0:
 		Engine.set_time_scale(1.0)
@@ -96,6 +100,7 @@ func _next_level() -> void:
 	num_of_balls += INCREMENT
 	if level % 10 == 0:
 		_save()
+	_level_transitioning = false
 
 func _save() -> void:
 	global.bb_mod_dict = {"bb_mod_stats": _save_stats(), "bb_mod_bricks" : _save_bricks()}

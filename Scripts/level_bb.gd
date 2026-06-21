@@ -26,12 +26,23 @@ var block_y_pos_array : Array[float] = []
 var block_index_map : Dictionary = {}
 var _blocks_origin : Vector2
 var _shake_tween : Tween
+var _pending_destroy : Array[StaticBody2D] = []
 
 func _ready() -> void:
 	_blocks_origin = blocks_node.position
 	_prewarm_break_shader()
 	create_block_field()
 	_sort_blocks()
+
+func _process(_delta: float) -> void:
+	if _pending_destroy.is_empty():
+		return
+	var blocks : Array[StaticBody2D] = _pending_destroy.duplicate()
+	_pending_destroy.clear()
+	for block : StaticBody2D in blocks:
+		if not is_instance_valid(block):
+			continue
+		_play_break_effect(block)
 
 func _prewarm_break_shader() -> void:
 	var mat : ShaderMaterial = ShaderMaterial.new()
@@ -127,7 +138,7 @@ func _reduce_block_hp(block : StaticBody2D) -> void:
 		block_hp_array.remove_at(array_pos)
 		block_index_map.erase(block.get_instance_id())
 		_shake_blocks()
-		_play_break_effect(block)
+		_pending_destroy.append(block)
 		for idx : int in range(array_pos, block_array.size()):
 			block_index_map[block_array[idx].get_instance_id()] = idx
 

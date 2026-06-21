@@ -89,17 +89,16 @@ func _physics_process(delta: float) -> void:
 			ball_positions[i] = _probe.global_position
 			if stop_col:
 				ball_velocities[i] = ball_velocities[i].bounce(stop_col.get_normal())
-			_clamp_bounds(i)
 			if get_pad_pos:
 				new_pad_x_pos = int(ball_positions[i].x)
 				get_pad_pos = false
 				got_pad_pos = true
 			if ball_positions[i].distance_to(bb_mod_player.trajectory.global_position) < 20:
 				_return_to_pool(i)
+			else:
+				_clamp_bounds(i)
 		i -= 1
 	_update_multimesh()
-	if _active_count == 0 and _spawn_index < _balls_to_spawn:
-		cancel_spawning()
 	if move_paddle and got_pad_pos:
 		bb_mod_player._move_paddle(new_pad_x_pos)
 		move_paddle = false
@@ -166,8 +165,8 @@ func _get_pooled_ball() -> int:
 
 func retrieve_all_balls() -> void:
 	for i : int in _active_count:
+		ball_masks[i] = MASK_WALLS_BLOCK
 		ball_states[i] = BB_STATES.Stop
-		ball_masks[i] = 0
 		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * speed
 
 func _return_to_pool(idx: int) -> void:
