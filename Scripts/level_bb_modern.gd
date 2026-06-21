@@ -84,8 +84,8 @@ func _next_level() -> void:
 		return
 	_level_transitioning = true
 	balls.clean_up()
-	if Engine.get_time_scale() > 1.0:
-		Engine.set_time_scale(1.0)
+	balls.speed_multiplier = 1.0
+	if bb_modern_in_game_ui.retrieve_balls.visible:
 		bb_modern_in_game_ui.retrieve_balls.hide()
 		if bb_modern_in_game_ui._pulse_tween:
 			bb_modern_in_game_ui._pulse_tween.kill()
@@ -129,7 +129,7 @@ func _load_stats() -> void:
 
 
 func _on_level_timer_timeout() -> void:
-	Engine.set_time_scale(1.25)
+	balls.set_speed_multiplier(1.25)
 	bb_modern_in_game_ui.retrieve_balls.disabled = false
 	bb_modern_in_game_ui.retrieve_balls.show()
 	_pulse_retrieve_button()

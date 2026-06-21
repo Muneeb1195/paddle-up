@@ -13,8 +13,10 @@ enum BB_STATES {Move,Stop}
 
 const MIN_BOUNDS : Vector2 = Vector2(0,150)
 const MAX_BOUNDS : Vector2 = Vector2(1000,1950)
-const speed : int = 900
 const MAX_POOL : int = 10000
+
+var _base_speed : int = 900
+var speed_multiplier : float = 1.0
 
 const MASK_ALL : int = 145
 const MASK_WALLS_BLOCK : int = 17
@@ -32,6 +34,17 @@ var _balls_to_spawn : int = 0
 var _spawn_pos : Vector2 = Vector2.ZERO
 var _spawn_dir : Vector2 = Vector2.ZERO
 var _spawn_index : int = 0
+
+func _current_speed() -> int:
+	return int(_base_speed * speed_multiplier)
+
+func set_speed_multiplier(value: float) -> void:
+	var ratio : float = value / speed_multiplier
+	speed_multiplier = value
+	for i : int in _active_count:
+		if ball_states[i] == BB_STATES.Move:
+			ball_velocities[i] *= ratio
+
 var new_pad_x_pos : int
 var get_pad_pos : bool = false
 var got_pad_pos : bool = false
@@ -82,7 +95,7 @@ func _physics_process(delta: float) -> void:
 			_clamp_bounds(i)
 		elif ball_states[i] == BB_STATES.Stop:
 			var dir : Vector2 = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position)
-			ball_velocities[i] = lerp(ball_velocities[i], dir * speed, clampf(5.0 * delta, 0.0, 1.0))
+			ball_velocities[i] = lerp(ball_velocities[i], dir * _current_speed(), clampf(5.0 * delta, 0.0, 1.0))
 			_probe.global_position = ball_positions[i]
 			_probe.collision_mask = ball_masks[i]
 			var stop_col : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
@@ -143,7 +156,7 @@ func _spawn_next_ball() -> void:
 	if idx == -1:
 		return
 	ball_positions[idx] = _spawn_pos
-	ball_velocities[idx] = _spawn_dir * speed
+	ball_velocities[idx] = _spawn_dir * _current_speed()
 	ball_masks[idx] = MASK_ALL
 	ball_states[idx] = BB_STATES.Move
 	_active_count += 1
@@ -167,7 +180,7 @@ func retrieve_all_balls() -> void:
 	for i : int in _active_count:
 		ball_masks[i] = MASK_WALLS_BLOCK
 		ball_states[i] = BB_STATES.Stop
-		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * speed
+		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * _current_speed()
 
 func _return_to_pool(idx: int) -> void:
 	ball_positions[idx] = Vector2(-1000, -1000)
