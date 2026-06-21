@@ -3,6 +3,7 @@ shader_type canvas_item;
 uniform float progress : hint_range(0, 1) = 0;
 uniform float fragment_size : hint_range(0, 50) = 5;
 uniform float strength : hint_range(0, 3) = 3.0;
+uniform float seed : hint_range(0, 1) = 0;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -17,7 +18,7 @@ void fragment() {
 	vec2 center = vec2(0.5, 0.5);
 	float dist_to_center = distance(uv, center) * 2.0;
 
-	vec2 frag_id = floor(uv / (fragment_size * TEXTURE_PIXEL_SIZE.xy));
+	vec2 frag_id = floor(uv / (fragment_size * TEXTURE_PIXEL_SIZE.xy)) + vec2(seed);
 	vec2 frag_seed = hash2(frag_id);
 
 	float local_progress = clamp(progress * (0.6 + frag_seed.x * 0.6), 0.0, 1.0);

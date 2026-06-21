@@ -128,6 +128,7 @@ func _play_break_effect(block : StaticBody2D) -> void:
 	var mat : ShaderMaterial = ShaderMaterial.new()
 	mat.shader = _break_shader
 	mat.set_shader_parameter("progress", 0.0)
+	mat.set_shader_parameter("seed", randf())
 	sprite.material = mat
 	var tween : Tween = create_tween()
 	tween.tween_property(mat, "shader_parameter/progress", 1.0, 0.25).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
