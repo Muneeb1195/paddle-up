@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="1_4ckvl"]
 
 [resource]
-resource_local_to_scene = true
+resource_local_to_scene = false
 default_font = ExtResource("1_4ckvl")
 default_font_size = 40
 default_font_color = Color(0.85, 0.85, 0.85, 1)

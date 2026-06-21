@@ -12,13 +12,6 @@ class_name LoseScreen
 func _ready() -> void:
 	pass
 
-func _on_line_edit_text_submitted(new_text: String) -> void:
-	var _name : String = new_text.to_upper()
-	if _name == "":
-		pass
-	else:
-		pass
-
 func _on_home_button_button_down() -> void:
 	ButtonTweenHelper.press(home_button)
 

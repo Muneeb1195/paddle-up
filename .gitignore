@@ -1,5 +1,11 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+*.tmp
+
+# Keystore
 release.keystore
 keystore_password.txt
+
+# Editor/IDE
+.opencode/

@@ -89,7 +89,7 @@ func _next_level() -> void:
 	if level_timer.time_left:
 		level_timer.stop()
 	_move_old_blocks()
-	if block_y_pos_array.back() >= 1900:
+	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1900:
 		bb_modern_in_game_ui._on_lose()
 		global.bb_mod_dict.clear()
 	level += INCREAMENT

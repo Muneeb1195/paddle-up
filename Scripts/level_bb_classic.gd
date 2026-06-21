@@ -112,7 +112,7 @@ func _on_ball_bb_classic_next_level() -> void:
 	_move_old_blocks()
 	#_add_new_block_row()
 	#_sort_blocks()
-	if block_y_pos_array.back() >= 1800:
+	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1800:
 		bb_classic_in_game_ui._on_lose()
 	if level % 10 == 0:
 			lives += 1

@@ -12,20 +12,17 @@ class_name Fader
 func _ready() -> void:
 	color_rect.modulate.a = 0.0
 
-func  _fade_to_black() -> void:
+func _fade_to_black() -> void:
 	var tween : Tween = create_tween().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(color_rect,"modulate:a",1.0,0.5).from_current()
-	tween.connect("finished",tween.kill)
 
 func _fade_half() -> void:
 	var tween : Tween = create_tween().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(color_rect,"modulate:a",0.5,0.5).from_current()
-	tween.connect("finished",tween.kill)
 
 func _fade_to_normal() -> void:
 	var tween : Tween = create_tween().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(color_rect,"modulate:a",0.0,0.5).from_current()
-	tween.connect("finished",tween.kill)
 
 func _quit_game() -> void:
 	get_tree().quit()

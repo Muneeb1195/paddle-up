@@ -58,7 +58,6 @@ func _create_block_row() -> void:
 		if not type == 3:
 			var new_block : StaticBody2D = block_type[type].instantiate()
 			new_block.position = new_block_pos
-			#block_y_pos_array.push_back(new_block_pos.y)
 			block_hp_array.push_back(block_hp)
 			block_array.push_back(new_block)
 			block_index_map[new_block.get_instance_id()] = block_array.size() - 1

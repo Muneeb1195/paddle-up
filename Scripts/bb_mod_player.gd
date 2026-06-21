@@ -6,11 +6,11 @@ class_name BBMODPLAYER
 @onready var rail: Sprite2D = $Rail
 @onready var paddle: Sprite2D = $Paddle
 @onready var trajectory: Trajectory = $Paddle/Trajectory
-@onready var half_rail_width : float = (rail.texture.get_width() * rail.scale.x)
+@onready var rail_width : float = (rail.texture.get_width() * rail.scale.x)
 @onready var half_paddle_width : float = (paddle.texture.get_width() * paddle.scale.x)/2
 @onready var ball_spawner: Sprite2D = $Paddle/BallSpawner
 @onready var global : Globals = Global
-@onready var max_pos : float = half_rail_width - half_paddle_width-5
+@onready var max_pos : float = rail_width - half_paddle_width-5
 
 func _ready() -> void:
 	paddle.modulate = global._choose_color()
