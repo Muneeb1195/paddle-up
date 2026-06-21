@@ -30,12 +30,64 @@ size_flags_horizontal = 2
 [node name="CpuPoints" type="Label" parent="MarginContainer/VBox" index="1"]
 layout_mode = 2
 size_flags_horizontal = 6
-text = "Cpu Points: 0"
+text = "CPU: 0"
 
 [node name="PlayerPoints" type="Label" parent="MarginContainer/VBox" index="2"]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Player Points: 0"
+text = "You: 0"
+
+[node name="RallyLabel" type="Label" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 160.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+theme = SubResource("Theme_l0pw7")
+theme_override_font_sizes/font_size = 32
+text = ""
+horizontal_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 200.0
+offset_right = 250.0
+offset_bottom = 235.0
+grow_horizontal = 2
+theme = SubResource("Theme_l0pw7")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+
+[node name="CountdownLabel" type="Label" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -100.0
+offset_right = 250.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_l0pw7")
+theme_override_font_sizes/font_size = 128
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="mouse_entered" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_exited"]
