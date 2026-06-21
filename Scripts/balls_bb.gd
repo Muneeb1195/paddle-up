@@ -2,7 +2,6 @@ extends Node2D
 
 class_name BallsBB
 
-@export var ball_bb_scene : PackedScene
 @onready var timer: Timer = $"../BallSpawnTimer"
 @onready var bb_mod_player: BBMODPLAYER = get_tree().get_first_node_in_group(&"BBModPlayer")
 @onready var level : LEVELBBMODERN = get_tree().get_first_node_in_group(&"LevelBBModern")
@@ -15,12 +14,17 @@ enum BB_STATES {Move,Stop}
 const MIN_BOUNDS : Vector2 = Vector2(0,150)
 const MAX_BOUNDS : Vector2 = Vector2(1000,1950)
 const speed : int = 900
-const INITIAL_POOL : int = 512
 const MAX_POOL : int = 10000
 
-var ball_nodes : Array[CharacterBody2D] = []
+var ball_positions : Array[Vector2] = []
+var ball_velocities : Array[Vector2] = []
+var ball_masks : Array[int] = []
 var ball_states : Array[BB_STATES] = []
-var ball_pool : Array[CharacterBody2D] = []
+var _active_count : int = 0
+var _probe : CharacterBody2D
+var _multimesh : MultiMesh
+var _ball_multi_mesh_node : MultiMeshInstance2D
+
 var _balls_to_spawn : int = 0
 var _spawn_pos : Vector2 = Vector2.ZERO
 var _spawn_dir : Vector2 = Vector2.ZERO
@@ -33,70 +37,90 @@ var _frame_counter : int = 0
 
 func _ready() -> void:
 	modulate = global._choose_color()
-	for i : int in INITIAL_POOL:
-		var b : CharacterBody2D = ball_bb_scene.instantiate()
-		b.visible = false
-		add_child(b)
-		ball_pool.append(b)
+	_probe = $Probe
+	_ball_multi_mesh_node = $BallMultiMesh
+	_setup_multimesh()
 	timer.timeout.connect(_on_spawn_timer_timeout)
+
+func _setup_multimesh() -> void:
+	var mm : MultiMesh = MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_2D
+	var quad : QuadMesh = QuadMesh.new()
+	quad.size = Vector2(20, 20)
+	quad.surface_set_material(0, null)
+	mm.mesh = quad
+	mm.instance_count = MAX_POOL
+	mm.visible_instance_count = 0
+	_ball_multi_mesh_node.multimesh = mm
+	_ball_multi_mesh_node.texture = preload("res://Assets/Ball/ball.png")
+	_multimesh = mm
 
 func _physics_process(delta: float) -> void:
 	_frame_counter += 1
-	var i : int = ball_nodes.size() - 1
+	var i : int = _active_count - 1
 	while i >= 0:
 		if ball_states[i] == BB_STATES.Move:
-			var collision : KinematicCollision2D = ball_nodes[i].move_and_collide(ball_nodes[i].velocity * delta)
+			_probe.global_position = ball_positions[i]
+			_probe.collision_mask = ball_masks[i]
+			var collision : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
+			ball_positions[i] = _probe.global_position
 			if collision:
 				var body : Node2D = collision.get_collider()
 				if body.is_in_group(&"Brick"):
 					level._reduce_block_hp(body)
-					ball_nodes[i].velocity = ball_nodes[i].velocity.bounce(collision.get_normal())
+					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
 				elif body is BBMODPLAYER:
-					ball_nodes[i].velocity = ball_nodes[i].velocity.bounce(collision.get_normal())
+					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
 					ball_states[i] = BB_STATES.Stop
-					ball_nodes[i].collision_mask = 17
+					ball_masks[i] = 17
 				else:
-					ball_nodes[i].velocity = ball_nodes[i].velocity.bounce(collision.get_normal())
-			var pos : Vector2 = ball_nodes[i].global_position
-			if pos.x < MIN_BOUNDS.x:
-				ball_nodes[i].global_position.x = MIN_BOUNDS.x
-				ball_nodes[i].velocity.x = abs(ball_nodes[i].velocity.x)
-			elif pos.x > MAX_BOUNDS.x:
-				ball_nodes[i].global_position.x = MAX_BOUNDS.x
-				ball_nodes[i].velocity.x = -abs(ball_nodes[i].velocity.x)
-			if pos.y < MIN_BOUNDS.y:
-				ball_nodes[i].global_position.y = MIN_BOUNDS.y
-				ball_nodes[i].velocity.y = abs(ball_nodes[i].velocity.y)
-			elif pos.y > MAX_BOUNDS.y:
-				ball_nodes[i].global_position.y = MAX_BOUNDS.y
-				ball_nodes[i].velocity.y = -abs(ball_nodes[i].velocity.y)
+					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
+			_clamp_bounds(i)
 		elif ball_states[i] == BB_STATES.Stop:
-			var dir : Vector2 = ball_nodes[i].position.direction_to(bb_mod_player.trajectory.global_position)
-			ball_nodes[i].velocity = lerp(ball_nodes[i].velocity, dir * speed, clampf(5.0 * delta, 0.0, 1.0))
-			var stop_col : KinematicCollision2D = ball_nodes[i].move_and_collide(ball_nodes[i].velocity * delta)
+			var dir : Vector2 = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position)
+			ball_velocities[i] = lerp(ball_velocities[i], dir * speed, clampf(5.0 * delta, 0.0, 1.0))
+			_probe.global_position = ball_positions[i]
+			_probe.collision_mask = ball_masks[i]
+			var stop_col : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
+			ball_positions[i] = _probe.global_position
 			if stop_col:
-				ball_nodes[i].velocity = ball_nodes[i].velocity.bounce(stop_col.get_normal())
+				ball_velocities[i] = ball_velocities[i].bounce(stop_col.get_normal())
+			_clamp_bounds(i)
 			if get_pad_pos:
-				new_pad_x_pos = int(ball_nodes[i].global_position.x)
+				new_pad_x_pos = int(ball_positions[i].x)
 				get_pad_pos = false
 				got_pad_pos = true
-			if _frame_counter % 3 == 0 and ball_nodes[i].position.distance_to(bb_mod_player.trajectory.global_position) < 5:
-				_return_to_pool(ball_nodes[i])
-				var last : int = ball_nodes.size() - 1
-				ball_nodes[i] = ball_nodes[last]
-				ball_states[i] = ball_states[last]
-				ball_nodes.pop_back()
-				ball_states.pop_back()
-				if i >= ball_nodes.size():
-					break
+			if _frame_counter % 3 == 0 and ball_positions[i].distance_to(bb_mod_player.trajectory.global_position) < 5:
+				_return_to_pool(i)
 				continue
 		i -= 1
-	if ball_nodes.is_empty() and _spawn_index < _balls_to_spawn:
+	_update_multimesh()
+	if _active_count == 0 and _spawn_index < _balls_to_spawn:
 		cancel_spawning()
 	if move_paddle and got_pad_pos:
 		bb_mod_player._move_paddle(new_pad_x_pos)
 		move_paddle = false
 		got_pad_pos = false
+
+func _clamp_bounds(idx: int) -> void:
+	if ball_positions[idx].x < MIN_BOUNDS.x:
+		ball_positions[idx].x = MIN_BOUNDS.x
+		ball_velocities[idx].x = abs(ball_velocities[idx].x)
+	elif ball_positions[idx].x > MAX_BOUNDS.x:
+		ball_positions[idx].x = MAX_BOUNDS.x
+		ball_velocities[idx].x = -abs(ball_velocities[idx].x)
+	if ball_positions[idx].y < MIN_BOUNDS.y:
+		ball_positions[idx].y = MIN_BOUNDS.y
+		ball_velocities[idx].y = abs(ball_velocities[idx].y)
+	elif ball_positions[idx].y > MAX_BOUNDS.y:
+		ball_positions[idx].y = MAX_BOUNDS.y
+		ball_velocities[idx].y = -abs(ball_velocities[idx].y)
+
+func _update_multimesh() -> void:
+	for i : int in _active_count:
+		var xf : Transform2D = Transform2D(0, ball_positions[i])
+		_multimesh.set_instance_transform_2d(i, xf)
+	_multimesh.visible_instance_count = _active_count
 
 func _make_balls(num_of_balls: int, pos : Vector2, dir : Vector2) -> void:
 	audio_manager.ball_spawn.play()
@@ -113,45 +137,48 @@ func _on_spawn_timer_timeout() -> void:
 func _spawn_next_ball() -> void:
 	if _spawn_index >= _balls_to_spawn:
 		return
-	var node : CharacterBody2D = _get_pooled_ball()
-	if node == null:
+	var idx : int = _get_pooled_ball()
+	if idx == -1:
 		return
-	node.position = _spawn_pos
-	node.velocity = _spawn_dir * speed
-	node.visible = true
-	ball_nodes.append(node)
-	ball_states.append(BB_STATES.Move)
+	ball_positions[idx] = _spawn_pos
+	ball_velocities[idx] = _spawn_dir * speed
+	ball_masks[idx] = 145
+	ball_states[idx] = BB_STATES.Move
+	_active_count += 1
 	_spawn_index += 1
 	if _spawn_index == _balls_to_spawn:
 		move_paddle = true
 	if _spawn_index < _balls_to_spawn:
 		timer.start()
 
-func _get_pooled_ball() -> CharacterBody2D:
-	if ball_pool.is_empty():
-		if ball_pool.size() + ball_nodes.size() >= MAX_POOL:
-			return null
-		var b : CharacterBody2D = ball_bb_scene.instantiate()
-		b.visible = false
-		add_child(b)
-		return b
-	return ball_pool.pop_back()
+func _get_pooled_ball() -> int:
+	if _active_count >= MAX_POOL:
+		return -1
+	if _active_count >= ball_positions.size():
+		ball_positions.append(Vector2.ZERO)
+		ball_velocities.append(Vector2.ZERO)
+		ball_masks.append(145)
+		ball_states.append(BB_STATES.Move)
+	return _active_count
 
 func retrieve_all_balls() -> void:
-	for i : int in ball_states.size():
+	for i : int in _active_count:
 		ball_states[i] = BB_STATES.Stop
-		ball_nodes[i].collision_mask = 17
-		ball_nodes[i].velocity = ball_nodes[i].position.direction_to(bb_mod_player.trajectory.global_position) * speed
+		ball_masks[i] = 17
+		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * speed
 
-func _return_to_pool(b : CharacterBody2D) -> void:
-	b.visible = false
-	b.velocity = Vector2.ZERO
-	b.position = Vector2(-1000, -1000)
-	b.collision_mask = 145
-	if ball_pool.size() + ball_nodes.size() < MAX_POOL:
-		ball_pool.append(b)
-	else:
-		b.queue_free()
+func _return_to_pool(idx: int) -> void:
+	ball_positions[idx] = Vector2(-1000, -1000)
+	ball_velocities[idx] = Vector2.ZERO
+	_active_count -= 1
+	if idx < _active_count:
+		ball_positions[idx] = ball_positions[_active_count]
+		ball_velocities[idx] = ball_velocities[_active_count]
+		ball_masks[idx] = ball_masks[_active_count]
+		ball_states[idx] = ball_states[_active_count]
+
+func is_empty() -> bool:
+	return _active_count == 0
 
 func cancel_spawning() -> void:
 	_balls_to_spawn = 0
@@ -160,7 +187,5 @@ func cancel_spawning() -> void:
 
 func clean_up() -> void:
 	cancel_spawning()
-	for i : int in ball_nodes.size():
-		_return_to_pool(ball_nodes[i])
-	ball_nodes.clear()
-	ball_states.clear()
+	for i : int in range(_active_count - 1, -1, -1):
+		_return_to_pool(i)

@@ -1,8 +1,18 @@
-[gd_scene format=3 uid="uid://dciq7yq10up3e"]
+[gd_scene load_steps=2 format=3 uid="uid://dciq7yq10up3e"]
 
 [ext_resource type="Script" uid="uid://dmovbxycnkk3n" path="res://Scripts/balls_bb.gd" id="1_o360r"]
-[ext_resource type="PackedScene" uid="uid://868lbhchb1os" path="res://Scenes/Entities/Ball/ball_bb.tscn" id="2_nlycu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_probe"]
+radius = 10.0
 
 [node name="BallsBB" type="Node2D" unique_id=962879284]
 script = ExtResource("1_o360r")
-ball_bb_scene = ExtResource("2_nlycu")
+
+[node name="Probe" type="CharacterBody2D" parent="."]
+collision_layer = 0
+collision_mask = 145
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Probe"]
+shape = SubResource("CircleShape2D_probe")
+
+[node name="BallMultiMesh" type="MultiMeshInstance2D" parent="."]
