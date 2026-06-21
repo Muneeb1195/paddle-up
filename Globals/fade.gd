@@ -38,8 +38,6 @@ func _unpause_game() -> void:
 func _change_scene(scene : PackedScene) -> void:
 	if get_tree().paused:
 		get_tree().paused = false
-	if Engine.get_time_scale() != 1.0:
-		Engine.set_time_scale(1.0)
 	_fade_to_black()
 	await get_tree().create_timer(0.5).timeout
 	get_tree().change_scene_to_packed(scene)

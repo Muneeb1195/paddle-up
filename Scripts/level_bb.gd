@@ -95,7 +95,6 @@ func _move_old_blocks() -> void:
 	var tween : Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD).set_parallel(true)
 	for old_bricks : StaticBody2D in blocks_node.get_children():
 		tween.tween_property(old_bricks, "position:y", old_bricks.position.y + GRID_SIZE, 0.15)
-	await tween.finished
 	var count_before : int = block_array.size()
 	_add_new_block_row()
 	_sort_blocks()
