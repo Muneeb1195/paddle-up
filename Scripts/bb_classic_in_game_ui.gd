@@ -14,6 +14,7 @@ func _on_lose() -> void:
 	fade._pause_game()
 
 func _on_pause_pressed() -> void:
+	level_bb_classic.set_process_input(true)
 	if not line_edit.visible:
 		super._on_pause_pressed()
 

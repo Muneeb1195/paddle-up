@@ -24,6 +24,11 @@ func _on_pause_mouse_entered() -> void:
 func _on_pause_mouse_exited() -> void:
 	level_bb_modern.set_process_input(true)
 
+func _on_pause_pressed() -> void:
+	level_bb_modern.set_process_input(true)
+	if not line_edit.visible:
+		super._on_pause_pressed()
+
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	_hide_virtual_keyboard()
 	global.bb_mod_hs.append([new_text, level_bb_modern.level])

@@ -96,7 +96,6 @@ func _physics_process(delta: float) -> void:
 				got_pad_pos = true
 			if ball_positions[i].distance_to(bb_mod_player.trajectory.global_position) < 20:
 				_return_to_pool(i)
-				continue
 		i -= 1
 	_update_multimesh()
 	if _active_count == 0 and _spawn_index < _balls_to_spawn:
