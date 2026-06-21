@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Trajectory
 
-@export var FORCE : float = 1000
+@export var FORCE : float = 900
 
 var img : CompressedTexture2D = preload("res://Assets/Ball/ball_outline.png")
 
@@ -23,8 +23,9 @@ func _physics_process(_delta: float) -> void:
 		queue_redraw()
 
 func _draw() -> void:
+	var ball_half : Vector2 = Vector2(10, 10)
 	for point : Vector2 in _cached_points:
-		draw_texture(img, point)
+		draw_texture(img, point - ball_half)
 
 func get_forward_direction() -> Vector2:
 	return global_position.direction_to(get_global_mouse_position())
@@ -33,7 +34,7 @@ func _calculate_trajectory() -> void:
 	_cached_points.clear()
 	var velocity : Vector2 = FORCE * get_forward_direction()
 	var pos : Vector2 = global_position
-	var timestep : float = 0.05
+	var timestep : float = 0.064
 	var bounce_count : int = 0
 	var space_state : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	var exclude_rids : Array[RID] = []
@@ -44,7 +45,7 @@ func _calculate_trajectory() -> void:
 			exclude_rids.append((parent as CollisionObject2D).get_rid())
 		parent = parent.get_parent()
 
-	for i : int in 35:
+	for i : int in 50:
 		var next_pos : Vector2 = pos + (velocity * timestep)
 		var query : PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(pos, next_pos, 145)
 		query.exclude = exclude_rids
@@ -55,7 +56,7 @@ func _calculate_trajectory() -> void:
 			velocity = velocity.bounce(result["normal"])
 			pos = result["position"]
 			bounce_count += 1
-			if bounce_count >= 2:
+			if bounce_count >= 3:
 				break
 		else:
 			var mid_a : Vector2 = pos + Vector2(-8, -8) - global_position

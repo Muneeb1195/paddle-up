@@ -4,8 +4,8 @@
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_dnf84"]
 [ext_resource type="Script" path="res://Scripts/lose_screen.gd" id="3_6ooe2"]
 [ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="3_nscil"]
-[ext_resource type="Texture2D" uid="uid://feo58urc7xfy" path="res://Assets/Button/home.png" id="4_py23q"]
-[ext_resource type="Texture2D" uid="uid://ck6j8ivir73b" path="res://Assets/Button/restart.png" id="5_s8i3y"]
+[ext_resource type="Texture2D" path="res://Assets/Button/home.svg" id="4_py23q"]
+[ext_resource type="Texture2D" path="res://Assets/Button/restart.svg" id="5_s8i3y"]
 
 [node name="LoseScreen" instance=ExtResource("1_l85ex")]
 theme = ExtResource("2_dnf84")

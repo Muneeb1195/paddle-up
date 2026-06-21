@@ -65,6 +65,7 @@ func _physics_process(delta: float) -> void:
 			var collision : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
 			ball_positions[i] = _probe.global_position
 			if collision:
+				Input.vibrate_handheld(5, 0.1)
 				var body : Node2D = collision.get_collider()
 				if body.is_in_group(&"Brick"):
 					level._reduce_block_hp(body)

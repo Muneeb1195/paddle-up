@@ -9,8 +9,8 @@ class_name PongUI
 @onready var player: Player = get_tree().get_first_node_in_group("Player")
 @onready var level_pong : LEVELPONG = get_tree().get_first_node_in_group("LevelPong")
 @onready var difficulty_menu: DifficultyMenu = $DifficultyMenu
-@onready var rally_label: Label = $RallyLabel
-@onready var speed_label: Label = $SpeedLabel
+@onready var rally_label: Label = $MarginContainer/VBox/RallyLabel
+@onready var speed_label: Label = $MarginContainer/VBox/SpeedLabel
 @onready var countdown_label: Label = $CountdownLabel
 
 var _score_flash_tween : Tween
@@ -30,6 +30,7 @@ func show_countdown(text : String) -> void:
 	countdown_label.text = text
 	countdown_label.visible = true
 	countdown_label.scale = Vector2(2.0, 2.0)
+	countdown_label.modulate = Color(1, 0.09, 0.267)
 	countdown_label.modulate.a = 0.0
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(countdown_label, "scale", Vector2.ONE, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
@@ -49,7 +50,7 @@ func update_rally(count : int) -> void:
 		if count >= 10:
 			rally_label.modulate = Color(1, 0.09, 0.267)
 		elif count >= 5:
-			rally_label.modulate = Color(1, 0.8, 0.2)
+			rally_label.modulate = Color(0.8, 0.4, 0.0)
 		else:
 			rally_label.modulate = Color(0.85, 0.85, 0.85)
 	else:
@@ -66,10 +67,10 @@ func update_speed_indicator(current_speed : int, base_speed : int) -> void:
 		speed_label.modulate = Color(1, 0.09, 0.267)
 	elif ratio >= 2.0:
 		speed_label.text = ">> FAST >>"
-		speed_label.modulate = Color(1, 0.5, 0.0)
+		speed_label.modulate = Color(0.8, 0.2, 0.0)
 	elif ratio >= 1.5:
 		speed_label.text = "> QUICK >"
-		speed_label.modulate = Color(1, 0.8, 0.2)
+		speed_label.modulate = Color(0.8, 0.4, 0.0)
 	else:
 		speed_label.text = "Speeding Up..."
 		speed_label.modulate = Color(0.85, 0.85, 0.85)

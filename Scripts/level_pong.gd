@@ -103,7 +103,7 @@ func _start_countdown() -> void:
 	ball.set_process(true)
 	ball.speed = ball_starting_speed
 	await get_tree().create_timer(0.5).timeout
-	ball._pong_start()
+	ball._pong_start(randf() < 0.5)
 
 func _on_rally_hit() -> void:
 	_rally_count += 1

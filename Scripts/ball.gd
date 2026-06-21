@@ -82,9 +82,16 @@ const TABLE_WIDTH : int = 960 - BALL_DIAMETER
 
 var predicted_x_position : float
 
-func _pong_start() -> void:
-	var angle : float = 2 * PI * randf()
-	direction = Vector2(cos(angle), randf()).normalized()
+func _pong_start(serve_up : bool = false) -> void:
+	var spread : float = deg_to_rad(45.0)
+	var angle : float = randf_range(-spread, spread)
+	direction = Vector2(sin(angle), cos(angle)).normalized()
+	if serve_up:
+		direction.y = -direction.y
+	if abs(direction.y) < 0.35:
+		direction.y = sign(direction.y) * 0.35
+		direction.x = sign(direction.x) * sqrt(maxf(0.0, 1.0 - direction.y * direction.y))
+		direction = direction.normalized()
 	velocity = direction * speed
 	player = get_tree().get_first_node_in_group("Player")
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck6j8ivir73b"
-path="res://.godot/imported/restart.png-c747311beee90dfed3506c229356b6ca.ctex"
+uid="uid://drrfcugswf3ud"
+path="res://.godot/imported/home.svg-80afc403b92d568af4cea01bfa4fbee9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Button/restart.png"
-dest_files=["res://.godot/imported/restart.png-c747311beee90dfed3506c229356b6ca.ctex"]
+source_file="res://Assets/Button/home.svg"
+dest_files=["res://.godot/imported/home.svg-80afc403b92d568af4cea01bfa4fbee9.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

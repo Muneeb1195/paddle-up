@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://ddoae0mori3pk" path="res://Scenes/Options_Menu/options_menu.tscn" id="1_3c7w4"]
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="2_1qmkm"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_bu8so"]
-[ext_resource type="Texture2D" uid="uid://feo58urc7xfy" path="res://Assets/Button/home.png" id="4_b7odi"]
+[ext_resource type="Texture2D" path="res://Assets/Button/home.svg" id="4_b7odi"]
 [ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="4_ojx6p"]
-[ext_resource type="Texture2D" uid="uid://ck6j8ivir73b" path="res://Assets/Button/restart.png" id="5_np7qa"]
+[ext_resource type="Texture2D" path="res://Assets/Button/restart.svg" id="5_np7qa"]
 
 [node name="PauseMenu" instance=ExtResource("1_3c7w4")]
 process_mode = 3

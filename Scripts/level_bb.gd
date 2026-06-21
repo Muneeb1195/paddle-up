@@ -24,9 +24,12 @@ var block_array : Array[StaticBody2D] = []
 var block_hp_array : Array = []
 var block_y_pos_array : Array = []
 var block_index_map : Dictionary = {}
+var _blocks_origin : Vector2
+var _shake_tween : Tween
 
 func _ready() -> void:
 	randomize()
+	_blocks_origin = blocks_node.position
 	create_block_field()
 	_sort_blocks()
 
@@ -101,6 +104,8 @@ func _add_new_block_row() -> void:
 	block_hp += 1
 	_create_block_row()
 
+var _break_shader : Shader = preload("res://Assets/Shaders/break.gdshader")
+
 func _reduce_block_hp(block : StaticBody2D) -> void:
 	if not block_index_map.has(block.get_instance_id()):
 		return
@@ -113,16 +118,29 @@ func _reduce_block_hp(block : StaticBody2D) -> void:
 		block_hp_array.remove_at(array_pos)
 		block_index_map.erase(block.get_instance_id())
 		_shake_blocks()
-		block.queue_free()
+		_play_break_effect(block)
 		for idx : int in range(array_pos, block_array.size()):
 			block_index_map[block_array[idx].get_instance_id()] = idx
 
-func _shake_blocks() -> void:
-	var orig_pos : Vector2 = blocks_node.position
+func _play_break_effect(block : StaticBody2D) -> void:
+	block.collision_layer = 0
+	block.collision_mask = 0
+	var sprite : Sprite2D = block.get_child(0)
+	var mat : ShaderMaterial = ShaderMaterial.new()
+	mat.shader = _break_shader
+	mat.set_shader_parameter("progress", 0.0)
+	sprite.material = mat
 	var tween : Tween = create_tween()
-	tween.tween_property(blocks_node, "position", orig_pos + Vector2(randf_range(-4,4), randf_range(-4,4)), 0.04)
-	tween.tween_property(blocks_node, "position", orig_pos + Vector2(randf_range(-3,3), randf_range(-3,3)), 0.04)
-	tween.tween_property(blocks_node, "position", orig_pos, 0.04)
+	tween.tween_property(mat, "shader_parameter/progress", 1.0, 0.25).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	tween.tween_callback(block.queue_free)
+
+func _shake_blocks() -> void:
+	if _shake_tween and _shake_tween.is_valid():
+		_shake_tween.kill()
+	_shake_tween = create_tween()
+	_shake_tween.tween_property(blocks_node, "position", _blocks_origin + Vector2(randf_range(-4,4), randf_range(-4,4)), 0.04)
+	_shake_tween.tween_property(blocks_node, "position", _blocks_origin + Vector2(randf_range(-3,3), randf_range(-3,3)), 0.04)
+	_shake_tween.tween_property(blocks_node, "position", _blocks_origin, 0.04)
 
 func _save_bricks() -> Array:
 	var saved_bricks : Array = []

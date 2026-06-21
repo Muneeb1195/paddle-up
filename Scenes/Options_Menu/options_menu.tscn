@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ddoae0mori3pk"]
 
 [ext_resource type="StyleBox" uid="uid://dt1n3kmbenfy0" path="res://Themes/Panel.tres" id="1_hm6qb"]
-[ext_resource type="Texture2D" uid="uid://bihpxnj8p84pe" path="res://Assets/Button/return.png" id="2_ujy6k"]
+[ext_resource type="Texture2D" path="res://Assets/Button/return.svg" id="2_ujy6k"]
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
