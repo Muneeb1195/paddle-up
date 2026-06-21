@@ -3,6 +3,7 @@ extends Entity
 class_name Ball
 
 signal bb_classic_next_level
+signal pong_rally_hit
 
 @export_enum("Pong","Brick Breaker Classic") var Game_Mode : String
 
@@ -32,12 +33,11 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	collision_info = move_and_collide(velocity * delta)
 	if collision_info:
-		#audio_manager.bounce.play()
 		Input.vibrate_handheld(5,0.3)
 
 func _move() -> void:
 	direction = (direction.bounce(collision_info.get_normal())).normalized()
-	velocity = direction  * speed
+	velocity = direction * speed
 
 # BB Classic Code
 
@@ -81,7 +81,6 @@ const CPU_PADDLE_Y_POS : int = 260
 const TABLE_WIDTH : int = 960 - BALL_DIAMETER
 
 var predicted_x_position : float
-var speed_mod : int
 
 func _pong_start() -> void:
 	var angle : float = 2 * PI * randf()
@@ -95,16 +94,13 @@ func _pong_mode() -> void:
 		if collision_info.get_collider() is Player:
 			_predict_ball_pos()
 		if collision_info.get_collider() is Player or collision_info.get_collider() is CPU:
-			speed += speed_mod
+			pong_rally_hit.emit()
 
 func _predict_ball_pos() -> void:
 	if abs(direction.y) < 0.0001:
 		return
-	var predicted_x : float = global_position.x + (CPU_PADDLE_Y_POS - global_position.y) / direction.y * direction.x # global_position.x - BALL_DIAMETER/2.0
-	#var bounces : int = floor(predicted_x / TABLE_WIDTH)
+	var predicted_x : float = global_position.x + (CPU_PADDLE_Y_POS - global_position.y) / direction.y * direction.x
 	predicted_x = pingpong(predicted_x, TABLE_WIDTH)
-	#if int(bounces) & 1 == 1:
-		#predicted_x = predicted_x
 	predicted_x_position = predicted_x
 
 # Pong Code

@@ -80,10 +80,21 @@ func _create_block_row() -> void:
 		new_block_pos.x += GRID_SIZE
 
 func _move_old_blocks() -> void:
+	var tween : Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD).set_parallel(true)
 	for old_bricks : StaticBody2D in blocks_node.get_children():
-		old_bricks.position.y += GRID_SIZE
+		tween.tween_property(old_bricks, "position:y", old_bricks.position.y + GRID_SIZE, 0.15)
+	await tween.finished
+	var count_before : int = block_array.size()
 	_add_new_block_row()
 	_sort_blocks()
+	for i : int in range(count_before, block_array.size()):
+		var brick : StaticBody2D = block_array[i]
+		var target_y : float = brick.position.y
+		brick.position.y -= GRID_SIZE
+		brick.modulate.a = 0.0
+		var spawn_tween : Tween = create_tween().set_parallel(true)
+		spawn_tween.tween_property(brick, "position:y", target_y, 0.15)
+		spawn_tween.tween_property(brick, "modulate:a", 1.0, 0.15)
 
 func _add_new_block_row() -> void:
 	new_block_pos = BLOCK_START_POS
@@ -94,21 +105,24 @@ func _reduce_block_hp(block : StaticBody2D) -> void:
 	if not block_index_map.has(block.get_instance_id()):
 		return
 	var label : Label = block.get_child(1)
-	#var sprite : Sprite2D = block.get_child(0)
 	var array_pos : int = block_index_map[block.get_instance_id()]
 	block_hp_array[array_pos] -= 1
-	#if int(block_hp_array[array_pos]) % 2 == 0:
-		#sprite.modulate = global.color_a
-	#elif int(block_hp_array[array_pos]) % 1 == 0:
-		#sprite.modulate = global.color_c
 	label.text = "%2d" % [block_hp_array[array_pos]]
 	if block_hp_array[array_pos] < 1:
 		block_array.remove_at(array_pos)
 		block_hp_array.remove_at(array_pos)
 		block_index_map.erase(block.get_instance_id())
+		_shake_blocks()
 		block.queue_free()
 		for idx : int in range(array_pos, block_array.size()):
 			block_index_map[block_array[idx].get_instance_id()] = idx
+
+func _shake_blocks() -> void:
+	var orig_pos : Vector2 = blocks_node.position
+	var tween : Tween = create_tween()
+	tween.tween_property(blocks_node, "position", orig_pos + Vector2(randf_range(-4,4), randf_range(-4,4)), 0.04)
+	tween.tween_property(blocks_node, "position", orig_pos + Vector2(randf_range(-3,3), randf_range(-3,3)), 0.04)
+	tween.tween_property(blocks_node, "position", orig_pos, 0.04)
 
 func _save_bricks() -> Array:
 	var saved_bricks : Array = []

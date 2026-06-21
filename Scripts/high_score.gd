@@ -15,16 +15,10 @@ func _ready() -> void:
 	_shared_settings.font_size = 42
 
 func _on_back_button_button_down() -> void:
-	var scale_to : Vector2 = back_button.custom_minimum_size * 0.9
-	var tween : Tween = create_tween().set_parallel(true)
-	tween.tween_property(back_button,"custom_minimum_size",scale_to,0.1)
-	tween.tween_property(back_button,"modulate:a", 0.8,0.1)
+	ButtonTweenHelper.press(back_button)
 
 func _on_back_button_button_up() -> void:
-	var scale_to : Vector2 = Vector2(128,128)
-	var tween : Tween = create_tween().set_parallel(true)
-	tween.tween_property(back_button,"custom_minimum_size",scale_to,0.1)
-	tween.tween_property(back_button,"modulate:a", 1.0,0.1)
+	ButtonTweenHelper.release(back_button, Vector2(128,128))
 
 func _on_pong_pressed() -> void:
 	_disable_buttons()

@@ -9,4 +9,4 @@ class_name DifficultyMenu
 @onready var label: Label = $Label
 
 func _ready() -> void:
-	modulate = global.color_d
+	pass

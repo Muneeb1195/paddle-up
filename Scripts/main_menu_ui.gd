@@ -12,8 +12,6 @@ class_name MainUI
 
 func _ready() -> void:
 	main_menu.modulate = global._choose_color()
-	high_score.modulate = global.color_d
-	games.back.modulate = global.color_d
 	_tween_menu(main_menu)
 	
 	# main menu buttons

@@ -36,7 +36,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 text = "00:00"
 
-[node name="RetriveBalls" type="Button" parent="MarginContainer" index="1"]
+[node name="RetrieveBalls" type="Button" parent="MarginContainer" index="1"]
 visible = false
 custom_minimum_size = Vector2(256, 96)
 layout_mode = 2
@@ -74,5 +74,5 @@ caret_blink = true
 
 [connection signal="mouse_entered" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBox/Pause" to="." method="_on_pause_mouse_exited"]
-[connection signal="pressed" from="MarginContainer/RetriveBalls" to="." method="_on_retrive_balls_pressed"]
+[connection signal="pressed" from="MarginContainer/RetrieveBalls" to="." method="_on_retrieve_balls_pressed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

@@ -7,21 +7,17 @@ class_name BBModInGameUi
 @onready var level_bb_modern : LEVELBBMODERN = get_tree().get_first_node_in_group(&"LevelBBModern")
 @onready var balls : BallsBB = get_tree().get_first_node_in_group(&"BallsBB")
 @onready var line_edit: LineEdit = $LineEdit
-@onready var retrive_balls: Button = $MarginContainer/RetriveBalls
+@onready var retrieve_balls: Button = $MarginContainer/RetrieveBalls
+
+var _pulse_tween : Tween
 
 func _on_lose() -> void:
 	global.bb_mod_dict.clear()
 	global._save_game(global.bb_mod_sav_path,global.bb_mod_dict)
-	fade._pause_game()
 	_tween_menu(line_edit, margin_container)
-
-#func _on_pause_pressed() -> void:
-	#if not line_edit.visible:
-		#super._on_pause_pressed()
-		#level_bb_modern._save()
-
-func _on_restart_level() -> void:
-	global.bb_mod_dict.clear()
+	_show_virtual_keyboard()
+	await get_tree().create_timer(0.5).timeout
+	fade._pause_game()
 
 func _on_pause_mouse_entered() -> void:
 	level_bb_modern.set_process_input(false)
@@ -30,8 +26,8 @@ func _on_pause_mouse_entered() -> void:
 func _on_pause_mouse_exited() -> void:
 	level_bb_modern.set_process_input(true)
 
-
 func _on_line_edit_text_submitted(new_text: String) -> void:
+	_hide_virtual_keyboard()
 	global.bb_mod_hs.append([new_text,level_bb_modern.level])
 	global.bb_mod_hs.sort()
 	if global.bb_mod_hs.size() > 5:
@@ -42,13 +38,37 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	line_edit.hide()
 	_display_lose_screen()
 
-func _on_retrive_balls_pressed() -> void:
-	retrive_balls.disabled = true
+func _on_retrieve_balls_pressed() -> void:
+	retrieve_balls.disabled = true
+	if _pulse_tween:
+		_pulse_tween.kill()
+		retrieve_balls.scale = Vector2.ONE
 	level_bb_modern.balls.retrieve_all_balls()
+	_show_toast("Balls retrieved!")
 
-#func _on_retrive_balls_pressed() -> void:
-	#retrive_balls.disabled = true
-	#var speed : int = 1000
-	#for ball : RigidBody2D in balls.get_children():
-		#var dir : Vector2 = ball.position.direction_to(level_bb_modern.bb_mod_player.position)
-		#ball.linear_velocity = dir * speed
+func _show_virtual_keyboard() -> void:
+	if DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD):
+		DisplayServer.virtual_keyboard_show(line_edit.text)
+
+func _hide_virtual_keyboard() -> void:
+	if DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD):
+		DisplayServer.virtual_keyboard_hide()
+
+func _show_toast(text: String) -> void:
+	var toast : Label = Label.new()
+	toast.text = text
+	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	toast.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	toast.anchors_preset = Control.PRESET_CENTER_BOTTOM
+	toast.offset_bottom = -200
+	toast.offset_top = -260
+	toast.offset_left = -200
+	toast.offset_right = 200
+	toast.modulate.a = 0.0
+	toast.add_theme_font_size_override("font_size", 36)
+	add_child(toast)
+	var tween : Tween = create_tween()
+	tween.tween_property(toast, "modulate:a", 1.0, 0.2)
+	tween.tween_interval(1.0)
+	tween.tween_property(toast, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(toast.queue_free)
