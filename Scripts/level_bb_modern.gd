@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	_time(delta)
-	if balls.balls.is_empty() and not trajectory_line.visible and level_started:
+	if balls.ball_nodes.is_empty() and not trajectory_line.visible and level_started:
 		level_started = false
 
 func _time(delta : float) -> void:

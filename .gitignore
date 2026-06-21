@@ -2,3 +2,4 @@
 .godot/
 /android/
 release.keystore
+keystore_password.txt

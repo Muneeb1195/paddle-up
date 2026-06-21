@@ -91,6 +91,8 @@ func _add_new_block_row() -> void:
 	_create_block_row()
 
 func _reduce_block_hp(block : StaticBody2D) -> void:
+	if not block_index_map.has(block.get_instance_id()):
+		return
 	var label : Label = block.get_child(1)
 	#var sprite : Sprite2D = block.get_child(0)
 	var array_pos : int = block_index_map[block.get_instance_id()]
