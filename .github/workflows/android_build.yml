@@ -62,10 +62,22 @@ jobs:
           sed -i 's|keystore/release_user=""|keystore/release_user="${{ secrets.KEYSTORE_ALIAS }}"|' export_presets.cfg
           sed -i 's|keystore/release_password=""|keystore/release_password="${{ secrets.KEYSTORE_PASSWORD }}"|' export_presets.cfg
 
-      - name: Build Universal APK
+      - name: Build arm64-v8a APK
         run: |
           mkdir -p builds
-          ./godot --headless --install-android-build-template --export-release "Android" "builds/${EXPORT_NAME}-${{ steps.tag.outputs.VERSION }}-universal.apk"
+          ./godot --headless --install-android-build-template --export-release "Android-arm64-v8a" "builds/${EXPORT_NAME}-${{ steps.tag.outputs.VERSION }}-arm64-v8a.apk"
+
+      - name: Build armeabi-v7a APK
+        run: |
+          ./godot --headless --export-release "Android-armeabi-v7a" "builds/${EXPORT_NAME}-${{ steps.tag.outputs.VERSION }}-armeabi-v7a.apk"
+
+      - name: Build x86 APK
+        run: |
+          ./godot --headless --export-release "Android-x86" "builds/${EXPORT_NAME}-${{ steps.tag.outputs.VERSION }}-x86.apk"
+
+      - name: Build x86_64 APK
+        run: |
+          ./godot --headless --export-release "Android-x86_64" "builds/${EXPORT_NAME}-${{ steps.tag.outputs.VERSION }}-x86_64.apk"
 
       - name: Cleanup Keystore
         if: always()
