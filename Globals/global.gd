@@ -39,19 +39,22 @@ func _make_directories() -> void:
 	var make_dir : DirAccess = DirAccess.open(OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS))
 	if not make_dir.dir_exists("PaddleUp"):
 		make_dir.make_dir("PaddleUp")
-		make_dir.make_dir("PaddleUp/BB Modern")
-		make_dir.make_dir("PaddleUp/BB Classic")
-		make_dir.make_dir("PaddleUp/Pong")
+	for sub : String in ["BB Modern", "BB Classic", "Pong"]:
+		if not make_dir.dir_exists("PaddleUp/" + sub):
+			make_dir.make_dir("PaddleUp/" + sub)
 
 func _load_saves() -> void:
 	bb_mod_dict = _load_game(bb_mod_sav_path)
 	bb_clas_dict = _load_game(bb_clas_sav_path)
-	pong_high_scores =_load_game(pong_hs_path)
+	bb_mod_high_scores = _load_game(bb_mod_hs_path)
 	bb_clas_high_scores = _load_game(bb_clas_hs_path)
-	if pong_high_scores:
-		pong_hs = pong_high_scores["HighScores"]
-	if bb_clas_high_scores:
+	pong_high_scores = _load_game(pong_hs_path)
+	if bb_mod_high_scores.has("HighScores"):
+		bb_mod_hs = bb_mod_high_scores["HighScores"]
+	if bb_clas_high_scores.has("HighScores"):
 		bb_clas_hs = bb_clas_high_scores["HighScores"]
+	if pong_high_scores.has("HighScores"):
+		pong_hs = pong_high_scores["HighScores"]
 
 func _choose_color() -> Color:
 	match chosen_color:

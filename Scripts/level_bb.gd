@@ -21,17 +21,27 @@ var block_hp : int = 1
 var new_block_pos : Vector2
 var block_rotation : Array[int] = [0,90,180,270]
 var block_array : Array[StaticBody2D] = []
-var block_hp_array : Array = []
-var block_y_pos_array : Array = []
+var block_hp_array : Array[int] = []
+var block_y_pos_array : Array[float] = []
 var block_index_map : Dictionary = {}
 var _blocks_origin : Vector2
 var _shake_tween : Tween
 
 func _ready() -> void:
-	randomize()
 	_blocks_origin = blocks_node.position
+	_prewarm_break_shader()
 	create_block_field()
 	_sort_blocks()
+
+func _prewarm_break_shader() -> void:
+	var mat : ShaderMaterial = ShaderMaterial.new()
+	mat.shader = _break_shader
+	mat.set_shader_parameter("progress", 0.0)
+	var warmup : Sprite2D = Sprite2D.new()
+	warmup.texture = preload("res://Assets/Ball/ball.png")
+	warmup.material = mat
+	add_child(warmup)
+	warmup.queue_free()
 
 func create_block_field() -> void:
 	new_block_pos = BLOCK_START_POS
@@ -64,7 +74,7 @@ func _create_block_row() -> void:
 			blocks_node.add_child(new_block)
 			var sprite : Sprite2D = new_block.get_child(0)
 			var label : Label = new_block.get_child(1)
-			sprite.modulate = global.color_a
+			sprite.modulate = global._choose_color()
 			label.text = "%2d" % [block_hp]
 			if type == 1:
 				var rot : float = block_rotation.pick_random()
@@ -128,7 +138,7 @@ func _play_break_effect(block : StaticBody2D) -> void:
 	var mat : ShaderMaterial = ShaderMaterial.new()
 	mat.shader = _break_shader
 	mat.set_shader_parameter("progress", 0.0)
-	mat.set_shader_parameter("seed", randf())
+	mat.set_shader_parameter("twist", randf_range(1.0, 3.0))
 	sprite.material = mat
 	var tween : Tween = create_tween()
 	tween.tween_property(mat, "shader_parameter/progress", 1.0, 0.25).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
@@ -142,8 +152,8 @@ func _shake_blocks() -> void:
 	_shake_tween.tween_property(blocks_node, "position", _blocks_origin + Vector2(randf_range(-3,3), randf_range(-3,3)), 0.04)
 	_shake_tween.tween_property(blocks_node, "position", _blocks_origin, 0.04)
 
-func _save_bricks() -> Array:
-	var saved_bricks : Array = []
+func _save_bricks() -> Array[Dictionary]:
+	var saved_bricks : Array[Dictionary] = []
 	var i : int = 0
 	for brick : StaticBody2D in block_array:
 		var sprite : Sprite2D = brick.get_child(0)
@@ -161,7 +171,7 @@ func _save_bricks() -> Array:
 func _load_bricks(data : Variant) -> void:
 	if data is Dictionary:
 		# Convert old dict format to new array format
-		var converted : Array = []
+		var converted : Array[Dictionary] = []
 		for key : String in data:
 			converted.append(data[key])
 		data = converted
@@ -190,4 +200,4 @@ func _load_bricks(data : Variant) -> void:
 				270.0:
 					label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sprite.modulate = global._choose_color()
-	_rebuild_index_map()
+	_sort_blocks()

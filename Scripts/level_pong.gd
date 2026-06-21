@@ -1,11 +1,11 @@
 extends Node2D
 
-class_name LEVELPONG
+class_name LevelPong
 
 enum DIFFICULTY {Easy,Medium,Hard}
 @export var difficulty : DIFFICULTY
 
-@onready var pong_table: PONGTABLE = $PongTable
+@onready var pong_table: PongTable = $PongTable
 @onready var player: Player = $Player
 @onready var ball: Ball = $Ball
 @onready var enemy: CPU = $Enemy
@@ -111,9 +111,9 @@ func _on_rally_hit() -> void:
 	ball.speed += speed_increase
 	enemy.configure(int(difficulty), _rally_count)
 	pong_in_game_ui.update_rally(_rally_count)
-	pong_in_game_ui.update_speed_indicator(ball.speed, ball_starting_speed)
+	pong_in_game_ui.update_speed_indicator(int(ball.speed), ball_starting_speed)
 
-func _on_goal_scored(is_cpu : bool) -> void:
+func _on_goal_scored(_is_cpu : bool) -> void:
 	_rally_count = 0
 	pong_in_game_ui.update_rally(0)
 	pong_in_game_ui.update_speed_indicator(ball_starting_speed, ball_starting_speed)

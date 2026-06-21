@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Pong It"
+config/name="Paddle Up"
 run/main_scene="res://Scenes/Main_Menu_UI/main_menu_ui.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")
@@ -78,9 +78,8 @@ common/physics_ticks_per_second=120
 [rendering]
 
 renderer/rendering_method="mobile"
-driver/threads/thread_model=2
+driver/threads/thread_model=0
 textures/vram_compression/import_etc2_astc=true
 textures/default_filters/anisotropic_filtering_level=8
-anti_aliasing/quality/msaa_2d=2
 environment/defaults/default_clear_color=Color(1, 1, 1, 1)
 anti_aliasing/quality/screen_space_aa=1

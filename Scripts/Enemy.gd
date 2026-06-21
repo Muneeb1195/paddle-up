@@ -7,7 +7,7 @@ var acceleration : float
 
 @onready var ball : Ball =  get_tree().get_first_node_in_group("Ball")
 
-const ORIGNAL_POS : Vector2 = Vector2(500,250)
+const ORIGINAL_POS : Vector2 = Vector2(500,250)
 
 var min_speed : float = 0.0
 var y_dist : float
@@ -61,8 +61,8 @@ func trigger_reaction_delay(predicted_x : float) -> void:
 	_delay_timer = 0.0
 
 func _move_back(delta : float) -> void:
-	direction = position.direction_to(ORIGNAL_POS)
-	if position.distance_to(ORIGNAL_POS) > 10:
+	direction = position.direction_to(ORIGINAL_POS)
+	if position.distance_to(ORIGINAL_POS) > 10:
 		_move(delta)
 	else:
 		_stop(delta)

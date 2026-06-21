@@ -10,11 +10,10 @@ signal pong_rally_hit
 var original_position : Vector2 = Vector2.ZERO
 var audio_manager : Audio = AudioManager
 var player : Player
-var level : LEVELBBCLASSIC
+var level : LevelBbClassic
 
 func _ready() -> void:
 	super._ready()
-	randomize()
 	match Game_Mode:
 		"Pong":
 			original_position = global_position
@@ -41,6 +40,7 @@ func _move() -> void:
 
 # BB Classic Code
 
+# Increments on every paddle hit; triggers level-up every 10 hits.
 var _num_of_coll_player : int = 0
 var num_of_coll_player : int :
 	get :

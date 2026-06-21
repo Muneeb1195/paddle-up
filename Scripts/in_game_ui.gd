@@ -39,8 +39,6 @@ func _on_pause_pressed() -> void:
 func _resume_game() -> void:
 	fade._unpause_game()
 
-
-
 func _tween_menu(s_node : Control, h_node : Control) -> void:
 	var tween : Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC).set_parallel(true)
 	tween.tween_callback(s_node.show)

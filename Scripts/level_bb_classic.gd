@@ -1,6 +1,6 @@
 extends LevelBB
 
-class_name LEVELBBCLASSIC
+class_name LevelBbClassic
 
 @onready var player : Player = $Player
 @onready var trajectory_line : Trajectory = $Player/Trajectory
@@ -14,16 +14,13 @@ var level : int :
 	set(value):
 		_level = value
 		bb_classic_in_game_ui.score.text = "%2d" % [_level]
-var _level_started : bool = false
-var level_started : bool :
+var _ball_launched : bool = false
+var ball_launched : bool :
 	get :
-		return _level_started
+		return _ball_launched
 	set(value):
-		_level_started = value
-		if value == false:
-			set_process(true)
-		else:
-			set_process(false)
+		_ball_launched = value
+		set_process(not value)
 var _lives : int = 3
 var lives : int :
 	get :
@@ -44,42 +41,38 @@ func _ready() -> void:
 	trajectory_line.modulate = global._choose_color()
 
 func _process(_delta: float) -> void:
-	if not level_started:
+	if not ball_launched:
 		ball.position.x = player.position.x
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		if event.is_action_released(&"HoldnShoot") and trajectory_line.visible:
 			_shoot()
-		elif event is InputEventMouseMotion and not level_started:
+		elif event is InputEventMouseMotion and not ball_launched:
 			_limit_shooting_angle()
-			_stop_paddle_movement()
 
 func _shoot() -> void:
 	ball._set_direction_move()
-	level_started = true
+	ball_launched = true
 	trajectory_line.hide()
 	player.set_physics_process(true)
 
 func _limit_shooting_angle() -> void:
 	var angle_to_mouse : float = get_global_mouse_position().angle_to_point(trajectory_line.global_position)
 	var distance_to_mouse : float = get_global_mouse_position().distance_to(trajectory_line.global_position)
-	if angle_to_mouse > deg_to_rad(15) and angle_to_mouse < deg_to_rad(165) and not trajectory_line.visible and distance_to_mouse > 150:
+	var should_show : bool = angle_to_mouse > deg_to_rad(15) and angle_to_mouse < deg_to_rad(165) and distance_to_mouse > 150
+	if should_show and not trajectory_line.visible:
 		trajectory_line.show()
-	elif (angle_to_mouse < deg_to_rad(15) or angle_to_mouse > deg_to_rad(165)) and trajectory_line.visible or distance_to_mouse <= 150:
-		trajectory_line.hide()
-
-func _stop_paddle_movement() -> void:
-	if trajectory_line.visible:
 		player.set_physics_process(false)
-	else:
+	elif not should_show and trajectory_line.visible:
+		trajectory_line.hide()
 		player.set_physics_process(true)
 
 func _reset() -> void:
 	if lives > 0:
 		await get_tree().create_timer(1.0).timeout
 		ball.set_process(true)
-		level_started = false
+		ball_launched = false
 		ball.show()
 
 func _save() -> void:
@@ -110,8 +103,6 @@ func _load_stats() -> void:
 func _on_ball_bb_classic_next_level() -> void:
 	level += 1
 	_move_old_blocks()
-	#_add_new_block_row()
-	#_sort_blocks()
 	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1800:
 		bb_classic_in_game_ui._on_lose()
 	if level % 10 == 0:

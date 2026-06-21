@@ -9,9 +9,6 @@ class_name LoseScreen
 @onready var lose_text: Label = $Panel/MarginContainer/LoseText
 @onready var global : Globals = Global
 
-func _ready() -> void:
-	pass
-
 func _on_home_button_button_down() -> void:
 	ButtonTweenHelper.press(home_button)
 

@@ -4,16 +4,14 @@ class_name BBModInGameUi
 
 @onready var level: Label = $MarginContainer/VBox/Level
 @onready var time: Label = $MarginContainer/VBox/Time
-@onready var level_bb_modern : LEVELBBMODERN = get_tree().get_first_node_in_group(&"LevelBBModern")
-@onready var balls : BallsBB = get_tree().get_first_node_in_group(&"BallsBB")
+@onready var level_bb_modern : LevelBbModern = get_tree().get_first_node_in_group(&"LevelBBModern")
+@onready var balls : BallsBb = get_tree().get_first_node_in_group(&"BallsBb")
 @onready var line_edit: LineEdit = $LineEdit
 @onready var retrieve_balls: Button = $MarginContainer/RetrieveBalls
 
 var _pulse_tween : Tween
 
 func _on_lose() -> void:
-	global.bb_mod_dict.clear()
-	global._save_game(global.bb_mod_sav_path,global.bb_mod_dict)
 	_tween_menu(line_edit, margin_container)
 	_show_virtual_keyboard()
 	await get_tree().create_timer(0.5).timeout
@@ -28,12 +26,14 @@ func _on_pause_mouse_exited() -> void:
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	_hide_virtual_keyboard()
-	global.bb_mod_hs.append([new_text,level_bb_modern.level])
-	global.bb_mod_hs.sort()
+	global.bb_mod_hs.append([new_text, level_bb_modern.level])
+	global.bb_mod_hs.sort_custom(func(a: Array, b: Array) -> bool: return a[1] > b[1])
 	if global.bb_mod_hs.size() > 5:
 		global.bb_mod_hs.resize(5)
 	global.bb_mod_high_scores = {"HighScores" : global.bb_mod_hs}
 	global._save_game(global.bb_mod_hs_path, global.bb_mod_high_scores)
+	global.bb_mod_dict.clear()
+	global._save_game(global.bb_mod_sav_path, global.bb_mod_dict)
 	line_edit.text = new_text
 	line_edit.hide()
 	_display_lose_screen()
@@ -55,12 +55,13 @@ func _hide_virtual_keyboard() -> void:
 		DisplayServer.virtual_keyboard_hide()
 
 func _show_toast(text: String) -> void:
+	var viewport_size : Vector2 = get_viewport().get_visible_rect().size
 	var toast : Label = Label.new()
 	toast.text = text
 	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	toast.position = Vector2(300, 1800)
-	toast.size = Vector2(400, 60)
+	toast.position = Vector2(viewport_size.x * 0.3, viewport_size.y * 0.857)
+	toast.size = Vector2(viewport_size.x * 0.4, 60)
 	toast.modulate = Color(0.25, 0.25, 0.25)
 	toast.modulate.a = 0.0
 	toast.add_theme_font_size_override("font_size", 36)

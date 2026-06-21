@@ -1,18 +1,18 @@
 extends LevelBB
 
-class_name LEVELBBMODERN
+class_name LevelBbModern
 
 @export_group("Ball")
 
-@onready var balls: BallsBB = $BallsBB
-@onready var bb_mod_player: BBMODPLAYER = $BBModPlayer
+@onready var balls: BallsBb = $BallsBB
+@onready var bb_mod_player: BbModPlayer = $BBModPlayer
 @onready var ball_spawn_timer: Timer = $BallSpawnTimer
 @onready var trajectory_line : Trajectory = bb_mod_player.trajectory
 @onready var level_timer: Timer = $LevelTimer
 @onready var bb_modern_in_game_ui: BBModInGameUi = $BBModernInGameUI
 @onready var audio_manager : Audio = AudioManager
 
-const  INCREAMENT : int = 1
+const INCREMENT : int = 1
 const Min_Angle : float = 15
 const Max_Angle : float = 165
 
@@ -75,7 +75,7 @@ func _limit_shooting_angle() -> void:
 	var angle_to_mouse : float = PI + trajectory_line.get_forward_direction().angle()
 	if angle_to_mouse > deg_to_rad(Min_Angle) and angle_to_mouse < deg_to_rad(Max_Angle) and not trajectory_line.visible:
 		trajectory_line.show()
-	elif angle_to_mouse < deg_to_rad(Min_Angle) or angle_to_mouse > deg_to_rad(Max_Angle) and trajectory_line.visible:
+	elif (angle_to_mouse < deg_to_rad(Min_Angle) or angle_to_mouse > deg_to_rad(Max_Angle)) and trajectory_line.visible:
 		trajectory_line.hide()
 
 func _next_level() -> void:
@@ -92,8 +92,8 @@ func _next_level() -> void:
 	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1900:
 		bb_modern_in_game_ui._on_lose()
 		global.bb_mod_dict.clear()
-	level += INCREAMENT
-	num_of_balls += INCREAMENT
+	level += INCREMENT
+	num_of_balls += INCREMENT
 	if level % 10 == 0:
 		_save()
 

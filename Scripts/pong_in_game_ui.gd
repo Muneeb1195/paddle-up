@@ -7,7 +7,7 @@ class_name PongUI
 @onready var cpu_points: Label = $MarginContainer/VBox/CpuPoints
 @onready var player_points: Label = $MarginContainer/VBox/PlayerPoints
 @onready var player: Player = get_tree().get_first_node_in_group("Player")
-@onready var level_pong : LEVELPONG = get_tree().get_first_node_in_group("LevelPong")
+@onready var level_pong : LevelPong = get_tree().get_first_node_in_group("LevelPong")
 @onready var difficulty_menu: DifficultyMenu = $DifficultyMenu
 @onready var rally_label: Label = $MarginContainer/VBox/RallyLabel
 @onready var speed_label: Label = $MarginContainer/VBox/SpeedLabel
@@ -96,7 +96,7 @@ func _display_win_screen() -> void:
 
 func _display_lose_screen() -> void:
 	global.pong_hs.append(["CPU Won By", level_pong.cpu_points - level_pong.player_points])
-	global.pong_hs.sort()
+	global.pong_hs.sort_custom(func(a: Array, b: Array) -> bool: return a[1] > b[1])
 	if global.pong_hs.size() > 5:
 		global.pong_hs.resize(5)
 	global.pong_high_scores = {"HighScores": global.pong_hs}

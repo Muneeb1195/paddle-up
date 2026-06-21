@@ -4,12 +4,11 @@ class_name BBClassicInGameUi
 
 @onready var score: Label = $MarginContainer/VBox/Score
 @onready var lives: Label = $MarginContainer/VBox/HBoxContainer/Lives
-@onready var level_bb_classic : LEVELBBCLASSIC = get_tree().get_first_node_in_group("LevelBBClassic")
+@onready var level_bb_classic : LevelBbClassic = get_tree().get_first_node_in_group("LevelBBClassic")
 @onready var line_edit: LineEdit = $LineEdit
 
 func _on_lose() -> void:
 	_tween_menu(line_edit, margin_container)
-	global.bb_clas_dict.clear()
 	_show_virtual_keyboard()
 	await get_tree().create_timer(0.5).timeout
 	fade._pause_game()
@@ -27,12 +26,14 @@ func _on_pause_mouse_exited() -> void:
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	_hide_virtual_keyboard()
-	global.bb_clas_hs.append([new_text,level_bb_classic.level])
-	global.bb_clas_hs.sort()
+	global.bb_clas_hs.append([new_text, level_bb_classic.level])
+	global.bb_clas_hs.sort_custom(func(a: Array, b: Array) -> bool: return a[1] > b[1])
 	if global.bb_clas_hs.size() > 5:
 		global.bb_clas_hs.resize(5)
 	global.bb_clas_high_scores = {"HighScores" : global.bb_clas_hs}
 	global._save_game(global.bb_clas_hs_path, global.bb_clas_high_scores)
+	global.bb_clas_dict.clear()
+	global._save_game(global.bb_clas_sav_path, global.bb_clas_dict)
 	line_edit.text = new_text
 	line_edit.hide()
 	_display_lose_screen()

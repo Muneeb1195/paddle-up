@@ -47,7 +47,7 @@ func _display_scores(score_array : Array) -> void:
 		_hide_scores()
 	for i : int in score_array.size():
 		var label : Label = Label.new()
-		var h_s_arr : Array = score_array[i]
+		var h_s_arr : Array = score_array[i] as Array
 		var tween : Tween = create_tween()
 		label.modulate.a = 0.0
 		label.text = "%2d." % [i+1] + h_s_arr[0] + "   %02d   " % [h_s_arr[1]]

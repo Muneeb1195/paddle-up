@@ -1,10 +1,10 @@
 extends Node2D
 
-class_name BallsBB
+class_name BallsBb
 
 @onready var timer: Timer = $"../BallSpawnTimer"
-@onready var bb_mod_player: BBMODPLAYER = get_tree().get_first_node_in_group(&"BBModPlayer")
-@onready var level : LEVELBBMODERN = get_tree().get_first_node_in_group(&"LevelBBModern")
+@onready var bb_mod_player: BbModPlayer = get_tree().get_first_node_in_group(&"BBModPlayer")
+@onready var level : LevelBbModern = get_tree().get_first_node_in_group(&"LevelBBModern")
 
 var global : Globals = Global
 @onready var audio_manager : Audio = AudioManager
@@ -15,6 +15,9 @@ const MIN_BOUNDS : Vector2 = Vector2(0,150)
 const MAX_BOUNDS : Vector2 = Vector2(1000,1950)
 const speed : int = 900
 const MAX_POOL : int = 10000
+
+const MASK_ALL : int = 145
+const MASK_WALLS_BLOCK : int = 17
 
 var ball_positions : Array[Vector2] = []
 var ball_velocities : Array[Vector2] = []
@@ -70,10 +73,10 @@ func _physics_process(delta: float) -> void:
 				if body.is_in_group(&"Brick"):
 					level._reduce_block_hp(body)
 					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
-				elif body is BBMODPLAYER:
+				elif body is BbModPlayer:
 					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
 					ball_states[i] = BB_STATES.Stop
-					ball_masks[i] = 17
+					ball_masks[i] = 0
 				else:
 					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
 			_clamp_bounds(i)
@@ -91,7 +94,7 @@ func _physics_process(delta: float) -> void:
 				new_pad_x_pos = int(ball_positions[i].x)
 				get_pad_pos = false
 				got_pad_pos = true
-			if _frame_counter % 3 == 0 and ball_positions[i].distance_to(bb_mod_player.trajectory.global_position) < 5:
+			if ball_positions[i].distance_to(bb_mod_player.trajectory.global_position) < 20:
 				_return_to_pool(i)
 				continue
 		i -= 1
@@ -143,7 +146,7 @@ func _spawn_next_ball() -> void:
 		return
 	ball_positions[idx] = _spawn_pos
 	ball_velocities[idx] = _spawn_dir * speed
-	ball_masks[idx] = 145
+	ball_masks[idx] = MASK_ALL
 	ball_states[idx] = BB_STATES.Move
 	_active_count += 1
 	_spawn_index += 1
@@ -158,14 +161,14 @@ func _get_pooled_ball() -> int:
 	if _active_count >= ball_positions.size():
 		ball_positions.append(Vector2.ZERO)
 		ball_velocities.append(Vector2.ZERO)
-		ball_masks.append(145)
+		ball_masks.append(MASK_ALL)
 		ball_states.append(BB_STATES.Move)
 	return _active_count
 
 func retrieve_all_balls() -> void:
 	for i : int in _active_count:
 		ball_states[i] = BB_STATES.Stop
-		ball_masks[i] = 17
+		ball_masks[i] = 0
 		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * speed
 
 func _return_to_pool(idx: int) -> void:

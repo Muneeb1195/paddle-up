@@ -9,9 +9,6 @@ class_name PauseMenu
 @onready var fade : Fader = Fade
 @onready var label: Label = $Panel/MarginContainer/Label
 
-func _ready() -> void:
-	pass
-
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
 	fade._unpause_game()
