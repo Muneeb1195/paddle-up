@@ -59,11 +59,8 @@ func _show_toast(text: String) -> void:
 	toast.text = text
 	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	toast.anchors_preset = Control.PRESET_CENTER_BOTTOM
-	toast.offset_bottom = -200
-	toast.offset_top = -260
-	toast.offset_left = -200
-	toast.offset_right = 200
+	toast.position = Vector2(300, 1800)
+	toast.size = Vector2(400, 60)
 	toast.modulate.a = 0.0
 	toast.add_theme_font_size_override("font_size", 36)
 	add_child(toast)

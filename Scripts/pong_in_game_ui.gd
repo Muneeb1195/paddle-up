@@ -31,11 +31,8 @@ func _create_rally_ui() -> void:
 	_rally_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_rally_label.add_theme_font_size_override("font_size", 32)
 	_rally_label.modulate.a = 0.0
-	_rally_label.anchors_preset = Control.PRESET_CENTER_TOP
-	_rally_label.offset_top = 50
-	_rally_label.offset_bottom = 90
-	_rally_label.offset_left = -200
-	_rally_label.offset_right = 200
+	_rally_label.position = Vector2(300, 50)
+	_rally_label.size = Vector2(400, 40)
 	add_child(_rally_label)
 
 func _create_speed_ui() -> void:
@@ -44,11 +41,8 @@ func _create_speed_ui() -> void:
 	_speed_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_speed_label.add_theme_font_size_override("font_size", 24)
 	_speed_label.modulate.a = 0.0
-	_speed_label.anchors_preset = Control.PRESET_CENTER_TOP
-	_speed_label.offset_top = 90
-	_speed_label.offset_bottom = 120
-	_speed_label.offset_left = -200
-	_speed_label.offset_right = 200
+	_speed_label.position = Vector2(300, 90)
+	_speed_label.size = Vector2(400, 30)
 	add_child(_speed_label)
 
 func _create_countdown_label() -> void:
@@ -57,7 +51,8 @@ func _create_countdown_label() -> void:
 	_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_countdown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_countdown_label.add_theme_font_size_override("font_size", 128)
-	_countdown_label.anchors_preset = Control.PRESET_FULL_RECT
+	_countdown_label.position = Vector2(250, 900)
+	_countdown_label.size = Vector2(500, 200)
 	add_child(_countdown_label)
 
 func _start_game() -> void:
