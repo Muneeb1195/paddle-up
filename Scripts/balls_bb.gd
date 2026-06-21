@@ -84,6 +84,8 @@ func _physics_process(delta: float) -> void:
 	for b : ball in balls_to_remove:
 		balls.erase(b)
 	balls_to_remove.clear()
+	if balls.is_empty() and _spawn_index < _balls_to_spawn:
+		cancel_spawning()
 
 func _on_ball_collision(body : Node2D, ball_obj : ball) -> void:
 	if ball_obj.state != BB_STATES.Move:
@@ -107,6 +109,8 @@ func _on_spawn_timer_timeout() -> void:
 	_spawn_next_ball()
 
 func _spawn_next_ball() -> void:
+	if _spawn_index >= _balls_to_spawn:
+		return
 	var new_ball : ball = ball.new()
 	new_ball.ball_bb = _get_pooled_ball()
 	new_ball.ball_bb.position = _spawn_pos
@@ -143,3 +147,18 @@ func _return_to_pool(b : RigidBody2D, ball_obj : ball) -> void:
 	b.linear_velocity = Vector2.ZERO
 	b.position = Vector2(-1000, -1000)
 	ball_pool.append(b)
+
+func cancel_spawning() -> void:
+	_balls_to_spawn = 0
+	_spawn_index = 0
+	timer.stop()
+
+func clean_up() -> void:
+	cancel_spawning()
+	# Return any leaked balls to pool immediately
+	for ball_obj : ball in balls:
+		_return_to_pool(ball_obj.ball_bb, ball_obj)
+		balls_to_remove.append(ball_obj)
+	for b : ball in balls_to_remove:
+		balls.erase(b)
+	balls_to_remove.clear()

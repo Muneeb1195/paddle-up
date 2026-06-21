@@ -78,6 +78,7 @@ func _limit_shooting_angle() -> void:
 		trajectory_line.hide()
 
 func _next_level() -> void:
+	balls.clean_up()
 	if Engine.get_time_scale() > 1.0:
 		Engine.set_time_scale(1.0)
 		bb_modern_in_game_ui.retrive_balls.hide()
