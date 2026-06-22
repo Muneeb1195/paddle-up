@@ -102,11 +102,12 @@ func _load_stats() -> void:
 
 func _on_ball_bb_classic_next_level() -> void:
 	level += 1
-	_move_old_blocks()
+	var tween : Tween = _move_old_blocks()
 	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1800:
 		bb_classic_in_game_ui._on_lose()
 	if level % 10 == 0:
 			lives += 1
+			await tween.finished
 			_save()
 
 func _on_floor_body_entered(body: Node2D) -> void:

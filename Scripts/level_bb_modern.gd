@@ -92,13 +92,14 @@ func _next_level() -> void:
 			bb_modern_in_game_ui.retrieve_balls.scale = Vector2.ONE
 	if level_timer.time_left:
 		level_timer.stop()
-	_move_old_blocks()
+	var tween : Tween = _move_old_blocks()
 	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1900:
 		bb_modern_in_game_ui._on_lose()
 		global.bb_mod_dict.clear()
 	level += INCREMENT
 	num_of_balls += INCREMENT
 	if level % 10 == 0:
+		await tween.finished
 		_save()
 	_level_transitioning = false
 
