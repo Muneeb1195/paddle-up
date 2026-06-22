@@ -37,8 +37,6 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 		global.bb_mod_hs.resize(5)
 	global.bb_mod_high_scores = {"HighScores" : global.bb_mod_hs}
 	global._save_game(global.bb_mod_hs_path, global.bb_mod_high_scores)
-	global.bb_mod_dict.clear()
-	global._save_game(global.bb_mod_sav_path, global.bb_mod_dict)
 	line_edit.text = new_text
 	line_edit.hide()
 	_display_lose_screen()

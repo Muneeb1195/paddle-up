@@ -93,9 +93,10 @@ func _next_level() -> void:
 	if level_timer.time_left:
 		level_timer.stop()
 	var tween : Tween = _move_old_blocks()
-	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1900:
+	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= 1800:
 		bb_modern_in_game_ui._on_lose()
 		global.bb_mod_dict.clear()
+		global._save_game(global.bb_mod_sav_path, global.bb_mod_dict)
 	level += INCREMENT
 	num_of_balls += INCREMENT
 	if level % 10 == 0:

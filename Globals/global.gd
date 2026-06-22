@@ -76,9 +76,8 @@ func _save_game(path : String, dict : Dictionary) -> void:
 	if save_file == null:
 		push_error("Failed to open save file: " + save_path + path)
 		return
-	if dict:
-		var json_string : String = JSON.stringify(dict)
-		save_file.store_line(json_string)
+	var json_string : String = JSON.stringify(dict)
+	save_file.store_line(json_string)
 	save_file.close()
 
 func _load_game(path : String) -> Dictionary:
@@ -90,6 +89,8 @@ func _load_game(path : String) -> Dictionary:
 		return {}
 	var json_string : String = save_file.get_line()
 	save_file.close()
+	if json_string.is_empty():
+		return {}
 	var json : JSON = JSON.new()
 	var parse_result : Error = json.parse(json_string)
 	if parse_result == OK:

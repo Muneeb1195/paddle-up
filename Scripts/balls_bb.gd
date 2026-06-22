@@ -78,30 +78,52 @@ func _physics_process(delta: float) -> void:
 		if ball_states[i] == BB_STATES.Move:
 			_probe.global_position = ball_positions[i]
 			_probe.collision_mask = ball_masks[i]
-			var collision : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
-			ball_positions[i] = _probe.global_position
-			if collision:
+			var remaining : Vector2 = ball_velocities[i] * delta
+			var hits : int = 0
+			while hits < 3:
+				var collision : KinematicCollision2D = _probe.move_and_collide(remaining)
+				if not collision:
+					break
+				hits += 1
 				Input.vibrate_handheld(5, 0.1)
 				var body : Node2D = collision.get_collider()
-				if body.is_in_group(&"Brick"):
-					level._reduce_block_hp(body)
-					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
-				elif body is BbModPlayer:
-					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
+				if body is BbModPlayer:
 					ball_states[i] = BB_STATES.Stop
 					ball_masks[i] = 0
-				else:
-					ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
+					break
+				if body.is_in_group(&"Brick"):
+					level._reduce_block_hp(body)
+				ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
+				var traveled : float = collision.get_travel().length()
+				if traveled <= 0.0:
+					break
+				remaining = remaining.bounce(collision.get_normal())
+				remaining = remaining.normalized() * maxf(remaining.length() - traveled, 0.0)
+				if remaining.length() < 1.0:
+					break
+			ball_positions[i] = _probe.global_position
 			_clamp_bounds(i)
 		elif ball_states[i] == BB_STATES.Stop:
 			var dir : Vector2 = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position)
 			ball_velocities[i] = lerp(ball_velocities[i], dir * _current_speed(), clampf(5.0 * delta, 0.0, 1.0))
 			_probe.global_position = ball_positions[i]
 			_probe.collision_mask = ball_masks[i]
-			var stop_col : KinematicCollision2D = _probe.move_and_collide(ball_velocities[i] * delta)
-			ball_positions[i] = _probe.global_position
-			if stop_col:
+			var remaining : Vector2 = ball_velocities[i] * delta
+			var hits : int = 0
+			while hits < 3:
+				var stop_col : KinematicCollision2D = _probe.move_and_collide(remaining)
+				if not stop_col:
+					break
+				hits += 1
 				ball_velocities[i] = ball_velocities[i].bounce(stop_col.get_normal())
+				var traveled : float = stop_col.get_travel().length()
+				if traveled <= 0.0:
+					break
+				remaining = remaining.bounce(stop_col.get_normal())
+				remaining = remaining.normalized() * maxf(remaining.length() - traveled, 0.0)
+				if remaining.length() < 1.0:
+					break
+			ball_positions[i] = _probe.global_position
 			if get_pad_pos:
 				new_pad_x_pos = int(ball_positions[i].x)
 				get_pad_pos = false
@@ -178,7 +200,7 @@ func _get_pooled_ball() -> int:
 
 func retrieve_all_balls() -> void:
 	for i : int in _active_count:
-		ball_masks[i] = MASK_WALLS_BLOCK
+		ball_masks[i] = 0
 		ball_states[i] = BB_STATES.Stop
 		ball_velocities[i] = ball_positions[i].direction_to(bb_mod_player.trajectory.global_position) * _current_speed()
 
