@@ -2,11 +2,19 @@ extends Control
 
 class_name PauseMenu
 
-@onready var home: TextureButton = $Panel/MarginContainer/HBoxContainer/Home
-@onready var restart: TextureButton = $Panel/MarginContainer/HBoxContainer/Restart
-@onready var resume: TextureButton = $Panel/MarginContainer/HBoxContainer/BackButton
+@onready var home: Button = $Panel/MarginContainer/HBoxContainer/Home
+@onready var restart: Button = $Panel/MarginContainer/HBoxContainer/Restart
+@onready var resume: Button = $Panel/MarginContainer/HBoxContainer/BackButton
 @onready var global : Globals = Global
 @onready var fade : Fader = Fade
+
+func _ready() -> void:
+	home.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(home))
+	home.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(home))
+	restart.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(restart))
+	restart.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(restart))
+	resume.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(resume))
+	resume.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(resume))
 
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()

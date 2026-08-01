@@ -1,12 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://b7s6ylqt5qfre"]
+[gd_scene load_steps=12 format=3 uid="uid://b7s6ylqt5qfre"]
 
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="1_1n5tv"]
 [ext_resource type="Script" path="res://Scripts/UI/games.gd" id="1_6hn7j"]
 [ext_resource type="StyleBox" uid="uid://dt1n3kmbenfy0" path="res://Themes/Panel.tres" id="2_4uq4l"]
-[ext_resource type="Texture2D" path="res://Assets/Button/return.svg" id="3_wayne"]
 [ext_resource type="Texture2D" uid="uid://dpeengpkfyh8i" path="res://Assets/Pong.svg" id="4_5eg3w"]
 [ext_resource type="Texture2D" uid="uid://b1w385e6kht6k" path="res://Assets/BrickBreaker.svg" id="5_2i1rm"]
 [ext_resource type="Texture2D" uid="uid://biym36mo7lro5" path="res://Assets/BallBreaker.svg" id="6_le8ig"]
+[ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="7_3b6ad"]
+[ext_resource type="StyleBox" uid="uid://bbxpk3ml1lhkj" path="res://Themes/disabled_button.tres" id="8_2e8ca"]
+[ext_resource type="StyleBox" uid="uid://cq6uwucrpshjw" path="res://Themes/hover_button.tres" id="9_7d41b"]
+[ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="10_9b2fe"]
+[ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="11_4e4ca"]
 
 [node name="Games" type="Control"]
 layout_mode = 3
@@ -52,20 +56,6 @@ texture_normal = ExtResource("4_5eg3w")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="TextureRect" type="TextureRect" parent="Panel/GridContainer/Pong"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -186.5
-offset_top = -124.0
-offset_right = 186.5
-offset_bottom = 124.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="BBClassic" type="TextureButton" parent="Panel/GridContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -74,13 +64,6 @@ size_flags_vertical = 6
 texture_normal = ExtResource("5_2i1rm")
 ignore_texture_size = true
 stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="Panel/GridContainer/BBClassic"]
-layout_mode = 2
-offset_left = -840.0
-offset_top = -24.0
-offset_right = -467.0
-offset_bottom = 224.0
 
 [node name="BBModern" type="TextureButton" parent="Panel/GridContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -91,27 +74,18 @@ texture_normal = ExtResource("6_le8ig")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="TextureRect3" type="TextureRect" parent="Panel/GridContainer/BBModern"]
-layout_mode = 2
-offset_left = -463.0
-offset_top = -401.0
-offset_right = -90.0
-offset_bottom = -153.0
-
-[node name="Back" type="TextureButton" parent="Panel/GridContainer"]
-self_modulate = Color(0.85, 0.85, 0.85, 1)
-custom_minimum_size = Vector2(128, 128)
+[node name="Back" type="Button" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("3_wayne")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+theme_override_styles/focus = ExtResource("7_3b6ad")
+theme_override_styles/disabled = ExtResource("8_2e8ca")
+theme_override_styles/hover = ExtResource("9_7d41b")
+theme_override_styles/pressed = ExtResource("10_9b2fe")
+theme_override_styles/normal = ExtResource("11_4e4ca")
+theme_override_font_sizes/font_size = 44
+text = "Back"
 
 [connection signal="button_down" from="Panel/GridContainer/Pong" to="." method="_on_pong_button_down"]
 [connection signal="button_up" from="Panel/GridContainer/Pong" to="." method="_on_pong_button_up"]

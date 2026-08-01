@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://h4lhs12hvb3t"]
+[gd_scene load_steps=10 format=3 uid="uid://h4lhs12hvb3t"]
 
 [ext_resource type="Script" path="res://Scripts/UI/in_game_ui.gd" id="1_tp3oi"]
 [ext_resource type="PackedScene" uid="uid://cpfwqb027evqr" path="res://Scenes/Pause_Menu/pause_menu.tscn" id="2_6mm8y"]
@@ -6,6 +6,51 @@
 [ext_resource type="PackedScene" path="res://Scenes/End_Screen/end_screen.tscn" id="3_27irb"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_q73nh"]
 [ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_normal"]
+bg_color = Color(0.95, 0.55, 0.6, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0.95, 0.45, 0.5, 0.3)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_hover"]
+bg_color = Color(1, 0.62, 0.66, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0.95, 0.45, 0.5, 0.45)
+shadow_size = 10
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_pressed"]
+bg_color = Color(0.85, 0.45, 0.5, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0.95, 0.45, 0.5, 0.2)
+shadow_size = 3
+shadow_offset = Vector2(0, 1)
 
 [node name="InGameUI" type="CanvasLayer"]
 process_mode = 3
@@ -42,14 +87,17 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 20
 
-[node name="Pause" type="TextureButton" parent="MarginContainer/VBox"]
+[node name="Pause" type="Button" parent="MarginContainer/VBox"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-texture_normal = ExtResource("2_gadqh")
-ignore_texture_size = true
-stretch_mode = 0
+theme_override_styles/focus = ExtResource("4_sel0c")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pause_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pause_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pause_normal")
+icon = ExtResource("2_gadqh")
+expand_icon = true
 
 [connection signal="button_down" from="MarginContainer/VBox/Pause" to="." method="_on_pause_button_down"]
 [connection signal="button_up" from="MarginContainer/VBox/Pause" to="." method="_on_pause_button_up"]

@@ -9,10 +9,12 @@ class_name InGameUI
 @onready var global : Globals = Global
 @onready var save_manager : SaveManagerApi = SaveManager
 @onready var fade : Fader = Fade
-@onready var pause: TextureButton = $MarginContainer/VBox/Pause
+@onready var pause: Button = $MarginContainer/VBox/Pause
 
 func _ready() -> void:
 	_tween_menu(margin_container,null)
+	pause.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(pause))
+	pause.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(pause))
 
 func _display_lose_screen() -> void:
 	var end_screen : EndScreen = end_screen_scene.instantiate()

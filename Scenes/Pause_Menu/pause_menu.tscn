@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpfwqb027evqr"]
+[gd_scene load_steps=10 format=3 uid="uid://cpfwqb027evqr"]
 
 [ext_resource type="PackedScene" uid="uid://ddoae0mori3pk" path="res://Scenes/Options_Menu/options_menu.tscn" id="1_3c7w4"]
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="2_1qmkm"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="2_bu8so"]
-[ext_resource type="Texture2D" path="res://Assets/Button/home.svg" id="4_b7odi"]
 [ext_resource type="LabelSettings" uid="uid://bky1vrgiypi5y" path="res://Themes/Heading.tres" id="4_ojx6p"]
-[ext_resource type="Texture2D" path="res://Assets/Button/restart.svg" id="5_np7qa"]
+[ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="5_7c8de"]
+[ext_resource type="StyleBox" uid="uid://bbxpk3ml1lhkj" path="res://Themes/disabled_button.tres" id="6_b2e3d"]
+[ext_resource type="StyleBox" uid="uid://cq6uwucrpshjw" path="res://Themes/hover_button.tres" id="7_1f9c6"]
+[ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="8_4d0ba"]
+[ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="9_6e5ea"]
 
 [node name="PauseMenu" instance=ExtResource("1_3c7w4")]
 process_mode = 3
@@ -28,32 +31,37 @@ label_settings = ExtResource("4_ojx6p")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Home" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="0"]
+[node name="Home" type="Button" parent="Panel/MarginContainer/HBoxContainer" index="0"]
 process_mode = 3
-self_modulate = Color(0.85, 0.85, 0.85, 1)
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
-texture_normal = ExtResource("4_b7odi")
-ignore_texture_size = true
-stretch_mode = 5
+theme_override_styles/focus = ExtResource("5_7c8de")
+theme_override_styles/disabled = ExtResource("6_b2e3d")
+theme_override_styles/hover = ExtResource("7_1f9c6")
+theme_override_styles/pressed = ExtResource("8_4d0ba")
+theme_override_styles/normal = ExtResource("9_6e5ea")
+theme_override_font_sizes/font_size = 44
+text = "Home"
 
-[node name="Restart" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer" index="1"]
+[node name="Restart" type="Button" parent="Panel/MarginContainer/HBoxContainer" index="1"]
 process_mode = 3
-self_modulate = Color(0.85, 0.85, 0.85, 1)
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-texture_normal = ExtResource("5_np7qa")
-ignore_texture_size = true
-stretch_mode = 5
+theme_override_styles/focus = ExtResource("5_7c8de")
+theme_override_styles/disabled = ExtResource("6_b2e3d")
+theme_override_styles/hover = ExtResource("7_1f9c6")
+theme_override_styles/pressed = ExtResource("8_4d0ba")
+theme_override_styles/normal = ExtResource("9_6e5ea")
+theme_override_font_sizes/font_size = 44
+text = "Restart"
 
 [node name="BackButton" parent="Panel/MarginContainer/HBoxContainer" index="2"]
-self_modulate = Color(0.85, 0.85, 0.85, 1)
-size_flags_horizontal = 10
-stretch_mode = 5
+theme_override_font_sizes/font_size = 44
+text = "Resume"
 
 [connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_button_down"]
 [connection signal="button_up" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_button_up"]

@@ -5,6 +5,9 @@
 [resource]
 font = ExtResource("1_vm187")
 font_size = 126
-font_color = Color(1, 0.09, 0.267, 1)
-outline_size = 0
-outline_color = Color(0.95, 0.95, 0.95, 1)
+font_color = Color(0.95, 0.45, 0.5, 1)
+outline_size = 10
+outline_color = Color(1, 1, 1, 1)
+shadow_color = Color(0.95, 0.45, 0.5, 0.35)
+shadow_size = 8
+shadow_offset = Vector2(0, 5)

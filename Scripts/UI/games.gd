@@ -5,10 +5,20 @@ class_name Games
 @onready var pong: TextureButton = $Panel/GridContainer/Pong
 @onready var bb_classic: TextureButton = $Panel/GridContainer/BBClassic
 @onready var bb_modern: TextureButton = $Panel/GridContainer/BBModern
-@onready var back: TextureButton = $Panel/GridContainer/Back
+@onready var back: Button = $Panel/GridContainer/Back
 
 const ORIG_GAME_BUTTON_SIZE : Vector2 = Vector2(200,200)
-const ORIG_BACK_BUTTON_SIZE : Vector2 = Vector2(128,128)
+const ORIG_BACK_BUTTON_SIZE : Vector2 = Vector2(200,200)
+
+func _ready() -> void:
+	pong.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(pong))
+	pong.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(pong))
+	bb_classic.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(bb_classic))
+	bb_classic.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(bb_classic))
+	bb_modern.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(bb_modern))
+	bb_modern.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(bb_modern))
+	back.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(back))
+	back.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(back))
 
 func _on_pong_button_down() -> void:
 	ButtonTweenHelper.press(pong)

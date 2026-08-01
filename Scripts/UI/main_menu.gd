@@ -11,6 +11,10 @@ const ORIG_HIGH_SIZE : Vector2 = Vector2(160,160)
 
 func _ready() -> void:
 	version_label.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
+	play.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(play))
+	play.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(play))
+	high_scores.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(high_scores))
+	high_scores.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(high_scores))
 
 
 func _on_play_button_down() -> void:

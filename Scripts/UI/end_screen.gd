@@ -2,8 +2,8 @@ extends Control
 
 class_name EndScreen
 
-@onready var home_button: TextureButton = $Panel/MarginContainer/HBoxContainer/HomeButton
-@onready var restart_button: TextureButton = $Panel/MarginContainer/HBoxContainer/BackButton
+@onready var home_button: Button = $Panel/MarginContainer/HBoxContainer/HomeButton
+@onready var restart_button: Button = $Panel/MarginContainer/HBoxContainer/BackButton
 @onready var game_over_label: Label = $Panel/MarginContainer/GameOver
 @onready var lose_text: Label = $Panel/MarginContainer/LoseText
 @onready var line_edit: LineEdit = $Panel/MarginContainer/LineEdit
@@ -22,6 +22,10 @@ func _ready() -> void:
 	home_button.pressed.connect(fade._change_scene.bind(fade.main_menu))
 	restart_button.pressed.connect(get_tree().reload_current_scene)
 	restart_button.pressed.connect(fade._unpause_game)
+	home_button.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(home_button))
+	home_button.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(home_button))
+	restart_button.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(restart_button))
+	restart_button.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(restart_button))
 
 func _on_home_button_button_down() -> void:
 	ButtonTweenHelper.press(home_button)

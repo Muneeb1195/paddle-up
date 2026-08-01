@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://fd5av72y5x1v"]
+[gd_scene load_steps=3 format=3 uid="uid://fd5av72y5x1v"]
 
 [ext_resource type="Texture2D" uid="uid://bldm1h8jg0tvl" path="res://Assets/Background/Pattern@2x.png" id="1_h10ux"]
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.7, 0.94, 0.9, 1, 0.8, 0.91, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bg"]
+gradient = SubResource("Gradient_bg")
+width = 1000
+height = 2100
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
 
 [node name="Background" type="CanvasLayer"]
 layer = -1
@@ -11,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = SubResource("GradientTexture2D_bg")
 color = Color(1, 1, 1, 1)
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -30,3 +42,4 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("1_h10ux")
 stretch_mode = 1
+modulate = Color(1, 1, 1, 0.5)
