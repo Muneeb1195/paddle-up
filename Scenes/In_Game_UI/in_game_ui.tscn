@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/End_Screen/end_screen.tscn" id="3_27irb"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_q73nh"]
 [ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
-[ext_resource type="StyleBox" uid="uid://bn8ryb3cebwvs" path="res://Themes/focus_button.tres" id="5_rp40q"]
+[ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="5_rp40q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_normal"]
 content_margin_left = 10.0

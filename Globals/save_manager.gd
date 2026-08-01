@@ -63,8 +63,8 @@ func load_high_scores(kind : GameKind) -> Array:
 			entries = data as Array
 	var valid : Array = []
 	for entry : Variant in entries:
-		var entry_arr : Array = entry as Array if entry is Array else null
-		if entry_arr != null and entry_arr.size() >= 2 and entry_arr[0] is String and (entry_arr[1] is int or entry_arr[1] is float):
+		var entry_arr : Array = entry as Array if entry is Array else []
+		if not entry_arr.is_empty() and entry_arr[0] is String and (entry_arr[1] is int or entry_arr[1] is float):
 			valid.append([entry_arr[0], int(entry_arr[1])])
 	return valid
 
