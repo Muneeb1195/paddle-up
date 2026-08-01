@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bksf1kg3mmq48"]
 
 [ext_resource type="PackedScene" uid="uid://h4lhs12hvb3t" path="res://Scenes/In_Game_UI/in_game_ui.tscn" id="1_pr8hp"]
-[ext_resource type="Script" path="res://Scripts/bb_modern_in_game_ui.gd" id="2_o884x"]
+[ext_resource type="Script" path="res://Scripts/UI/bb_modern_in_game_ui.gd" id="2_o884x"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_irhcq"]
 [ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="3_wh807"]
 [ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="4_px2xt"]

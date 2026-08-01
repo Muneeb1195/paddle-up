@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=4 uid="uid://d0tt37bda1b71"]
 
-[ext_resource type="Script" path="res://Scripts/table.gd" id="1_yei70"]
+[ext_resource type="Script" path="res://Scripts/Entities/table.gd" id="1_yei70"]
 [ext_resource type="PackedScene" uid="uid://crl3jnp82e58y" path="res://Scenes/Walls/walls.tscn" id="2_eejuf"]
 
 [node name="Table" type="Node2D"]

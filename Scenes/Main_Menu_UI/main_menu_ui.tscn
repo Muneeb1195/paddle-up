@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b11a8c65psyr4"]
 
-[ext_resource type="Script" uid="uid://brtr3xanh1bh" path="res://Scripts/main_menu_ui.gd" id="1_mhghv"]
+[ext_resource type="Script" uid="uid://brtr3xanh1bh" path="res://Scripts/UI/main_menu_ui.gd" id="1_mhghv"]
 [ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="5_7eswp"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="5_886pb"]
 [ext_resource type="PackedScene" uid="uid://c1ijswxhol7ff" path="res://Scenes/Main_Menu/main_menu.tscn" id="5_hfn1t"]
@@ -12,7 +12,7 @@ resource_local_to_scene = true
 default_font = ExtResource("5_7eswp")
 default_font_size = 40
 
-[node name="MainMenuUI" type="CanvasLayer" unique_id=480161871 groups=["MainMenuUI"]]
+[node name="MainMenuUI" type="CanvasLayer" unique_id=480161871 groups=["MainMenuUi"]]
 process_mode = 3
 layer = 2
 script = ExtResource("1_mhghv")

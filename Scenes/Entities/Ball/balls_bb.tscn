@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dciq7yq10up3e"]
 
-[ext_resource type="Script" uid="uid://dmovbxycnkk3n" path="res://Scripts/balls_bb.gd" id="1_o360r"]
+[ext_resource type="Script" uid="uid://dmovbxycnkk3n" path="res://Scripts/Entities/balls_bb.gd" id="1_o360r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_probe"]
 radius = 10.0

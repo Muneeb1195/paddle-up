@@ -15,6 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Paddle Up"
+config/version="1.6.9"
 run/main_scene="res://Scenes/Main_Menu_UI/main_menu_ui.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")
@@ -22,7 +23,6 @@ run/max_fps=60
 boot_splash/bg_color=Color(0.9, 0.9, 0.9, 1)
 boot_splash/image="res://Assets/g1.png"
 config/icon="res://icon.svg"
-boot_splash/minimum_display_time=10
 
 [autoload]
 
@@ -30,6 +30,8 @@ Background="*res://Globals/background.tscn"
 Fade="*res://Globals/fade.tscn"
 Global="*res://Globals/Global.tscn"
 AudioManager="*res://Globals/AudioManager.tscn"
+SaveManager="*res://Globals/save_manager.gd"
+McpRuntimeAutoload="*res://addons/godot_mcp/mcp_runtime_autoload.gd"
 
 [debug]
 
@@ -44,6 +46,10 @@ window/size/viewport_width=1000
 window/size/viewport_height=2100
 window/stretch/mode="viewport"
 window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
 [input]
 

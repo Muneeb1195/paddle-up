@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dpugv1gv5ha0f"]
 
-[ext_resource type="Script" path="res://Scripts/trajectory.gd" id="2_svn5u"]
+[ext_resource type="Script" path="res://Scripts/Entities/trajectory.gd" id="2_svn5u"]
 
 [node name="Trajectory" type="Node2D"]
 script = ExtResource("2_svn5u")

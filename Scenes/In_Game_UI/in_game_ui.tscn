@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://h4lhs12hvb3t"]
 
-[ext_resource type="Script" path="res://Scripts/in_game_ui.gd" id="1_tp3oi"]
+[ext_resource type="Script" path="res://Scripts/UI/in_game_ui.gd" id="1_tp3oi"]
 [ext_resource type="PackedScene" uid="uid://cpfwqb027evqr" path="res://Scenes/Pause_Menu/pause_menu.tscn" id="2_6mm8y"]
 [ext_resource type="Texture2D" uid="uid://c6wxdtlqbpiqc" path="res://Assets/Button/pause.png" id="2_gadqh"]
-[ext_resource type="PackedScene" uid="uid://ivmvqhrc0soo" path="res://Scenes/Lose_Screen/lose_screen.tscn" id="3_27irb"]
+[ext_resource type="PackedScene" path="res://Scenes/End_Screen/end_screen.tscn" id="3_27irb"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_q73nh"]
 [ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
 
@@ -11,7 +11,7 @@
 process_mode = 3
 script = ExtResource("1_tp3oi")
 pause_menu_scene = ExtResource("2_6mm8y")
-lose_screen_scene = ExtResource("3_27irb")
+end_screen_scene = ExtResource("3_27irb")
 
 [node name="Panel" type="Panel" parent="."]
 custom_minimum_size = Vector2(1000, 145)
