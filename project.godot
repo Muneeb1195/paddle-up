@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Paddle Up"
-config/version="1.7.0"
+config/version="1.7.1"
 run/main_scene="res://Scenes/Main_Menu_UI/main_menu_ui.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")
