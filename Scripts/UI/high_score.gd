@@ -12,7 +12,7 @@ class_name HighScores
 var _shared_settings : LabelSettings = LabelSettings.new()
 
 func _ready() -> void:
-	_shared_settings.font_size = 42
+	_shared_settings.font_size = 40
 	pong.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(pong))
 	pong.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(pong))
 	brick_breaker.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(brick_breaker))
@@ -26,7 +26,7 @@ func _on_back_button_button_down() -> void:
 	ButtonTweenHelper.press(back_button)
 
 func _on_back_button_button_up() -> void:
-	ButtonTweenHelper.release(back_button, Vector2(128,128))
+	ButtonTweenHelper.release(back_button)
 
 func _on_pong_pressed() -> void:
 	_disable_buttons()

@@ -14,3 +14,7 @@ corner_radius_bottom_left = 30
 shadow_color = Color(0.380392, 0.898039, 0.784314, 0.25)
 shadow_size = 8
 shadow_offset = Vector2(0, 5)
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0

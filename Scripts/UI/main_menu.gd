@@ -5,9 +5,6 @@ class_name MainMenu
 @onready var play: TextureButton = $VBoxContainer/Play
 @onready var high_scores: TextureButton = $VBoxContainer/HighScores
 @onready var version_label: Label = $VersionLabel
-const ORIG_PLAY_SIZE : Vector2 = Vector2(256,256)
-const ORIG_HIGH_SIZE : Vector2 = Vector2(160,160)
-
 
 func _ready() -> void:
 	version_label.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
@@ -21,10 +18,10 @@ func _on_play_button_down() -> void:
 	ButtonTweenHelper.press(play)
 
 func _on_play_button_up() -> void:
-	ButtonTweenHelper.release(play, ORIG_PLAY_SIZE)
+	ButtonTweenHelper.release(play)
 
 func _on_high_scores_button_down() -> void:
 	ButtonTweenHelper.press(high_scores)
 
 func _on_high_scores_button_up() -> void:
-	ButtonTweenHelper.release(high_scores, ORIG_HIGH_SIZE)
+	ButtonTweenHelper.release(high_scores)

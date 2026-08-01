@@ -31,13 +31,13 @@ func _on_home_button_button_down() -> void:
 	ButtonTweenHelper.press(home_button)
 
 func _on_home_button_button_up() -> void:
-	ButtonTweenHelper.release(home_button, Vector2(128,128))
+	ButtonTweenHelper.release(home_button)
 
 func _on_back_button_button_down() -> void:
 	ButtonTweenHelper.press(restart_button)
 
 func _on_back_button_button_up() -> void:
-	ButtonTweenHelper.release(restart_button, Vector2(128,128))
+	ButtonTweenHelper.release(restart_button)
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	var _name : String = new_text.to_upper()

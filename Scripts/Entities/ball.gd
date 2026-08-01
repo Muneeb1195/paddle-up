@@ -3,7 +3,6 @@ extends Entity
 class_name Ball
 
 var original_position : Vector2 = Vector2.ZERO
-var audio_manager : Audio = AudioManager
 var player : Player
 
 func _physics_process(delta: float) -> void:

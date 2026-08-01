@@ -30,6 +30,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.227451, 0.227451, 0.227451, 1)
 text = "You Lost, Better Luck Next Time."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -62,7 +63,7 @@ theme_override_styles/disabled = ExtResource("9_9f2cf")
 theme_override_styles/hover = ExtResource("10_a0b5d")
 theme_override_styles/pressed = ExtResource("7_vkoiw")
 theme_override_styles/normal = ExtResource("8_mxxx7")
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Home"
 
 [node name="BackButton" type="Button" parent="Panel/MarginContainer/HBoxContainer" index="1"]
@@ -75,7 +76,7 @@ theme_override_styles/disabled = ExtResource("9_9f2cf")
 theme_override_styles/hover = ExtResource("10_a0b5d")
 theme_override_styles/pressed = ExtResource("7_vkoiw")
 theme_override_styles/normal = ExtResource("8_mxxx7")
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Restart"
 
 [connection signal="text_submitted" from="Panel/MarginContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]

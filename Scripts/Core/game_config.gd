@@ -1,6 +1,5 @@
 class_name GameConfig
 
-const VIEWPORT : Vector2 = Vector2(1000, 2100)
 const TABLE_WIDTH : int = 960
 const BALL_DIAMETER : int = 20
 const CPU_PADDLE_Y : int = 260
@@ -24,9 +23,7 @@ const STARTING_SPEEDS : Array[int] = [400, 500, 600]
 const LAYER_WALLS : int = 1 << 0
 const LAYER_PLAYER : int = 1 << 1
 const LAYER_ENEMY : int = 1 << 2
-const LAYER_POINTS : int = 1 << 3
 const LAYER_BLOCK : int = 1 << 4
-const LAYER_SPIKE : int = 1 << 5
 const LAYER_BALL : int = 1 << 6
 const LAYER_BB_MOD_PLAYER : int = 1 << 7
 const LAYER_FLOOR : int = 1 << 8
@@ -37,11 +34,7 @@ const MASK_BB_CLASSIC_BALL : int = LAYER_WALLS | LAYER_PLAYER | LAYER_BLOCK | LA
 const MASK_ALL : int = MASK_BALL
 const MASK_PONG_BALL : int = LAYER_WALLS | LAYER_PLAYER | LAYER_ENEMY  # 7
 const MASK_PLAYER : int = LAYER_WALLS | LAYER_BALL  # 65
-const MASK_CPU : int = LAYER_WALLS | LAYER_BALL  # 65
 const MASK_BB_MOD_PLAYER : int = 0
-const MASK_FLOOR : int = LAYER_BALL  # 64
-const MASK_BRICK : int = 0
-const MASK_POINT : int = LAYER_BALL  # 64
 const MASK_WALL : int = LAYER_WALLS  # 1
 
 # Groups (must equal class_name of each script)

@@ -4,8 +4,13 @@ class_name BBClassicInGameUi
 
 @onready var score: Label = $MarginContainer/VBox/Score
 @onready var lives: Label = $MarginContainer/VBox/HBoxContainer/Lives
+@onready var ball_icon: TextureRect = $MarginContainer/VBox/HBoxContainer/BallIcon
 @onready var level_bb_classic : LevelBbClassic = get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_CLASSIC)
 @onready var line_edit: LineEdit = $LineEdit
+
+func _ready() -> void:
+	super._ready()
+	ball_icon.modulate = global._choose_color()
 
 func _on_lose() -> void:
 	_tween_menu(line_edit, margin_container)

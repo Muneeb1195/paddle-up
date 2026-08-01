@@ -1,24 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpdg61wh3o2j5"]
+[gd_scene load_steps=8 format=3 uid="uid://bpdg61wh3o2j5"]
 
 [ext_resource type="PackedScene" uid="uid://h4lhs12hvb3t" path="res://Scenes/In_Game_UI/in_game_ui.tscn" id="1_ah5wy"]
 [ext_resource type="Script" path="res://Scripts/UI/bb_classic_in_game_ui.gd" id="2_0phlu"]
-[ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="2_bheev"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_o5vma"]
 [ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="4_bcb2j"]
 [ext_resource type="Texture2D" uid="uid://bjlutv6ocnr74" path="res://Assets/Ball/ball.png" id="4_tl6qs"]
 [ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="5_pjn5o"]
 [ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="6_8uhfi"]
 
-[sub_resource type="Theme" id="Theme_51fqn"]
-resource_local_to_scene = true
-default_font = ExtResource("2_bheev")
-default_font_size = 40
-
 [node name="BBClassicInGameUI" instance=ExtResource("1_ah5wy")]
 script = ExtResource("2_0phlu")
 
 [node name="MarginContainer" parent="." index="1"]
-theme = SubResource("Theme_51fqn")
 
 [node name="Pause" parent="MarginContainer/VBox" index="0"]
 size_flags_horizontal = 2
@@ -26,6 +19,7 @@ size_flags_horizontal = 2
 [node name="Score" type="Label" parent="MarginContainer/VBox" index="1"]
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_colors/font_color = Color(0.227451, 0.227451, 0.227451, 1)
 theme_override_font_sizes/font_size = 56
 text = "1"
 
@@ -35,7 +29,7 @@ size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBox/HBoxContainer" index="0"]
+[node name="BallIcon" type="TextureRect" parent="MarginContainer/VBox/HBoxContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -45,6 +39,7 @@ stretch_mode = 2
 [node name="Lives" type="Label" parent="MarginContainer/VBox/HBoxContainer" index="1"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0.227451, 0.227451, 0.227451, 1)
 text = "3"
 
 [node name="LineEdit" type="LineEdit" parent="." index="2"]

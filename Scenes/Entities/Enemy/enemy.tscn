@@ -8,7 +8,6 @@
 collision_layer = 4
 collision_mask = 65
 script = ExtResource("2_40071")
-deceleration = 0.0
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("3_p2iuw")

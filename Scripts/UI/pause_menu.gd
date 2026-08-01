@@ -5,7 +5,6 @@ class_name PauseMenu
 @onready var home: Button = $Panel/MarginContainer/HBoxContainer/Home
 @onready var restart: Button = $Panel/MarginContainer/HBoxContainer/Restart
 @onready var resume: Button = $Panel/MarginContainer/HBoxContainer/BackButton
-@onready var global : Globals = Global
 @onready var fade : Fader = Fade
 
 func _ready() -> void:
@@ -27,16 +26,16 @@ func _on_home_button_down() -> void:
 	ButtonTweenHelper.press(home)
 
 func _on_home_button_up() -> void:
-	ButtonTweenHelper.release(home, Vector2(128,128))
+	ButtonTweenHelper.release(home)
 
 func _on_restart_button_down() -> void:
 	ButtonTweenHelper.press(restart)
 
 func _on_restart_button_up() -> void:
-	ButtonTweenHelper.release(restart, Vector2(128,128))
+	ButtonTweenHelper.release(restart)
 
 func _on_back_button_button_down() -> void:
 	ButtonTweenHelper.press(resume)
 
 func _on_back_button_button_up() -> void:
-	ButtonTweenHelper.release(resume, Vector2(128,128))
+	ButtonTweenHelper.release(resume)

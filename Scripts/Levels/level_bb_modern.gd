@@ -9,7 +9,6 @@ class_name LevelBbModern
 @onready var trajectory_line : Trajectory = bb_mod_player.trajectory
 @onready var level_timer: Timer = $LevelTimer
 @onready var bb_modern_in_game_ui: BBModInGameUi = $BBModernInGameUI
-@onready var audio_manager : Audio = AudioManager
 
 var _level : int = 1
 var level : int :
@@ -134,6 +133,7 @@ func _on_level_timer_timeout() -> void:
 
 func _animate_level_label() -> void:
 	var label : Label = bb_modern_in_game_ui.level
+	label.pivot_offset = label.size / 2.0
 	label.scale = Vector2(1.5, 1.5)
 	label.modulate = Color(1, 0.8, 0.2)
 	var tween : Tween = create_tween().set_parallel(true)
@@ -144,6 +144,7 @@ func _pulse_retrieve_button() -> void:
 	var btn : Button = bb_modern_in_game_ui.retrieve_balls
 	if bb_modern_in_game_ui._pulse_tween:
 		bb_modern_in_game_ui._pulse_tween.kill()
+	btn.pivot_offset = btn.size / 2.0
 	var tween : Tween = create_tween().set_loops()
 	tween.tween_property(btn, "scale", Vector2(1.05, 1.05), 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	tween.tween_property(btn, "scale", Vector2.ONE, 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)

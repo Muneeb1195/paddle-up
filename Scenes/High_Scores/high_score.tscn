@@ -35,17 +35,18 @@ anchor_left = 0.5
 anchor_top = 0.75
 anchor_right = 0.5
 anchor_bottom = 0.75
-offset_left = -280.0
+offset_left = -350.0
 offset_top = -48.0
-offset_right = 280.0
+offset_right = 350.0
 offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
 
 [node name="Pong" type="Button" parent="HBoxContainer" index="0"]
-custom_minimum_size = Vector2(192, 96)
+custom_minimum_size = Vector2(200, 96)
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 theme_override_styles/focus = ExtResource("4_j4km0")
 theme_override_styles/disabled = ExtResource("5_fdf3b")
 theme_override_styles/hover = ExtResource("5_e5bw2")
@@ -54,8 +55,9 @@ theme_override_styles/normal = ExtResource("7_gjsmg")
 text = "Pong"
 
 [node name="BrickBreaker" type="Button" parent="HBoxContainer" index="1"]
-custom_minimum_size = Vector2(192, 96)
+custom_minimum_size = Vector2(200, 96)
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 theme_override_styles/focus = ExtResource("4_j4km0")
 theme_override_styles/disabled = ExtResource("5_fdf3b")
 theme_override_styles/hover = ExtResource("5_e5bw2")
@@ -64,8 +66,9 @@ theme_override_styles/normal = ExtResource("7_gjsmg")
 text = "Brick Breaker"
 
 [node name="BallBreaker" type="Button" parent="HBoxContainer" index="2"]
-custom_minimum_size = Vector2(192, 96)
+custom_minimum_size = Vector2(200, 96)
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 theme_override_styles/focus = ExtResource("4_j4km0")
 theme_override_styles/disabled = ExtResource("5_fdf3b")
 theme_override_styles/hover = ExtResource("5_e5bw2")

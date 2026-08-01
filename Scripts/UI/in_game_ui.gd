@@ -50,4 +50,4 @@ func _on_pause_button_down() -> void:
 	ButtonTweenHelper.press(pause)
 
 func _on_pause_button_up() -> void:
-	ButtonTweenHelper.release(pause, Vector2(100,100))
+	ButtonTweenHelper.release(pause)

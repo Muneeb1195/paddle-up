@@ -2,13 +2,11 @@ extends StaticBody2D
 
 class_name BbModPlayer
 
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var rail: Sprite2D = $Rail
 @onready var paddle: Sprite2D = $Paddle
 @onready var trajectory: Trajectory = $Paddle/Trajectory
 @onready var rail_width : float = (rail.texture.get_width() * rail.scale.x)
 @onready var half_paddle_width : float = (paddle.texture.get_width() * paddle.scale.x)/2
-@onready var ball_spawner: Sprite2D = $Paddle/BallSpawner
 @onready var global : Globals = Global
 
 func _ready() -> void:

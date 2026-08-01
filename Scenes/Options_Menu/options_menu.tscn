@@ -47,17 +47,19 @@ theme_override_constants/margin_bottom = 40
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 40
 size_flags_vertical = 8
 
 [node name="BackButton" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/focus = ExtResource("2_9a4fb")
 theme_override_styles/disabled = ExtResource("3_0f7ac")
 theme_override_styles/hover = ExtResource("4_8bb3c")
 theme_override_styles/pressed = ExtResource("5_6d2f0")
 theme_override_styles/normal = ExtResource("6_3e9bb")
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Back"

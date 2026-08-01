@@ -35,32 +35,32 @@ vertical_alignment = 1
 process_mode = 3
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/focus = ExtResource("5_7c8de")
 theme_override_styles/disabled = ExtResource("6_b2e3d")
 theme_override_styles/hover = ExtResource("7_1f9c6")
 theme_override_styles/pressed = ExtResource("8_4d0ba")
 theme_override_styles/normal = ExtResource("9_6e5ea")
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Home"
 
 [node name="Restart" type="Button" parent="Panel/MarginContainer/HBoxContainer" index="1"]
 process_mode = 3
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/focus = ExtResource("5_7c8de")
 theme_override_styles/disabled = ExtResource("6_b2e3d")
 theme_override_styles/hover = ExtResource("7_1f9c6")
 theme_override_styles/pressed = ExtResource("8_4d0ba")
 theme_override_styles/normal = ExtResource("9_6e5ea")
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Restart"
 
 [node name="BackButton" parent="Panel/MarginContainer/HBoxContainer" index="2"]
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 36
 text = "Resume"
 
 [connection signal="button_down" from="Panel/MarginContainer/HBoxContainer/Home" to="." method="_on_home_button_down"]

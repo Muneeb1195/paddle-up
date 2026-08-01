@@ -6,12 +6,12 @@ class_name MainMenuUi
 @onready var games : Games = $Control/MarginContainer/Games
 @onready var high_score: HighScores = $Control/MarginContainer/HighScore
 @onready var fade : Fader = Fade
-@onready var control: Control = $Control
 @onready var global : Globals = Global
 @onready var menus : Array[Control] = [main_menu,games,high_score]
 
 func _ready() -> void:
-	main_menu.modulate = global._choose_color()
+	var v_box : VBoxContainer = main_menu.get_node("VBoxContainer")
+	v_box.modulate = global._choose_color()
 	_tween_menu(main_menu)
 
 	main_menu.play.pressed.connect(_display_games)

@@ -2,55 +2,32 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/in_game_ui.gd" id="1_tp3oi"]
 [ext_resource type="PackedScene" uid="uid://cpfwqb027evqr" path="res://Scenes/Pause_Menu/pause_menu.tscn" id="2_6mm8y"]
-[ext_resource type="Texture2D" uid="uid://c6wxdtlqbpiqc" path="res://Assets/Button/pause.png" id="2_gadqh"]
+[ext_resource type="Texture2D" path="res://Assets/Button/pause_teal.png" id="2_gadqh"]
 [ext_resource type="PackedScene" path="res://Scenes/End_Screen/end_screen.tscn" id="3_27irb"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_q73nh"]
 [ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
+[ext_resource type="StyleBox" uid="uid://bn8ryb3cebwvs" path="res://Themes/focus_button.tres" id="5_rp40q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_normal"]
-bg_color = Color(0.380392, 0.898039, 0.784314, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color(0.380392, 0.898039, 0.784314, 0.3)
-shadow_size = 6
-shadow_offset = Vector2(0, 3)
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_hover"]
-bg_color = Color(0.55, 0.94, 0.85, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color(0.380392, 0.898039, 0.784314, 0.45)
-shadow_size = 10
-shadow_offset = Vector2(0, 3)
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_pressed"]
-bg_color = Color(0.25, 0.7, 0.6, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color(0.380392, 0.898039, 0.784314, 0.2)
-shadow_size = 3
-shadow_offset = Vector2(0, 1)
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="InGameUI" type="CanvasLayer"]
 process_mode = 3
@@ -92,7 +69,7 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-theme_override_styles/focus = ExtResource("4_sel0c")
+theme_override_styles/focus = ExtResource("5_rp40q")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pause_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pause_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_pause_normal")

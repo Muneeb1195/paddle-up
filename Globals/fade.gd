@@ -24,9 +24,6 @@ func _fade_to_normal() -> void:
 	var tween : Tween = create_tween().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(color_rect,"modulate:a",0.0,0.5).from_current()
 
-func _quit_game() -> void:
-	get_tree().quit()
-
 func _pause_game() -> void:
 	get_tree().paused = true
 	_fade_half()

@@ -1,25 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://bksf1kg3mmq48"]
+[gd_scene load_steps=9 format=3 uid="uid://bksf1kg3mmq48"]
 
 [ext_resource type="PackedScene" uid="uid://h4lhs12hvb3t" path="res://Scenes/In_Game_UI/in_game_ui.tscn" id="1_pr8hp"]
 [ext_resource type="Script" path="res://Scripts/UI/bb_modern_in_game_ui.gd" id="2_o884x"]
 [ext_resource type="Theme" uid="uid://cf6v2c67q6y5n" path="res://Themes/FontTheme.tres" id="3_irhcq"]
-[ext_resource type="FontFile" uid="uid://bpveyn7sb2aho" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="3_wh807"]
 [ext_resource type="StyleBox" uid="uid://b87qtyrs1lmln" path="res://Themes/focus_button.tres" id="4_px2xt"]
 [ext_resource type="StyleBox" uid="uid://bbxpk3ml1lhkj" path="res://Themes/disabled_button.tres" id="5_027pa"]
 [ext_resource type="StyleBox" uid="uid://vdewpxotoj85" path="res://Themes/pressed_button.tres" id="5_mqat2"]
 [ext_resource type="StyleBox" uid="uid://7h1vh5u5djjd" path="res://Themes/normal_button.tres" id="6_fj4a3"]
 [ext_resource type="StyleBox" uid="uid://cq6uwucrpshjw" path="res://Themes/hover_button.tres" id="6_kxvfu"]
 
-[sub_resource type="Theme" id="Theme_tpivg"]
-resource_local_to_scene = true
-default_font = ExtResource("3_wh807")
-default_font_size = 40
-
 [node name="BBModernInGameUI" instance=ExtResource("1_pr8hp")]
 script = ExtResource("2_o884x")
 
 [node name="MarginContainer" parent="." index="1"]
-theme = SubResource("Theme_tpivg")
 
 [node name="Pause" parent="MarginContainer/VBox" index="0"]
 size_flags_horizontal = 2
@@ -28,12 +21,14 @@ size_flags_vertical = 0
 [node name="Level" type="Label" parent="MarginContainer/VBox" index="1"]
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_colors/font_color = Color(0.227451, 0.227451, 0.227451, 1)
 theme_override_font_sizes/font_size = 64
 text = "1"
 
 [node name="Time" type="Label" parent="MarginContainer/VBox" index="2"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0.227451, 0.227451, 0.227451, 1)
 text = "00:00"
 
 [node name="RetrieveBalls" type="Button" parent="MarginContainer" index="1"]

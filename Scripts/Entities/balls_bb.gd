@@ -47,7 +47,6 @@ var new_pad_x_pos : int
 var get_pad_pos : bool = false
 var got_pad_pos : bool = false
 var move_paddle : bool = false
-var _frame_counter : int = 0
 
 func _ready() -> void:
 	modulate = global._choose_color()
@@ -70,7 +69,6 @@ func _setup_multimesh() -> void:
 	_multimesh = mm
 
 func _physics_process(delta: float) -> void:
-	_frame_counter += 1
 	var i : int = _active_count - 1
 	while i >= 0:
 		if ball_states[i] == BB_STATES.Move:

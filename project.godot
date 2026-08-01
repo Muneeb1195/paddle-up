@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Paddle Up"
-config/version="1.6.9"
+config/version="1.7.0"
 run/main_scene="res://Scenes/Main_Menu_UI/main_menu_ui.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")
@@ -50,6 +50,10 @@ window/handheld/orientation=1
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
+
+[gui]
+
+theme/custom="res://Themes/FontTheme.tres"
 
 [input]
 

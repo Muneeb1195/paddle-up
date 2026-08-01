@@ -10,8 +10,6 @@ var _last_collider_id : int = 0
 # Increments on every paddle hit; triggers level-up every 10 hits.
 var _num_of_coll_player : int = 0
 var num_of_coll_player : int :
-	get :
-		return _num_of_coll_player
 	set(value):
 		_num_of_coll_player = value
 		if _num_of_coll_player % 10 == 0:

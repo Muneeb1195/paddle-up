@@ -18,7 +18,7 @@ const HIGH_SCORE_PATHS : Dictionary = {
 	GameKind.BB_MODERN : "/PaddleUp/BB Modern/bb_mod_hs.save",
 }
 
-var _root_dir : String = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
+var _root_dir : String = ProjectSettings.globalize_path("user://") if OS.get_name() == "Android" else OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
 
 var bb_mod_dict : Dictionary = {}
 var bb_clas_dict : Dictionary = {}
