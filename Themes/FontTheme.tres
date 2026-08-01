@@ -6,4 +6,4 @@
 resource_local_to_scene = false
 default_font = ExtResource("1_4ckvl")
 default_font_size = 40
-default_font_color = Color(0.16, 0.22, 0.38, 1)
+default_font_color = Color(0.227451, 0.227451, 0.227451, 1)

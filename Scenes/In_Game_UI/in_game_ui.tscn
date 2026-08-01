@@ -8,7 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://gi8ckvqjko1c" path="res://Themes/InGameUiPanel.tres" id="4_sel0c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_normal"]
-bg_color = Color(0.95, 0.55, 0.6, 1)
+bg_color = Color(0.380392, 0.898039, 0.784314, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -18,12 +18,12 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
-shadow_color = Color(0.95, 0.45, 0.5, 0.3)
+shadow_color = Color(0.380392, 0.898039, 0.784314, 0.3)
 shadow_size = 6
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_hover"]
-bg_color = Color(1, 0.62, 0.66, 1)
+bg_color = Color(0.55, 0.94, 0.85, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -33,12 +33,12 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
-shadow_color = Color(0.95, 0.45, 0.5, 0.45)
+shadow_color = Color(0.380392, 0.898039, 0.784314, 0.45)
 shadow_size = 10
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_pressed"]
-bg_color = Color(0.85, 0.45, 0.5, 1)
+bg_color = Color(0.25, 0.7, 0.6, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -48,7 +48,7 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
-shadow_color = Color(0.95, 0.45, 0.5, 0.2)
+shadow_color = Color(0.380392, 0.898039, 0.784314, 0.2)
 shadow_size = 3
 shadow_offset = Vector2(0, 1)
 
