@@ -116,7 +116,9 @@ jobs:
         run: |
           BIN="Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_STATUS }}_linux.x86_64"
           mkdir -p builds
-          $BIN --headless --path . --export-release "Android-arm64-v8a" "builds/PaddleUp-v1.7.2-arm64-v8a.apk"
+          # --install-android-build-template provisions the Gradle project
+          # (android/ is gitignored); required once per checkout.
+          $BIN --headless --path . --install-android-build-template --export-release "Android-arm64-v8a" "builds/PaddleUp-v1.7.2-arm64-v8a.apk"
           $BIN --headless --path . --export-release "Android-armeabi-v7a" "builds/PaddleUp-v1.7.2-armeabi-v7a.apk"
           $BIN --headless --path . --export-release "Android-x86" "builds/PaddleUp-v1.7.2-x86.apk"
           $BIN --headless --path . --export-release "Android-x86_64" "builds/PaddleUp-v1.7.2-x86_64.apk"
