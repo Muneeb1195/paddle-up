@@ -9,8 +9,11 @@ var img : CompressedTexture2D = preload("res://Assets/Ball/ball_outline.png")
 
 # Substep length for the shape sweep; ~1 ball diameter keeps corner grazes honest.
 const SIM_STEP_PX : float = 20.0
+# Cached dots are strided so the guide reads as spaced markers; the sweep
+# itself keeps full resolution for bounce accuracy. Contacts always cached.
+const DOT_STRIDE : int = 3
 const MAX_BOUNCES : int = 3
-const MAX_STEPS : int = 80
+const MAX_STEPS : int = 120
 
 var _circle : CircleShape2D = CircleShape2D.new()
 var _cached_points : PackedVector2Array = PackedVector2Array()
@@ -30,9 +33,9 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var ball_half : Vector2 = Vector2(_circle.radius, _circle.radius)
+	var dot_half : Vector2 = img.get_size() / 2.0
 	for point : Vector2 in _cached_points:
-		draw_texture(img, (point - ball_half).round())
+		draw_texture(img, (point - dot_half).round())
 
 func get_forward_direction() -> Vector2:
 	var dir : Vector2 = global_position.direction_to(get_global_mouse_position())
@@ -79,7 +82,8 @@ func _calculate_trajectory() -> void:
 		query.motion = motion
 		var result : PackedFloat32Array = space_state.cast_motion(query)
 		var safe_fraction : float = result[0]
-		_cached_points.append(pos - global_position)
+		if i % DOT_STRIDE == 0:
+			_cached_points.append(pos - global_position)
 		if safe_fraction < 1.0:
 			var contact : Vector2 = pos + motion * safe_fraction
 			_cached_points.append(contact - global_position)

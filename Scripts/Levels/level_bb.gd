@@ -86,6 +86,7 @@ func _create_block_row() -> void:
 			var label : Label = new_block.get_child(1)
 			sprite.modulate = global._choose_color()
 			label.text = "%2d" % [block_hp]
+			label.add_theme_font_size_override("font_size", GameConfig.BRICK_HP_FONT_SIZE)
 			if type == 1:
 				var rot : float = block_rotation.pick_random()
 				var coll_shape : CollisionPolygon2D = new_block.get_child(2)
@@ -194,6 +195,7 @@ func _load_bricks(data : Variant) -> void:
 		var label : Label = block.get_child(1)
 		block.position = Vector2(brick_data["pos_x"], brick_data["pos_y"])
 		label.text = "%2d" % [brick_data["hp"]]
+		label.add_theme_font_size_override("font_size", GameConfig.BRICK_HP_FONT_SIZE)
 		if brick_data["rotation"] != 0:
 			var rot : float = brick_data["rotation"]
 			var coll_shape : Node2D = block.get_child(2) as Node2D

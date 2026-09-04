@@ -18,6 +18,7 @@ const COUNTDOWN_SEC : float = 0.8
 const SERVE_DELAY : float = 0.5
 const SCORE_INCREMENT : int = 1
 const STARTING_SPEEDS : Array[int] = [400, 500, 600]
+const BRICK_HP_FONT_SIZE : int = 28
 
 # Physics layers (bit values matching project.godot layer names 1-9)
 const LAYER_WALLS : int = 1 << 0

@@ -111,7 +111,7 @@ func _on_ball_bb_classic_next_level() -> void:
 		return
 	_level_transitioning = true
 	level += GameConfig.SCORE_INCREMENT
-	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
+	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y:
 		_level_transitioning = false
 		bb_classic_in_game_ui._on_lose()
 		return

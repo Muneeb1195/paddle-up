@@ -87,7 +87,7 @@ func _next_level() -> void:
 			bb_modern_in_game_ui.retrieve_balls.scale = Vector2.ONE
 	if level_timer.time_left:
 		level_timer.stop()
-	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
+	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y:
 		bb_modern_in_game_ui._on_lose()
 		save_manager.bb_mod_dict.clear()
 		save_manager.save_dict(SaveManager.GameKind.BB_MODERN, save_manager.bb_mod_dict)
