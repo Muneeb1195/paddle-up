@@ -23,6 +23,7 @@ wall_position = Vector2(80, 920)
 
 [node name="Trajectory" parent="Player" index="2" instance=ExtResource("4_4h04s")]
 position = Vector2(0, -21)
+FORCE = 1000.0
 
 [node name="Floor" type="Area2D" parent="." index="4"]
 position = Vector2(500, 1850)

@@ -7,29 +7,30 @@ const TRAJECTORY_MASK : int = GameConfig.MASK_ALL
 
 var img : CompressedTexture2D = preload("res://Assets/Ball/ball_outline.png")
 
-const AIM_SMOOTHING : float = 0.35
+# Substep length for the shape sweep; ~1 ball diameter keeps corner grazes honest.
+const SIM_STEP_PX : float = 20.0
+const MAX_BOUNCES : int = 3
+const MAX_STEPS : int = 80
 
+var _circle : CircleShape2D = CircleShape2D.new()
 var _cached_points : PackedVector2Array = PackedVector2Array()
-var _needs_update : bool = false
-var _smoothed_dir : Vector2 = Vector2.ZERO
+# Exact direction used by the last simulation; the single value shared by
+# drawing and shooting so the line can never disagree with the ball.
+var _aim_dir : Vector2 = Vector2.UP
+var _aim_dirty : bool = true
 
 func _ready() -> void:
+	_circle.radius = GameConfig.BALL_DIAMETER / 2.0
 	hide()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventScreenDrag and visible:
-		_needs_update = true
 
 func _process(_delta: float) -> void:
 	if not visible:
-		_smoothed_dir = Vector2.ZERO
-	if _needs_update:
-		_needs_update = false
-		_calculate_trajectory()
-		queue_redraw()
+		return
+	_calculate_trajectory()
+	queue_redraw()
 
 func _draw() -> void:
-	var ball_half : Vector2 = Vector2(10, 10)
+	var ball_half : Vector2 = Vector2(_circle.radius, _circle.radius)
 	for point : Vector2 in _cached_points:
 		draw_texture(img, (point - ball_half).round())
 
@@ -40,49 +41,59 @@ func get_forward_direction() -> Vector2:
 	var clamped_angle : float = clampf(dir.angle(), -deg_to_rad(GameConfig.MAX_AIM_ANGLE), -deg_to_rad(GameConfig.MIN_AIM_ANGLE))
 	return Vector2.from_angle(clamped_angle)
 
+func get_shot_direction() -> Vector2:
+	if _aim_dirty:
+		_calculate_trajectory()
+	return _aim_dir
+
 func is_aim_valid() -> bool:
 	return get_global_mouse_position().y < global_position.y
 
-func _get_smoothed_direction() -> Vector2:
-	var clamped_dir : Vector2 = get_forward_direction()
-	if _smoothed_dir == Vector2.ZERO:
-		_smoothed_dir = clamped_dir
-	else:
-		_smoothed_dir = _smoothed_dir.lerp(clamped_dir, AIM_SMOOTHING)
-	return _smoothed_dir
-
 func _calculate_trajectory() -> void:
 	_cached_points.clear()
-	var velocity : Vector2 = FORCE * _get_smoothed_direction()
+	_aim_dir = get_forward_direction()
+	_aim_dirty = false
+	var velocity : Vector2 = FORCE * _aim_dir
+	var step_dir : Vector2 = _aim_dir
+	var step_len : float = SIM_STEP_PX
 	var pos : Vector2 = global_position
-	var timestep : float = 0.064
 	var bounce_count : int = 0
 	var space_state : PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-	var exclude_rids : Array[RID] = []
-	var ball_radius : float = 10.0
 
+	var query : PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+	query.shape = _circle
+	query.collision_mask = TRAJECTORY_MASK
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	var exclude_rids : Array[RID] = []
 	var parent : Node = get_parent()
 	while parent:
 		if parent is CollisionObject2D:
 			exclude_rids.append((parent as CollisionObject2D).get_rid())
 		parent = parent.get_parent()
+	query.exclude = exclude_rids
 
-	for i : int in 50:
-		var next_pos : Vector2 = pos + (velocity * timestep)
-		var query : PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(pos, next_pos, TRAJECTORY_MASK)
-		query.exclude = exclude_rids
-		var result : Dictionary = space_state.intersect_ray(query)
-
-		if result:
-			var hit_pos : Vector2 = result["position"]
-			var hit_normal : Vector2 = result["normal"]
-			_cached_points.append(hit_pos - global_position + Vector2(2, 2))
+	for i : int in MAX_STEPS:
+		var motion : Vector2 = step_dir * step_len
+		query.transform = Transform2D(0.0, pos)
+		query.motion = motion
+		var result : PackedFloat32Array = space_state.cast_motion(query)
+		var safe_fraction : float = result[0]
+		_cached_points.append(pos - global_position)
+		if safe_fraction < 1.0:
+			var contact : Vector2 = pos + motion * safe_fraction
+			_cached_points.append(contact - global_position)
+			var rest_info : Dictionary = space_state.get_rest_info(query)
+			if rest_info.is_empty():
+				break
+			var hit_normal : Vector2 = rest_info["normal"]
 			velocity = velocity.bounce(hit_normal)
-			pos = hit_pos + hit_normal * ball_radius
+			step_dir = velocity.normalized()
+			# Restart just off the surface so the next sweep starts clean.
+			pos = contact + hit_normal * 1.0
 			bounce_count += 1
-			if bounce_count >= 3:
+			if bounce_count >= MAX_BOUNCES:
 				break
 		else:
-			_cached_points.append(pos - global_position + Vector2(2, 2))
-			_cached_points.append(next_pos - global_position + Vector2(2, 2))
-			pos = next_pos
+			pos = pos + motion
+	_aim_dirty = false

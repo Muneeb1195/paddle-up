@@ -23,6 +23,7 @@ env:
   ANDROID_PLATFORM: "android-34"
   ANDROID_BUILD_TOOLS: "34.0.0"
   JAVA_VERSION: "17"
+  APP_VERSION: "1.7.3"
 
 jobs:
   build:
@@ -39,7 +40,7 @@ jobs:
             libasound2t64 libfontconfig1 unzip
 
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
@@ -118,16 +119,16 @@ jobs:
           mkdir -p builds
           # --install-android-build-template provisions the Gradle project
           # (android/ is gitignored); required once per checkout.
-          $BIN --headless --path . --install-android-build-template --export-release "Android-arm64-v8a" "builds/PaddleUp-v1.7.2-arm64-v8a.apk"
-          $BIN --headless --path . --export-release "Android-armeabi-v7a" "builds/PaddleUp-v1.7.2-armeabi-v7a.apk"
-          $BIN --headless --path . --export-release "Android-x86" "builds/PaddleUp-v1.7.2-x86.apk"
-          $BIN --headless --path . --export-release "Android-x86_64" "builds/PaddleUp-v1.7.2-x86_64.apk"
+          $BIN --headless --path . --install-android-build-template --export-release "Android-arm64-v8a" "builds/PaddleUp-v${{ env.APP_VERSION }}-arm64-v8a.apk"
+          $BIN --headless --path . --export-release "Android-armeabi-v7a" "builds/PaddleUp-v${{ env.APP_VERSION }}-armeabi-v7a.apk"
+          $BIN --headless --path . --export-release "Android-x86" "builds/PaddleUp-v${{ env.APP_VERSION }}-x86.apk"
+          $BIN --headless --path . --export-release "Android-x86_64" "builds/PaddleUp-v${{ env.APP_VERSION }}-x86_64.apk"
           ls -la builds/
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: paddle-up-v1.7.2-apks
+          name: paddle-up-v${{ env.APP_VERSION }}-apks
           path: builds/*.apk
 
   release:
@@ -140,7 +141,7 @@ jobs:
       - name: Download APK artifacts
         uses: actions/download-artifact@v4
         with:
-          name: paddle-up-v1.7.2-apks
+          name: paddle-up-v${{ env.APP_VERSION }}-apks
           path: builds
 
       - name: Create GitHub Release

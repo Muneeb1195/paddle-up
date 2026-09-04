@@ -56,7 +56,7 @@ func _input(event: InputEvent) -> void:
 func _shoot() -> void:
 	if not is_instance_valid(ball):
 		return
-	ball._set_direction_move(trajectory_line.get_forward_direction())
+	ball._set_direction_move(trajectory_line.get_shot_direction())
 	ball_launched = true
 	trajectory_line.hide()
 	player.set_physics_process(true)

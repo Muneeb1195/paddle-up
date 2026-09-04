@@ -66,7 +66,7 @@ func _time(delta : float) -> void:
 func _shoot() -> void:
 	trajectory_line.hide()
 	level_timer.start()
-	balls._make_balls(num_of_balls,trajectory_line.global_position,trajectory_line.get_forward_direction())
+	balls._make_balls(num_of_balls,trajectory_line.global_position,trajectory_line.get_shot_direction())
 
 func _limit_shooting_angle() -> void:
 	if trajectory_line.is_aim_valid() and not trajectory_line.visible:
