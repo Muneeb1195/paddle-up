@@ -3,8 +3,13 @@ extends Node2D
 class_name BallsBb
 
 @onready var timer: Timer = $"../BallSpawnTimer"
-@onready var bb_mod_player: BbModPlayer = get_tree().get_first_node_in_group(GameConfig.GROUP_BB_MOD_PLAYER)
-@onready var level : LevelBbModern = get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_MODERN)
+@export var bb_mod_player_ref : BbModPlayer
+@export var level_ref : LevelBbModern
+@onready var bb_mod_player: BbModPlayer = bb_mod_player_ref if bb_mod_player_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_BB_MOD_PLAYER) as BbModPlayer
+@onready var level : LevelBbModern = level_ref if level_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_MODERN) as LevelBbModern
+
+signal brick_hit(body: StaticBody2D)
+signal spawn_finished(pad_x: int)
 
 var global : Globals = Global
 @onready var audio_manager : Audio = AudioManager
@@ -69,6 +74,10 @@ func _setup_multimesh() -> void:
 	_multimesh = mm
 
 func _physics_process(delta: float) -> void:
+	if _active_count == 0:
+		if _multimesh != null:
+			_multimesh.visible_instance_count = 0
+		return
 	var i : int = _active_count - 1
 	while i >= 0:
 		if ball_states[i] == BB_STATES.Move:
@@ -88,7 +97,9 @@ func _physics_process(delta: float) -> void:
 					ball_masks[i] = 0
 					break
 				if body.is_in_group(GameConfig.GROUP_BRICK):
-					level._reduce_block_hp(body)
+					brick_hit.emit(body as StaticBody2D)
+					if brick_hit.get_connections().is_empty() and level != null:
+						level._reduce_block_hp(body)
 				ball_velocities[i] = ball_velocities[i].bounce(collision.get_normal())
 				var traveled : float = collision.get_travel().length()
 				if traveled <= 0.0:
@@ -131,7 +142,9 @@ func _physics_process(delta: float) -> void:
 		i -= 1
 	_update_multimesh()
 	if move_paddle and got_pad_pos:
-		bb_mod_player._move_paddle(new_pad_x_pos)
+		spawn_finished.emit(new_pad_x_pos)
+		if spawn_finished.get_connections().is_empty() and bb_mod_player != null:
+			bb_mod_player._move_paddle(new_pad_x_pos)
 		move_paddle = false
 		got_pad_pos = false
 
@@ -157,12 +170,21 @@ func _update_multimesh() -> void:
 
 func _make_balls(num_of_balls: int, pos : Vector2, dir : Vector2) -> void:
 	audio_manager.ball_spawn.play()
+	_ensure_capacity(_active_count + num_of_balls)
 	_balls_to_spawn = num_of_balls
 	_spawn_pos = pos
 	_spawn_dir = dir
 	_spawn_index = 0
 	get_pad_pos = true
 	_spawn_next_ball()
+
+func _ensure_capacity(capacity: int) -> void:
+	var target : int = mini(capacity, MAX_POOL)
+	while ball_positions.size() < target:
+		ball_positions.append(Vector2.ZERO)
+		ball_velocities.append(Vector2.ZERO)
+		ball_masks.append(GameConfig.MASK_ALL)
+		ball_states.append(BB_STATES.Move)
 
 func _on_spawn_timer_timeout() -> void:
 	_spawn_next_ball()
@@ -195,6 +217,8 @@ func _get_pooled_ball() -> int:
 	return _active_count
 
 func retrieve_all_balls() -> void:
+	if bb_mod_player == null or not is_instance_valid(bb_mod_player):
+		return
 	for i : int in _active_count:
 		ball_masks[i] = 0
 		ball_states[i] = BB_STATES.Stop

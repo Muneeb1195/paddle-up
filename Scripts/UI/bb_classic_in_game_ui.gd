@@ -5,7 +5,8 @@ class_name BBClassicInGameUi
 @onready var score: Label = $MarginContainer/VBox/Score
 @onready var lives: Label = $MarginContainer/VBox/HBoxContainer/Lives
 @onready var ball_icon: TextureRect = $MarginContainer/VBox/HBoxContainer/BallIcon
-@onready var level_bb_classic : LevelBbClassic = get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_CLASSIC)
+@export var level_ref : LevelBbClassic
+@onready var level_bb_classic : LevelBbClassic = level_ref if level_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_CLASSIC) as LevelBbClassic
 @onready var line_edit: LineEdit = $LineEdit
 
 func _ready() -> void:

@@ -18,6 +18,7 @@ func _ready() -> void:
 
 func _display_lose_screen() -> void:
 	var end_screen : EndScreen = end_screen_scene.instantiate()
+	end_screen.modulate.a = 0.0
 	end_screen.hide()
 	add_child(end_screen)
 	_tween_menu(end_screen,margin_container)
@@ -27,9 +28,10 @@ func _display_lose_screen() -> void:
 func _on_pause_pressed() -> void:
 	if not find_child("LoseScreen",true,false) and not find_child("PauseMenu",true,false):
 		var pause_menu : PauseMenu = pause_menu_scene.instantiate()
+		pause_menu.modulate.a = 0.0
 		pause_menu.hide()
-		_tween_menu(pause_menu,margin_container)
 		add_child(pause_menu)
+		_tween_menu(pause_menu,margin_container)
 		pause_menu.resume.pressed.connect(_resume_game)
 		pause_menu.resume.pressed.connect(_tween_menu.bind(margin_container,pause_menu))
 		pause_menu.resume.pressed.connect(pause_menu.queue_free)

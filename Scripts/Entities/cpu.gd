@@ -5,7 +5,8 @@ class_name CPU
 var acceleration : float
 @export_range(1,20,1) var deceleration : float
 
-@onready var ball : BallPong = get_tree().get_first_node_in_group(GameConfig.GROUP_BALL)
+@export var ball_ref : BallPong
+@onready var ball : BallPong = ball_ref if ball_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_BALL) as BallPong
 
 var min_speed : float = 0.0
 var y_dist : float
@@ -21,6 +22,8 @@ var _jitter_timer : float = 0.0
 
 
 func _process(delta: float) -> void:
+	if not is_instance_valid(ball):
+		return
 	_jitter_timer += delta
 	_jitter_offset = sin(_jitter_timer * 3.0) * jitter_amplitude
 

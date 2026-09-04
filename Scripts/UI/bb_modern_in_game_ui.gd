@@ -4,7 +4,8 @@ class_name BBModInGameUi
 
 @onready var level: Label = $MarginContainer/VBox/Level
 @onready var time: Label = $MarginContainer/VBox/Time
-@onready var level_bb_modern : LevelBbModern = get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_MODERN)
+@export var level_ref : LevelBbModern
+@onready var level_bb_modern : LevelBbModern = level_ref if level_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_BB_MODERN) as LevelBbModern
 @onready var line_edit: LineEdit = $LineEdit
 @onready var retrieve_balls: Button = $MarginContainer/RetrieveBalls
 

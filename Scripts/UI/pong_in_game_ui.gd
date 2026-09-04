@@ -4,8 +4,10 @@ class_name PongUI
 
 @onready var cpu_points: Label = $MarginContainer/VBox/CpuPoints
 @onready var player_points: Label = $MarginContainer/VBox/PlayerPoints
-@onready var player: Player = get_tree().get_first_node_in_group(GameConfig.GROUP_PLAYER)
-@onready var level_pong : LevelPong = get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_PONG)
+@export var player_ref : Player
+@export var level_ref : LevelPong
+@onready var player: Player = player_ref if player_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_PLAYER) as Player
+@onready var level_pong : LevelPong = level_ref if level_ref != null else get_tree().get_first_node_in_group(GameConfig.GROUP_LEVEL_PONG) as LevelPong
 @onready var difficulty_menu: DifficultyMenu = $DifficultyMenu
 @onready var rally_label: Label = $MarginContainer/VBox/RallyLabel
 @onready var speed_label: Label = $MarginContainer/VBox/SpeedLabel
@@ -87,6 +89,7 @@ func _display_win_screen() -> void:
 	end_screen.game_kind = SaveManager.GameKind.PONG
 	end_screen.score = level_pong.player_points - level_pong.cpu_points
 	end_screen.name_suffix = " Won By"
+	end_screen.modulate.a = 0.0
 	end_screen.hide()
 	add_child(end_screen)
 	_tween_menu(end_screen,margin_container)

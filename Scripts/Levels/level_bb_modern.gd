@@ -34,6 +34,8 @@ var time : float = 0.0
 var _last_displayed_second : int = -1
 
 func _ready() -> void:
+	balls.brick_hit.connect(_reduce_block_hp)
+	balls.spawn_finished.connect(_on_balls_spawn_finished)
 	if save_manager.bb_mod_dict.has("bb_mod_stats") and save_manager.bb_mod_dict.has("bb_mod_bricks"):
 		_load()
 	else:
@@ -85,17 +87,18 @@ func _next_level() -> void:
 			bb_modern_in_game_ui.retrieve_balls.scale = Vector2.ONE
 	if level_timer.time_left:
 		level_timer.stop()
-	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
+	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
 		bb_modern_in_game_ui._on_lose()
 		save_manager.bb_mod_dict.clear()
 		save_manager.save_dict(SaveManager.GameKind.BB_MODERN, save_manager.bb_mod_dict)
 		_level_transitioning = false
 		return
-	var tween : Tween = _move_old_blocks()
+	_move_old_blocks()
 	level += GameConfig.SCORE_INCREMENT
 	num_of_balls += GameConfig.SCORE_INCREMENT
+	await get_tree().create_timer(0.2).timeout
+	_snap_bricks_to_grid()
 	if level % 10 == 0:
-		await tween.finished
 		_save()
 	_level_transitioning = false
 
@@ -124,6 +127,9 @@ func _load_stats() -> void:
 	block_hp = stats_dict["brick_hp"]
 	bb_mod_player._move_paddle(stats_dict["paddle_pos_x"])
 
+
+func _on_balls_spawn_finished(pad_x: int) -> void:
+	bb_mod_player._move_paddle(pad_x)
 
 func _on_level_timer_timeout() -> void:
 	balls.set_speed_multiplier(1.25)

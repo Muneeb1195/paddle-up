@@ -58,16 +58,30 @@ func _sort_blocks() -> void:
 	block_y_pos_array.sort()
 	_rebuild_index_map()
 
+func _lowest_brick_y() -> float:
+	var lowest : float = -INF
+	for brick : StaticBody2D in block_array:
+		if is_instance_valid(brick):
+			lowest = maxf(lowest, brick.position.y)
+	return lowest
+
+func _snap_bricks_to_grid() -> void:
+	var origin_x : float = GameConfig.BLOCK_START_POS.x
+	var grid : float = float(GameConfig.GRID_SIZE)
+	for brick : StaticBody2D in block_array:
+		if is_instance_valid(brick):
+			brick.position = Vector2(
+				origin_x + roundf((brick.position.x - origin_x) / grid) * grid,
+				roundf(brick.position.y / grid) * grid
+			)
+	_sort_blocks()
+
 func _create_block_row() -> void:
 	for coloums : int in GameConfig.MAX_COLUMNS:
 		var type : int = randi() % 4
 		if not type == 3:
 			var new_block : StaticBody2D = block_type[type].instantiate()
 			new_block.position = new_block_pos
-			block_hp_array.push_back(block_hp)
-			block_array.push_back(new_block)
-			block_index_map[new_block.get_instance_id()] = block_array.size() - 1
-			blocks_node.add_child(new_block)
 			var sprite : Sprite2D = new_block.get_child(0)
 			var label : Label = new_block.get_child(1)
 			sprite.modulate = global._choose_color()
@@ -85,6 +99,10 @@ func _create_block_row() -> void:
 						label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 					270.0:
 						label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			block_hp_array.push_back(block_hp)
+			block_array.push_back(new_block)
+			block_index_map[new_block.get_instance_id()] = block_array.size() - 1
+			blocks_node.add_child(new_block)
 		new_block_pos.x += GameConfig.GRID_SIZE
 
 func _move_old_blocks() -> Tween:
@@ -99,9 +117,8 @@ func _move_old_blocks() -> Tween:
 		var target_y : float = brick.position.y
 		brick.position.y -= GameConfig.GRID_SIZE
 		brick.modulate.a = 0.0
-		var spawn_tween : Tween = create_tween().set_parallel(true)
-		spawn_tween.tween_property(brick, "position:y", target_y, 0.15)
-		spawn_tween.tween_property(brick, "modulate:a", 1.0, 0.15)
+		tween.tween_property(brick, "position:y", target_y, 0.15)
+		tween.tween_property(brick, "modulate:a", 1.0, 0.15)
 	return tween
 
 func _add_new_block_row() -> void:
@@ -122,10 +139,9 @@ func _reduce_block_hp(block : StaticBody2D) -> void:
 		block_array.remove_at(array_pos)
 		block_hp_array.remove_at(array_pos)
 		block_index_map.erase(block.get_instance_id())
+		_sort_blocks()
 		_shake_blocks()
 		_play_break_effect.call_deferred(block)
-		for idx : int in range(array_pos, block_array.size()):
-			block_index_map[block_array[idx].get_instance_id()] = idx
 
 func _play_break_effect(block : StaticBody2D) -> void:
 	block.collision_layer = 0
@@ -174,10 +190,6 @@ func _load_bricks(data : Variant) -> void:
 	for brick_data : Dictionary in data:
 		var block_scene : PackedScene = load(brick_data["filename"])
 		var block : StaticBody2D = block_scene.instantiate()
-		block_array.push_back(block)
-		block_hp_array.push_back(brick_data["hp"])
-		block_y_pos_array.push_back(brick_data["pos_y"])
-		blocks_node.add_child(block)
 		var sprite : Sprite2D = block.get_child(0)
 		var label : Label = block.get_child(1)
 		block.position = Vector2(brick_data["pos_x"], brick_data["pos_y"])
@@ -197,4 +209,9 @@ func _load_bricks(data : Variant) -> void:
 				270.0:
 					label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sprite.modulate = global._choose_color()
+		block_array.push_back(block)
+		block_hp_array.push_back(brick_data["hp"])
+		block_y_pos_array.push_back(brick_data["pos_y"])
+		blocks_node.add_child(block)
 	_sort_blocks()
+	_snap_bricks_to_grid()

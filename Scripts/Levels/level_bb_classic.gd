@@ -7,6 +7,7 @@ class_name LevelBbClassic
 @onready var ball: BallBbClassic = $Ball
 @onready var bb_classic_in_game_ui: BBClassicInGameUi = $BBClassicInGameUI
 
+var _level_transitioning : bool = false
 var _level : int = 1
 var level : int :
 	get :
@@ -33,6 +34,7 @@ var lives : int :
 			ball.queue_free()
 
 func _ready() -> void:
+	ball.brick_hit.connect(_reduce_block_hp)
 	if save_manager.bb_clas_dict:
 		_load()
 	else:
@@ -57,22 +59,25 @@ func _shoot() -> void:
 	ball._set_direction_move(trajectory_line.get_forward_direction())
 	ball_launched = true
 	trajectory_line.hide()
-	player.set_process(true)
+	player.set_physics_process(true)
+	player.set_process_input(true)
 
 func _limit_shooting_angle() -> void:
 	if trajectory_line.is_aim_valid() and not trajectory_line.visible:
 		trajectory_line.show()
-		player.set_process(false)
+		player.set_physics_process(false)
+		player.set_process_input(false)
 	elif not trajectory_line.is_aim_valid() and trajectory_line.visible:
 		trajectory_line.hide()
-		player.set_process(true)
+		player.set_physics_process(true)
+		player.set_process_input(true)
 
 func _reset() -> void:
 	if lives > 0:
 		await get_tree().create_timer(1.0).timeout
 		if not is_instance_valid(ball):
 			return
-		ball.set_process(true)
+		ball.set_physics_process(true)
 		ball_launched = false
 		ball.show()
 
@@ -102,15 +107,21 @@ func _load_stats() -> void:
 	player.position.x = stats_dict["paddle_pos_x"]
 
 func _on_ball_bb_classic_next_level() -> void:
+	if _level_transitioning:
+		return
+	_level_transitioning = true
 	level += GameConfig.SCORE_INCREMENT
-	if not block_y_pos_array.is_empty() and block_y_pos_array.back() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
+	if _lowest_brick_y() >= GameConfig.LOSE_ROW_Y - GameConfig.GRID_SIZE:
+		_level_transitioning = false
 		bb_classic_in_game_ui._on_lose()
 		return
-	var tween : Tween = _move_old_blocks()
+	_move_old_blocks()
+	await get_tree().create_timer(0.2).timeout
+	_snap_bricks_to_grid()
 	if level % 10 == 0:
 			lives += 1
-			await tween.finished
 			_save()
+	_level_transitioning = false
 
 func _on_floor_body_entered(body: Node2D) -> void:
 	if body is Ball:
@@ -118,7 +129,7 @@ func _on_floor_body_entered(body: Node2D) -> void:
 		if not is_instance_valid(ball):
 			return
 		ball.hide()
-		ball.set_process(false)
+		ball.set_physics_process(false)
 		ball.velocity = Vector2.ZERO
 		ball.global_position = ball.original_position
 		_reset()

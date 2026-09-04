@@ -44,6 +44,8 @@ func _ready() -> void:
 	pong_in_game_ui.difficulty_menu.medium.pressed.connect(_on_medium_pressed)
 	pong_in_game_ui.difficulty_menu.hard.pressed.connect(_on_hard_pressed)
 	ball.pong_rally_hit.connect(_on_rally_hit)
+	pong_table.player_point.connect(_increase_player_point)
+	pong_table.enemy_point.connect(_increase_cpu_point)
 
 func _on_easy_pressed() -> void:
 	difficulty = DIFFICULTY.Easy
@@ -83,7 +85,7 @@ func _apply_score_adjustments() -> void:
 func _start_countdown() -> void:
 	_countdown_active = true
 	ball.hide()
-	ball.set_process(false)
+	ball.set_physics_process(false)
 	ball.velocity = Vector2.ZERO
 	ball.global_position = ball.original_position
 	enemy.configure(int(difficulty), _rally_count)
@@ -98,7 +100,7 @@ func _start_countdown() -> void:
 	_countdown_active = false
 
 	ball.show()
-	ball.set_process(true)
+	ball.set_physics_process(true)
 	ball.speed = ball_starting_speed
 	await get_tree().create_timer(GameConfig.SERVE_DELAY, false).timeout
 	ball._pong_start(randf() < 0.5)
@@ -118,7 +120,7 @@ func _on_goal_scored(_is_cpu : bool) -> void:
 
 func _move_ball_back() -> void:
 	ball.hide()
-	ball.set_process(false)
+	ball.set_physics_process(false)
 	ball.velocity = Vector2.ZERO
 	ball.global_position = ball.original_position
 	_start_countdown()

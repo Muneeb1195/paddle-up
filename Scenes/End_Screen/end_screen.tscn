@@ -51,7 +51,7 @@ expand_to_text_length = true
 
 [node name="HBoxContainer" parent="Panel/MarginContainer" index="3"]
 size_flags_horizontal = 4
-theme_override_constants/separation = 180
+theme_override_constants/separation = 60
 
 [node name="HomeButton" type="Button" parent="Panel/MarginContainer/HBoxContainer" index="0"]
 custom_minimum_size = Vector2(200, 100)

@@ -9,6 +9,10 @@ func _physics_process(delta: float) -> void:
 	collision_info = move_and_collide(velocity * delta)
 	if collision_info:
 		Input.vibrate_handheld(5, 0.3)
+		_on_collided()
+
+func _on_collided() -> void:
+	pass
 
 func _move() -> void:
 	direction = (direction.bounce(collision_info.get_normal())).normalized()

@@ -13,6 +13,7 @@ var _shared_settings : LabelSettings = LabelSettings.new()
 
 func _ready() -> void:
 	_shared_settings.font_size = 40
+	_shared_settings.font_color = Color(0.227451, 0.227451, 0.227451, 1)
 	pong.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(pong))
 	pong.mouse_exited.connect(ButtonTweenHelper.hover_exit.bind(pong))
 	brick_breaker.mouse_entered.connect(ButtonTweenHelper.hover_enter.bind(brick_breaker))
