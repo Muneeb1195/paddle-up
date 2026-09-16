@@ -46,11 +46,13 @@ jobs:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
-
       - name: Install Android packages
         run: |
+          # ubuntu-latest runners ship an Android SDK already (ANDROID_HOME);
+          # setup-android@v4 is unusable with current cmdline-tools because it
+          # installs the long-removed obsolete "tools" package. Install the
+          # exact packages we need directly instead.
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
           sdkmanager --install \
             "platform-tools" \
             "platforms;${{ env.ANDROID_PLATFORM }}" \
