@@ -30,11 +30,21 @@ A brick-breaking paddle game built with Godot 4.7.
 
 ### Android
 
+Release builds run in CI (`.github/workflows/build.yml`) on every `v*` tag:
+four per-ABI APKs (direct install / sideload) plus a universal `.aab`
+(Android App Bundle) for Google Play uploads. Each tag Release carries
+all five files.
+
 ```bash
 godot --headless --import
 godot --headless --install-android-build-template
-godot --headless --export-release "Android" builds/PaddleUp.apk
+godot --headless --export-release "Android-arm64-v8a" builds/PaddleUp.apk   # or another ABI preset
+godot --headless --export-release "Android-aab" builds/PaddleUp.aab         # Play upload
 ```
+
+> Before the first Play upload, bump `version/code` in `export_presets.cfg`
+> (all five Android presets) above any previously uploaded code — Play
+> rejects reused version codes.
 
 ### Requirements
 

@@ -2,9 +2,10 @@ name: Build & Release
 
 # CI for Paddle Up (Godot 4.7, Android).
 # - Validates the project headless (import + boot gate, zero ERROR lines).
-# - Exports all four Android ABI presets as release APKs, signed with the
+# - Exports all four Android ABI presets as release APKs plus a universal
+#   Android App Bundle (AAB) for Google Play, signed with the
 #   release keystore restored from repository secrets.
-# - On tag push (v*), attaches the APKs to a GitHub Release.
+# - On tag push (v*), attaches the APKs and the AAB to a GitHub Release.
 #
 # Required repository secrets (Settings > Secrets and variables > Actions):
 #   KEYSTORE_BASE64 - base64 of the release .keystore file
@@ -23,7 +24,7 @@ env:
   ANDROID_PLATFORM: "android-34"
   ANDROID_BUILD_TOOLS: "34.0.0"
   JAVA_VERSION: "17"
-  APP_VERSION: "1.7.4"
+  APP_VERSION: "1.7.5"
 
 jobs:
   build:
@@ -110,7 +111,7 @@ jobs:
           sed -i "s|^keystore/release_password=\"\"|keystore/release_password=\"$KEYSTORE_PASSWORD\"|" export_presets.cfg
           grep -c 'keystore/release="android/release.keystore"' export_presets.cfg
 
-      - name: Export Android APKs (all ABIs)
+      - name: Export Android APKs (all ABIs) + AAB (Play)
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
@@ -119,17 +120,19 @@ jobs:
           mkdir -p builds
           # --install-android-build-template provisions the Gradle project
           # (android/ is gitignored); required once per checkout.
+          # The AAB preset reuses that Gradle project (no reinstall flag).
           $BIN --headless --path . --install-android-build-template --export-release "Android-arm64-v8a" "builds/PaddleUp-v${{ env.APP_VERSION }}-arm64-v8a.apk"
           $BIN --headless --path . --export-release "Android-armeabi-v7a" "builds/PaddleUp-v${{ env.APP_VERSION }}-armeabi-v7a.apk"
           $BIN --headless --path . --export-release "Android-x86" "builds/PaddleUp-v${{ env.APP_VERSION }}-x86.apk"
           $BIN --headless --path . --export-release "Android-x86_64" "builds/PaddleUp-v${{ env.APP_VERSION }}-x86_64.apk"
+          $BIN --headless --path . --export-release "Android-aab" "builds/PaddleUp-v${{ env.APP_VERSION }}.aab"
           ls -la builds/
 
-      - name: Upload APK artifacts
+      - name: Upload release artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: paddle-up-v${{ env.APP_VERSION }}-apks
-          path: builds/*.apk
+          name: paddle-up-v${{ env.APP_VERSION }}-release
+          path: builds/*
 
   release:
     needs: build
@@ -138,14 +141,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download APK artifacts
+      - name: Download release artifacts
         uses: actions/download-artifact@v7
         with:
-          name: paddle-up-v${{ env.APP_VERSION }}-apks
+          name: paddle-up-v${{ env.APP_VERSION }}-release
           path: builds
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          files: builds/*.apk
+          files: builds/*
           generate_release_notes: true
